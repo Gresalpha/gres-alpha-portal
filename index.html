@@ -136,7 +136,7 @@
         <div id="wallet-status" class="wallet-status">🔴 Wallet Not Connected</div>
 
         <div id="ref-area" class="ref-box">
-            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase;">Your Strategic Partner Link (Earn 20% BONUS)</p>
+            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase;">Earn 20% AIRDROP on investments made via the individual link below.</p>
             <div class="ref-input-group">
                 <input type="text" id="ref-link" readonly style="font-size: 10px; color: var(--gold);">
                 <button class="btn-copy" onclick="copyRef()">COPY</button>
@@ -211,9 +211,8 @@
     const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
     
     let currentLotPrice = 0.002;
-    let connectedAddress = null; // Guarda a carteira para validação
+    let connectedAddress = null; 
 
-    // Zera o checkbox ao recarregar a página
     document.getElementById('agree-terms').checked = false;
 
     const modal = createAppKit({
@@ -225,9 +224,10 @@
 
     async function syncData() {
         try {
-            const res = await fetch(GRES_API);
+            // Anti-cache param garantirá que pegue a versão mais nova do Google Apps Script
+            const res = await fetch(GRES_API + "?t=" + new Date().getTime());
             const data = await res.json();
-            console.log("Payload recebido da Planilha:", data); // DEBUG
+            console.log("Payload recebido da Planilha:", data); 
             
             // Lógica do Lote e Porcentagem (> 55%)
             if(data.lotInfo) {
@@ -257,8 +257,10 @@
                     if (item.task.toString().startsWith("Q")) {
                         container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
                     } else {
-                        const statusClass = item.status.toLowerCase().replace(/\s/g, '');
-                        container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${statusClass}">${item.status}</span></div>`;
+                        // Evita quebra se a planilha não enviar o status corretamente
+                        const stat = item.status || "PLANNED";
+                        const statusClass = stat.toLowerCase().replace(/\s/g, '');
+                        container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${statusClass}">${stat}</span></div>`;
                     }
                 });
             } else {
@@ -275,7 +277,6 @@
         document.getElementById('token-calc').innerText = val > 0 ? tokens.toLocaleString(undefined, {maximumFractionDigits: 0}) : "0";
     }
 
-    // LISTENER ATUALIZADO (Monitora conexão e desconexão da carteira)
     modal.subscribeAccount(account => {
         if (account.isConnected) {
             connectedAddress = account.address;
@@ -295,9 +296,8 @@
 
     window.connectWallet = () => modal.open();
     
-    // Funcionalidade Airdrop
     window.triggerAirdrop = () => {
-        alert("Airdrop snapshot will be announced soon! Connect your wallet and participate in the Seed Round to maximize your allocation.");
+        alert("Connect your wallet, copy and share the link that will appear in the \"SEED ROUND ACCESS\" box below.");
     };
 
     window.copyRef = () => {
@@ -307,47 +307,39 @@
         alert("Partner Link Copied! Share to earn 20% bonus.");
     }
 
-    // LÓGICA DE COMPRA EM CASCATA (Ordem exata solicitada)
     window.investNow = async () => {
-        // 1. Verificar Carteira
         if (!connectedAddress) {
             modal.open();
             return;
         }
         
-        // 2. Verificar Termos
         if (!document.getElementById('agree-terms').checked) {
             alert("Please accept the Terms & Conditions before proceeding.");
             return;
         }
 
-        // 3. Verificar Email
         const email = document.getElementById('user-email').value;
         if (!email || !email.includes('@')) {
             alert("Please enter a valid email address.");
             return;
         }
 
-        // 4. Verificar Valor
         const amount = document.getElementById('invest-amount').value;
         if (!amount || amount < 1) {
             alert("Please enter a valid investment amount (Minimum 1 USDC).");
             return;
         }
 
-        // 5. Executar Transação
         try {
             const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
             const signer = provider.getSigner();
             const usdc = new ethers.Contract(USDC_BASE, ["function transfer(address to, uint amount) returns (bool)"], signer);
             
-            // Pop-up do navegador (opcional, só para avisar que a wallet vai abrir)
             alert("Please confirm the transaction in your wallet.");
             
             const tx = await usdc.transfer(GRES_TREASURY, ethers.utils.parseUnits(amount, 6));
-            await tx.wait(); // Aguarda confirmação na rede
+            await tx.wait(); 
             
-            // Registra na Planilha
             await fetch(GRES_API, {
                 method: 'POST', mode: 'no-cors',
                 body: JSON.stringify({ 
@@ -359,10 +351,7 @@
                 })
             });
             
-            // Dispara Modal Profissional de Sucesso
             document.getElementById('success-modal').style.display = 'flex';
-            
-            // Atualiza os dados da tela (percentual, etc)
             syncData();
             
         } catch (e) { 
@@ -371,7 +360,6 @@
         }
     }
 
-    // Inicialização ao carregar a página
     syncData();
 </script>
 </body>
