@@ -9,7 +9,7 @@
     
     <style>
         :root { --gold: #c5a059; --dark: #05070a; --card: #0f121a; --text-dim: #888; --border: #1a1e26; }
-        body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; padding-top: 180px; }
+        body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; padding-top: 220px; } 
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
         /* Sticky Header */
@@ -18,24 +18,20 @@
         .logo { font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
         .nav-actions { display: flex; gap: 15px; }
         .hero-headline { text-align: center; max-width: 900px; margin: 0 auto; padding: 0 20px; }
-        .hero-headline h1 { font-size: clamp(24px, 4vw, 42px); margin: 10px 0 5px; background: linear-gradient(to right, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
-        .hero-headline p { color: var(--text-dim); margin: 0; font-size: 16px; }
+        .hero-headline h1 { font-size: clamp(20px, 3.5vw, 36px); margin: 10px 0 5px; background: linear-gradient(to right, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; } 
+        .hero-headline p { color: var(--text-dim); margin: 0; font-size: 18px; }
 
         /* Buttons */
         button { border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-con { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; font-size: 14px; }
-        .btn-con:hover { background: rgba(197,160,89,0.1); }
-        .btn-airdrop { background: rgba(197,160,89,0.1); border: 1px dashed var(--gold); color: var(--gold); padding: 10px 20px; font-size: 14px; }
-        .btn-airdrop:hover { background: rgba(197,160,89,0.2); }
+        .btn-con { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; }
+        .btn-airdrop { background: rgba(197,160,89,0.1); border: 1px dashed var(--gold); color: var(--gold); padding: 10px 20px; }
         .btn-buy { background: var(--gold); color: black; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; padding: 16px; width: 100%; margin-top: 15px; }
         .btn-buy:hover { box-shadow: 0 0 20px rgba(197,160,89,0.4); transform: translateY(-2px); }
         .btn-copy { background: #333; color: white; padding: 10px 15px; font-size: 12px; }
-        .btn-copy:hover { background: #555; }
 
         /* Document Links */
         .doc-buttons { display: flex; justify-content: center; gap: 15px; margin: 40px 0; flex-wrap: wrap; }
-        .btn-doc { padding: 10px 20px; border: 1px solid #333; border-radius: 8px; color: #ccc; text-decoration: none; font-size: 13px; background: rgba(255,255,255,0.02); transition: 0.3s; }
-        .btn-doc:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-doc { padding: 10px 20px; border: 1px solid #333; border-radius: 8px; color: #ccc; text-decoration: none; font-size: 13px; background: rgba(255,255,255,0.02); }
 
         /* Ecosystem Image */
         .eco-img-container { width: 100%; max-width: 900px; margin: 0 auto 60px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
@@ -44,7 +40,7 @@
         /* Investment Engine */
         .invest-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         .lot-info { display: flex; justify-content: space-between; background: #0a0c11; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; font-size: 12px; }
-        .lot-info div { text-align: center; width: 33%; }
+        .lot-info div { text-align: center; }
         .lot-info span { display: block; color: var(--gold); font-size: 16px; font-weight: bold; margin-top: 5px; }
         .urgency { text-align: center; color: #ff4d4d; font-size: 12px; margin-top: 10px; font-weight: bold; animation: pulse 2s infinite; }
         
@@ -58,25 +54,15 @@
         .terms-box a { color: var(--gold); text-decoration: underline; cursor: pointer; }
         
         .wallet-status { display: inline-block; margin-top: 10px; font-size: 12px; color: #888; text-align: center; width: 100%; }
-        .wallet-status.connected { color: #28a745; font-weight: bold; }
 
         .ref-box { background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 12px; margin-top: 20px; display: none; }
         .ref-input-group { display: flex; gap: 10px; align-items: center; }
 
-        /* Modals for T&C */
+        /* Modal Alert */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 12px; max-width: 600px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--gold); margin: 20px; }
-        .modal-close { float: right; cursor: pointer; color: var(--gold); font-weight: bold; font-size: 24px; line-height: 1; }
+        .modal-content { background: var(--card); padding: 35px; border-radius: 12px; max-width: 600px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--gold); margin: 20px; }
+        .modal-close { float: right; cursor: pointer; color: var(--gold); font-weight: bold; font-size: 22px; }
 
-        /* Roadmap */
-        .roadmap-section { padding: 40px 0; max-width: 800px; margin: 0 auto; }
-        .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
-        .roadmap-item { background: var(--card); padding: 12px 18px; border-radius: 10px; border-left: 3px solid #333; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
-        .status-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; border: 1px solid transparent; letter-spacing: 1px; }
-        .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); }
-        .status-planned { color: #888; border-color: #888; background: rgba(136,136,136,0.1); }
-
-        /* Standardized Sections */
         .section-title { text-align: center; color: var(--gold); font-size: 32px; margin-bottom: 40px; }
         
         /* Founders */
@@ -84,7 +70,14 @@
         .founder-card { width: 260px; background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); text-align: center; }
         .founder-img { width: 100px; height: 100px; background: #222; border-radius: 50%; margin: 0 auto 15px; border: 2px solid var(--gold); overflow: hidden; }
         
-        /* Footer */
+        /* Roadmap */
+        .roadmap-section { padding: 40px 0; max-width: 800px; margin: 0 auto; }
+        .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
+        .roadmap-item { background: var(--card); padding: 12px 18px; border-radius: 10px; border-left: 3px solid #333; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
+        .status-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; border: 1px solid transparent; }
+        .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); }
+        .status-planned { color: #888; border-color: #888; background: rgba(136,136,136,0.1); }
+
         footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; font-size: 11px; color: #555; margin-top: 40px; }
         
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
@@ -96,13 +89,13 @@
     <nav>
         <div class="logo">GRES PROTOCOL</div>
         <div class="nav-actions">
-            <button class="btn-airdrop" onclick="triggerAirdrop()">🎁 AIRDROP LINK</button>
+            <button class="btn-airdrop" onclick="triggerAirdrop()">🎁 AIRDROP</button>
             <button class="btn-con" onclick="connectWallet()" id="btn-top-con">Connect Wallet</button>
         </div>
     </nav>
     <div class="hero-headline">
         <h1>Cracking the Family Offices Code for Real Estate</h1>
-        <p>The first perpetual real estate fund with AI-driven NAV. Secure your early access.</p>
+        <p>The first perpetual real estate fund with AI-driven NAV. Secure your early access!</p>
     </div>
 </div>
 
@@ -113,18 +106,18 @@
     </div>
 
     <div class="eco-img-container">
-        <img src="ecosystem.png" alt="GRES Ecosystem Diagram" onerror="this.src='https://via.placeholder.com/900x400?text=Ecosystem+Image+(Upload+ecosystem.png+to+Vercel)'">
+        <img src="ecosystem.png" alt="GRES Ecosystem Diagram" onerror="this.src='https://via.placeholder.com/900x400?text=Ecosystem+Image+Missing'">
     </div>
 
     <div class="invest-card">
-        <h3 style="color: white; margin-top: 0; text-align: center; letter-spacing: 2px; font-size: 16px;" id="lote-name-display">SYNCING PROTOCOL...</h3>
+        <h3 style="color: white; margin-top: 0; text-align: center; letter-spacing: 2px;">SEED ROUND ACCESS</h3>
         
         <div class="lot-info">
             <div>Current Price<span id="price-display">$0.002</span></div>
             <div>Next Lot<span id="next-price-display">$0.004</span></div>
-            <div>Lot Filled<span id="filled-display">...</span></div>
+            <div>Lot Filled<span id="filled-display">0%</span></div>
         </div>
-        <div class="urgency" id="urgency-text">⚠️ Current Allocation is strictly limited.</div>
+        <div class="urgency">⚠️ Lot Allocation is strictly limited. Closing soon.</div>
 
         <input type="email" id="user-email" placeholder="Professional Email">
         
@@ -133,16 +126,16 @@
         
         <div class="terms-box">
             <input type="checkbox" id="agree-terms">
-            <label for="agree-terms">I confirm that I am not a US Citizen, I understand the high-risk nature of Web3 utility tokens, and I agree to the <a onclick="document.getElementById('tc-modal').style.display='flex'">Terms & Conditions</a>.</label>
+            <label for="agree-terms">I confirm that I am not a US Citizen, I understand the cryptographic risk nature of Web3 utility tokens, and I agree to the <a onclick="document.getElementById('tc-modal').style.display='flex'">Alert terms</a>.</label>
         </div>
 
         <button class="btn-buy" onclick="investNow()">PURCHASE GRES.ALPHA</button>
         <div id="wallet-status" class="wallet-status">🔴 Wallet Not Connected</div>
 
         <div id="ref-area" class="ref-box">
-            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase;">Your Strategic Airdrop Link (Earn 20%)</p>
+            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase;">Your Strategic Partner Link (Earn 20% BONUS)</p>
             <div class="ref-input-group">
-                <input type="text" id="ref-link" readonly style="flex: 1;">
+                <input type="text" id="ref-link" readonly style="font-size: 10px;">
                 <button class="btn-copy" onclick="copyRef()">COPY</button>
             </div>
         </div>
@@ -150,25 +143,25 @@
 
     <div class="roadmap-section">
         <h2 class="section-title">Strategic Roadmap</h2>
-        <div id="roadmap-container" style="text-align: center; color: var(--text-dim);">Syncing on-chain data...</div>
+        <div id="roadmap-container" style="text-align: center; color: var(--text-dim);">Syncing data...</div>
     </div>
 
-    <h2 class="section-title">The Architecture Team</h2>
+    <h2 class="section-title">The Team</h2>
     <div class="founder-grid">
         <div class="founder-card">
-            <div class="founder-img"><img src="https://via.placeholder.com/100" alt="Thiago Sequinel" style="width:100%"></div>
-            <h3 style="margin:0; color:white;">Thiago Sequinel</h3>
+            <div class="founder-img"><img src="https://via.placeholder.com/100" style="width:100%"></div>
+            <h3>Thiago Sequinel</h3>
             <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">FOUNDER & CEO</p>
-            <p style="font-size:12px; color:var(--text-dim); margin-bottom: 20px;">Strategist specialized in RWA and institutional real estate structures. Architect of the GRES dual-token flywheel.</p>
-            <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none; border: 1px solid var(--gold); padding: 5px 15px; border-radius: 12px;">LinkedIn →</a>
+            <p style="font-size:12px; color:var(--text-dim);">Strategist specialized in RWA and institutional real estate structures.</p>
+            <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">LinkedIn Profile →</a>
         </div>
         
         <div class="founder-card">
-            <div class="founder-img"><img src="https://via.placeholder.com/100" alt="Kamil Cieslak" style="width:100%"></div>
-            <h3 style="margin:0; color:white;">Kamil Cieslak</h3>
+            <div class="founder-img"><img src="https://via.placeholder.com/100" style="width:100%"></div>
+            <h3>Kamil Cieslak</h3>
             <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">CO-FOUNDER & CFO</p>
-            <p style="font-size:12px; color:var(--text-dim); margin-bottom: 20px;">Financial wizard executing the economic security models, liquidity engineering, and operational compliance.</p>
-            <a href="https://www.linkedin.com/in/kamilcieslak85/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none; border: 1px solid var(--gold); padding: 5px 15px; border-radius: 12px;">LinkedIn →</a>
+            <p style="font-size:12px; color:var(--text-dim);">Financial wizard executing liquidity engineering and operational compliance.</p>
+            <a href="https://www.linkedin.com/in/kamilcieslak85/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">LinkedIn Profile →</a>
         </div>
     </div>
 </div>
@@ -176,19 +169,20 @@
 <div id="tc-modal" class="modal-overlay">
     <div class="modal-content">
         <span class="modal-close" onclick="document.getElementById('tc-modal').style.display='none'">&times;</span>
-        <h3 style="color: var(--gold); margin-top: 0;">Terms & Conditions / Disclaimer</h3>
-        <p style="font-size: 12px; color: #ccc;">
-            1. <strong>Not a Security:</strong> The GRES.ALPHA token is strictly a utility and ecosystem incentive token. It does not represent equity, shares, units, or any ownership rights in the GRES Foundation, GRES Operator, or the underlying real estate assets.<br><br>
-            2. <strong>High Risk:</strong> Cryptographic tokens are highly volatile and speculative. You may lose your entire investment. The protocol is provided "as is" and without warranties.<br><br>
-            3. <strong>Regulatory Compliance:</strong> By purchasing, you attest that you are not a resident or citizen of the United States of America, nor of any jurisdiction where the purchase of cryptographic tokens is prohibited by law.<br><br>
-            4. <strong>No Financial Advice:</strong> Nothing on this platform constitutes financial, legal, or tax advice. The "Buyback & Burn" mechanism is algorithmic and depends entirely on platform usage; it is not a guaranteed return mechanism.
+        <h3 style="color: var(--gold); margin-top: 0;">Alert</h3>
+        <p style="font-size: 13px; color: #ccc; line-height: 1.8;">
+            1. <strong>Not a Security:</strong> The GRES.ALPHA token is strictly a utility and ecosystem incentive token. It does not represent equity, shares, or ownership rights in any real estate assets.<br><br>
+            2. <strong>Speculative Nature:</strong> Cryptographic tokens are highly speculative and volatile. There is a risk of losing the entire amount invested.<br><br>
+            3. <strong>Regulatory Compliance:</strong> By purchasing, you attest that you are not a resident or citizen of the United States of America and are compliant with your local regulations.<br><br>
+            4. <strong>No Financial Advice:</strong> Content on this platform does not constitute financial, legal, or tax advice.<br><br>
+            5. <strong>Professional Consultation:</strong> GRES Protocol strongly recommends consulting a professional financial advisor if you have any questions or require further clarification.
         </p>
     </div>
 </div>
 
 <footer>
     <p>GRES Protocol © 2026. All rights reserved.</p>
-    <p>GRES.ALPHA is a digital utility token. Not available for US Citizens or restricted jurisdictions. Smart contracts are subject to inherent risks. Conduct your own due diligence (DYOR).</p>
+    <p>GRES.ALPHA is a digital utility token. Not available for US Citizens. Conduct your own due diligence (DYOR).</p>
 </footer>
 
 <script type="module">
@@ -196,16 +190,12 @@
     import { Ethers5Adapter } from 'https://esm.sh/@reown/appkit-adapter-ethers5'
     import { base } from 'https://esm.sh/@reown/appkit/networks'
 
-    const projectId = 'fbc5f569abebf58f9c260075a2882c1a';
+    const projectId = 'fbc5f569abebf58f9c260075a2882c1a'; 
     const GRES_TREASURY = "0xC5a3941635c0da1B020DE56165Ff729f975d708d";
-    
-    // ATENÇÃO: COLOQUE AQUI A SUA URL DO GOOGLE APPS SCRIPT (EXEC)
     const GRES_API = "https://script.google.com/macros/s/AKfycbwNtslcaSE5P0nZdXgzC2U7U_0Gcsv5xW1Svc7XVtIeyn2ZyZnLc-CUz79oGIPYUdcRHg/exec"; 
-    
     const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
     
-    // Fallback price in case API is slow
-    let currentProtocolPrice = 0.002; 
+    let currentLotPrice = 0.002;
 
     const modal = createAppKit({
         adapters: [new Ethers5Adapter()],
@@ -214,158 +204,81 @@
         projectId
     })
 
-    // 1. Fetch Dynamic Data from Backend
-    async function syncProtocolData() {
+    async function syncData() {
         try {
-            const response = await fetch(GRES_API);
-            const data = await response.json();
+            const res = await fetch(GRES_API);
+            const data = await res.json();
             
+            // Sync Lot Info
             if(data.lotInfo) {
-                currentProtocolPrice = data.lotInfo.price;
-                document.getElementById('lote-name-display').innerText = data.lotInfo.lotName.toUpperCase();
-                document.getElementById('price-display').innerText = `$${currentProtocolPrice}`;
+                currentLotPrice = data.lotInfo.price;
+                document.getElementById('price-display').innerText = `$${data.lotInfo.price}`;
                 document.getElementById('next-price-display').innerText = `$${data.lotInfo.nextPrice}`;
                 document.getElementById('filled-display').innerText = `${data.lotInfo.filledPercentage}%`;
-                
-                if(data.lotInfo.filledPercentage > 80) {
-                    document.getElementById('urgency-text').innerText = `⚠️ Warning: ${data.lotInfo.lotName} is almost filled!`;
+            }
+
+            // Sync Roadmap
+            const container = document.getElementById('roadmap-container');
+            container.innerHTML = '';
+            data.roadmap.forEach(item => {
+                if (item.task.toString().startsWith("Q")) {
+                    container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
+                } else {
+                    container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${item.status.toLowerCase()}">${item.status}</span></div>`;
                 }
-            }
-            
-            if(data.roadmap) {
-                const roadmapContainer = document.getElementById('roadmap-container');
-                roadmapContainer.innerHTML = '';
-                data.roadmap.forEach(item => {
-                    const taskStr = item.task.toString();
-                    const statusStr = item.status ? item.status.toString().toUpperCase() : "";
-                    const statusClass = statusStr.toLowerCase();
-                    if (taskStr.startsWith("Q") || taskStr.startsWith("Task")) {
-                        roadmapContainer.innerHTML += `<div class="roadmap-header"><span>${taskStr}</span></div>`;
-                    } else {
-                        roadmapContainer.innerHTML += `<div class="roadmap-item"><p>• ${taskStr}</p><span class="status-badge status-${statusClass}">${statusStr}</span></div>`;
-                    }
-                });
-            }
-        } catch (e) { 
-            console.error("Sync error, using fallbacks.", e); 
-            document.getElementById('lote-name-display').innerText = "SEED ROUND";
-        }
+            });
+        } catch (e) { console.error("Sync error", e); }
     }
 
-    // 2. Token Calculator
     window.calculateTokens = () => {
-        const amount = document.getElementById('invest-amount').value;
-        if (!amount || amount <= 0) {
-            document.getElementById('token-calc').innerText = "0";
-            return;
-        }
-        const tokens = amount / currentProtocolPrice;
-        // Up to 15 decimals, trim trailing zeros
-        document.getElementById('token-calc').innerText = tokens.toFixed(15).replace(/\.?0+$/, '');
+        const val = document.getElementById('invest-amount').value;
+        const tokens = val / currentLotPrice;
+        document.getElementById('token-calc').innerText = val > 0 ? tokens.toFixed(6) : "0";
     }
 
-    // 3. Wallet State Monitor
     modal.subscribeState(async state => {
-        const statusLabel = document.getElementById('wallet-status');
         if (modal.getIsConnected()) {
             const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
-            const address = await provider.getSigner().getAddress();
-            
-            document.getElementById('btn-top-con').innerText = address.substring(0,6) + "..." + address.substring(address.length-4);
-            
-            // Update Status UI
-            statusLabel.innerHTML = `🟢 Wallet Connected: ${address.substring(0,6)}...${address.substring(address.length-4)}`;
-            statusLabel.classList.add('connected');
-            
-            // Setup Airdrop Link
-            const link = window.location.origin + window.location.pathname + "?ref=" + address;
-            document.getElementById('ref-link').value = link;
-            
-            // Show Airdrop box if they clicked the Airdrop button earlier
-            if(window.wantsAirdrop) {
-                document.getElementById('ref-area').style.display = 'block';
-            }
-        } else {
-            statusLabel.innerHTML = `🔴 Wallet Not Connected`;
-            statusLabel.classList.remove('connected');
-            document.getElementById('ref-area').style.display = 'none';
+            const addr = await provider.getSigner().getAddress();
+            document.getElementById('btn-top-con').innerText = addr.substring(0,6) + "...";
+            document.getElementById('wallet-status').innerText = `🟢 Connected: ${addr.substring(0,6)}...`;
+            document.getElementById('ref-area').style.display = 'block';
+            document.getElementById('ref-link').value = window.location.origin + "/?ref=" + addr;
         }
     });
 
-    // 4. UI Actions
     window.connectWallet = () => modal.open();
-    
-    window.triggerAirdrop = () => {
-        window.wantsAirdrop = true;
-        if (!modal.getIsConnected()) {
-            modal.open();
-        } else {
-            document.getElementById('ref-area').style.display = 'block';
-            document.getElementById('invest-amount').scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
     window.copyRef = () => {
         const copyText = document.getElementById("ref-link");
         copyText.select();
         navigator.clipboard.writeText(copyText.value);
-        alert("Strategic Partner Link Copied! Share it to earn 20%.");
+        alert("Partner Link Copied!");
     }
 
-    // 5. Investment Logic
     window.investNow = async () => {
-        // Connect if needed
-        if (!modal.getIsConnected()) {
-            modal.open();
-            return; 
-        }
-        
-        // Legal check
-        if (!document.getElementById('agree-terms').checked) {
-            return alert("You must read and accept the Terms & Conditions before purchasing.");
-        }
-
+        if (!modal.getIsConnected()) return modal.open();
+        if (!document.getElementById('agree-terms').checked) return alert("Accept Alert terms.");
         const email = document.getElementById('user-email').value;
         const amount = document.getElementById('invest-amount').value;
-        if(!email || !email.includes('@')) return alert("Please provide a valid professional email.");
-        if(!amount || amount <= 0) return alert("Please enter a valid USDC amount.");
+        if(!email || !amount) return alert("Fill all fields.");
 
         try {
             const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
             const signer = provider.getSigner();
             const usdc = new ethers.Contract(USDC_BASE, ["function transfer(address to, uint amount) returns (bool)"], signer);
-            
-            alert("Please approve the transaction in your wallet...");
             const tx = await usdc.transfer(GRES_TREASURY, ethers.utils.parseUnits(amount, 6));
-            
-            alert("Transaction broadcasted! Waiting for network confirmation...");
+            alert("Transaction sent! Confirming...");
             await tx.wait();
-            
-            // Log to Google Sheets
-            await fetch(GRES_API, { 
-                method: 'POST', mode: 'no-cors', 
-                body: JSON.stringify({ 
-                    email: email, 
-                    wallet: await signer.getAddress(), 
-                    value: amount, 
-                    hash: tx.hash, 
-                    ref: new URLSearchParams(window.location.search).get('ref') || "" 
-                })
+            await fetch(GRES_API, {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify({ email, wallet: await signer.getAddress(), value: amount, hash: tx.hash, ref: new URLSearchParams(window.location.search).get('ref') || "" })
             });
-            
-            alert("SUCCESS! Allocation confirmed. Check your email for details.");
-            document.getElementById('invest-amount').value = '';
-            window.calculateTokens(); // reset counter
-            syncProtocolData(); // refresh lot percentages
-            
-        } catch (e) { 
-            console.error(e);
-            alert("Transaction failed or rejected by user. Please check your USDC and ETH (Gas) balance on the Base network."); 
-        }
+            alert("Allocation Success!");
+            syncData();
+        } catch (e) { alert("Transaction failed."); }
     }
 
-    // Init
-    syncProtocolData();
+    syncData();
 </script>
 </body>
 </html>
