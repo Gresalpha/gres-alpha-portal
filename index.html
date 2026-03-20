@@ -12,7 +12,7 @@
         body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; padding-top: 220px; } 
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        /* Sticky Header */
+        /* Header & Navigation */
         .sticky-header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(5, 7, 10, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; max-width: 1100px; margin: 0 auto; width: 90%; }
         .logo { font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
@@ -29,23 +29,13 @@
         .btn-buy:hover { box-shadow: 0 0 20px rgba(197,160,89,0.4); transform: translateY(-2px); }
         .btn-copy { background: #333; color: white; padding: 10px 15px; font-size: 12px; }
 
-        /* Document Links */
-        .doc-buttons { display: flex; justify-content: center; gap: 15px; margin: 40px 0; flex-wrap: wrap; }
-        .btn-doc { padding: 10px 20px; border: 1px solid #333; border-radius: 8px; color: #ccc; text-decoration: none; font-size: 13px; background: rgba(255,255,255,0.02); }
-
-        /* Ecosystem Image */
-        .eco-img-container { width: 100%; max-width: 900px; margin: 0 auto 60px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-        .eco-img-container img { width: 100%; display: block; }
-
-        /* Investment Engine */
-        .invest-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        /* Investment Card */
+        .invest-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); text-align: center; }
         .lot-info { display: flex; justify-content: space-between; background: #0a0c11; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; font-size: 12px; }
-        .lot-info div { text-align: center; }
+        .lot-info div { text-align: center; flex: 1; }
         .lot-info span { display: block; color: var(--gold); font-size: 16px; font-weight: bold; margin-top: 5px; }
-        .urgency { text-align: center; color: #ff4d4d; font-size: 12px; margin-top: 10px; font-weight: bold; animation: pulse 2s infinite; }
         
         input[type="email"], input[type="number"], input[type="text"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: white; border-radius: 8px; box-sizing: border-box; }
-        
         .calc-box { font-size: 12px; color: var(--text-dim); text-align: right; margin-top: -5px; margin-bottom: 15px; }
         .calc-box span { color: var(--gold); font-weight: bold; }
         
@@ -53,37 +43,23 @@
         .terms-box input { width: auto; margin: 2px 0 0 0; }
         .terms-box a { color: var(--gold); text-decoration: underline; cursor: pointer; }
         
-        .wallet-status { display: inline-block; margin-top: 10px; font-size: 12px; color: #888; text-align: center; width: 100%; font-weight: bold; }
+        .wallet-status { display: inline-block; margin-top: 10px; font-size: 12px; color: #888; font-weight: bold; }
 
-        .ref-box { background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 12px; margin-top: 20px; display: none; }
-        .ref-input-group { display: flex; gap: 10px; align-items: center; }
-
-        /* Modal Overlays */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .modal-content { background: var(--card); padding: 35px; border-radius: 16px; max-width: 600px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--gold); margin: 20px; position: relative; }
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; color: var(--gold); font-weight: bold; font-size: 24px; line-height: 1; }
-
-        /* Sucess Modal Specific */
-        #success-modal .modal-content { border-color: #28a745; text-align: center; }
-
-        .section-title { text-align: center; color: var(--gold); font-size: 32px; margin-bottom: 40px; }
-        
-        /* Founders */
-        .founder-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
-        .founder-card { width: 260px; background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); text-align: center; }
-        .founder-img { width: 100px; height: 100px; background: #222; border-radius: 50%; margin: 0 auto 15px; border: 2px solid var(--gold); overflow: hidden; }
-        
-        /* Roadmap */
+        /* Roadmap UI */
         .roadmap-section { padding: 40px 0; max-width: 800px; margin: 0 auto; }
-        .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
+        .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; }
         .roadmap-item { background: var(--card); padding: 12px 18px; border-radius: 10px; border-left: 3px solid #333; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
         .status-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; border: 1px solid transparent; }
         .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); }
         .status-planned { color: #888; border-color: #888; background: rgba(136,136,136,0.1); }
 
-        footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; font-size: 11px; color: #555; margin-top: 40px; }
-        
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        /* Modal Overlays */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal-content { background: var(--card); padding: 35px; border-radius: 16px; max-width: 500px; border: 1px solid var(--gold); position: relative; text-align: center; }
+        .modal-close { position: absolute; top: 15px; right: 20px; cursor: pointer; color: var(--gold); font-size: 24px; }
+
+        .ref-box { background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 12px; margin-top: 20px; display: none; text-align: left; }
+        footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; font-size: 11px; color: #555; }
     </style>
 </head>
 <body>
@@ -97,30 +73,20 @@
         </div>
     </nav>
     <div class="hero-headline">
-        <h1>Cracking the Family Offices Code for Real Estate Investments</h1>
-        <p>The first perpetual real estate fund with AI-driven NAV. Secure your early access!</p>
+        <h1>Cracking the Family Offices Code for Real Estate</h1>
+        <p>The first perpetual real estate fund with AI-driven NAV.</p>
     </div>
 </div>
 
 <div class="container">
-    <div class="doc-buttons">
-        <a href="Lightpaper.pdf" target="_blank" class="btn-doc">📄 READ LIGHTPAPER</a>
-        <a href="Tokenomics.pdf" target="_blank" class="btn-doc">💎 GRES.ALPHA TOKENOMICS</a>
-    </div>
-
-    <div class="eco-img-container">
-        <img src="ecosystem.png" alt="GRES Ecosystem Diagram" onerror="this.src='https://via.placeholder.com/900x400?text=Ecosystem+Image+Missing'">
-    </div>
-
     <div class="invest-card">
-        <h3 style="color: white; margin-top: 0; text-align: center; letter-spacing: 2px;">SEED ROUND ACCESS</h3>
+        <h3 style="color: white; margin-top: 0; letter-spacing: 2px;">SEED ROUND ACCESS</h3>
         
         <div class="lot-info">
             <div>Current Price<span id="price-display">$0.002</span></div>
             <div>Next Lot<span id="next-price-display">$0.004</span></div>
             <div>Lot Filled<span id="filled-display">Lot 1/4</span></div>
         </div>
-        <div class="urgency">⚠️ Lot Allocation is strictly limited. Closing soon.</div>
 
         <input type="email" id="user-email" placeholder="Your Email (we will send you the allocation details)">
         
@@ -129,75 +95,51 @@
         
         <div class="terms-box">
             <input type="checkbox" id="agree-terms" autocomplete="off">
-            <label for="agree-terms">I confirm that I am not a US Citizen, I understand the cryptographic risk nature of Web3 utility tokens, and I agree to the <a onclick="document.getElementById('tc-modal').style.display='flex'">Terms & Conditions</a>.</label>
+            <label for="agree-terms">I agree to the <a onclick="document.getElementById('tc-modal').style.display='flex'">Terms & Conditions</a> and confirm I am not a US Citizen.</label>
         </div>
 
         <button class="btn-buy" onclick="investNow()">PURCHASE GRES.ALPHA</button>
         <div id="wallet-status" class="wallet-status">🔴 Wallet Not Connected</div>
 
         <div id="ref-area" class="ref-box">
-            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase;">Earn 20% AIRDROP on investments made via the individual link below.</p>
-            <div class="ref-input-group">
-                <input type="text" id="ref-link" readonly style="font-size: 10px; color: var(--gold);">
+            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase; font-weight: bold;">
+                Earn 20% AIRDROP on investments made via the individual link below.
+            </p>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="ref-link" readonly style="font-size: 10px;">
                 <button class="btn-copy" onclick="copyRef()">COPY</button>
             </div>
         </div>
     </div>
 
     <div class="roadmap-section">
-        <h2 class="section-title">Strategic Roadmap</h2>
-        <div id="roadmap-container" style="text-align: center; color: var(--text-dim);">Syncing data from protocol...</div>
-    </div>
-
-    <h2 class="section-title">The Team</h2>
-    <div class="founder-grid">
-        <div class="founder-card">
-            <div class="founder-img"><img src="https://via.placeholder.com/100" style="width:100%"></div>
-            <h3>Thiago Sequinel</h3>
-            <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">FOUNDER & CEO</p>
-            <p style="font-size:12px; color:var(--text-dim);">Strategist specialized in RWA and institutional real estate structures.</p>
-            <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">LinkedIn Profile →</a>
-        </div>
-        
-        <div class="founder-card">
-            <div class="founder-img"><img src="https://via.placeholder.com/100" style="width:100%"></div>
-            <h3>Kamil Cieslak</h3>
-            <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">CO-FOUNDER & CFO</p>
-            <p style="font-size:12px; color:var(--text-dim);">Financial wizard executing liquidity engineering and operational compliance.</p>
-            <a href="https://www.linkedin.com/in/kamilcieslak85/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">LinkedIn Profile →</a>
-        </div>
+        <h2 style="text-align: center; color: var(--gold);">Strategic Roadmap</h2>
+        <div id="roadmap-container" style="text-align: center; color: var(--text-dim);">Syncing with protocol...</div>
     </div>
 </div>
 
 <div id="tc-modal" class="modal-overlay">
     <div class="modal-content">
-        <span class="modal-close" onclick="document.getElementById('tc-modal').style.display='none'">&times;</span>
-        <h3 style="color: var(--gold); margin-top: 0; padding-right: 30px;">Terms & Conditions</h3>
-        <p style="font-size: 13px; color: #ccc; line-height: 1.8;">
-            1. <strong>Not a Security:</strong> The GRES.ALPHA token is strictly a utility and ecosystem incentive token. It does not represent equity, shares, units, or any ownership rights.<br><br>
-            2. <strong>Volatile Nature:</strong> The protocol is provided "as is" and without warranties. There is a risk of losing the entire amount invested.<br><br>
-            3. <strong>Regulatory Compliance:</strong> By purchasing, you attest that you are not a resident or citizen of the United States of America, nor of any jurisdiction where the purchase of cryptographic tokens is prohibited by law.<br><br>
-            4. <strong>No Financial Advice:</strong> Nothing on this platform constitutes financial, legal, or tax advice.<br><br>
-            5. <strong>Professional Consultation:</strong> GRES Protocol strongly recommends consulting a professional financial advisor if you have any questions.
+        <span class="modal-close" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+        <h3 style="color: var(--gold);">Terms & Conditions</h3>
+        <p style="font-size: 12px; text-align: left; color: #ccc;">
+            1. GRES.ALPHA is a utility token, not a security.<br>
+            2. Purchase is prohibited for US Citizens/Residents.<br>
+            3. All transactions on the blockchain are final.
         </p>
     </div>
 </div>
 
 <div id="success-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="modal-close" onclick="document.getElementById('success-modal').style.display='none'">&times;</span>
-        <h2 style="color: #28a745; margin-top: 0;">Allocation Confirmed! 🎉</h2>
-        <p style="font-size: 15px; color: #ccc; line-height: 1.6; margin: 20px 0;">
-            Your transaction was successfully recorded on the Base Network.<br><br>
-            An email with your allocation details has been sent to your registered address. <strong style="color: white;">Please check your spam folder</strong> and stay tuned for our updates.
-        </p>
-        <button class="btn-buy" style="background: #28a745; color: white;" onclick="document.getElementById('success-modal').style.display='none'">GOT IT</button>
+    <div class="modal-content" style="border-color: #28a745;">
+        <h2 style="color: #28a745;">Allocation Confirmed! 🎉</h2>
+        <p style="color: #ccc;">Your transaction was successful. A confirmation email has been sent.<br><strong>Please check your spam folder.</strong></p>
+        <button class="btn-buy" style="background: #28a745; color: white;" onclick="location.reload()">CLOSE</button>
     </div>
 </div>
 
 <footer>
-    <p>GRES Protocol © 2026. All rights reserved.</p>
-    <p>GRES.ALPHA is a digital utility token. Not available for US Citizens. Conduct your own due diligence (DYOR).</p>
+    <p>GRES Protocol © 2026. Institutional Grade Real Estate Asset Tokenization.</p>
 </footer>
 
 <script type="module">
@@ -205,15 +147,14 @@
     import { Ethers5Adapter } from 'https://esm.sh/@reown/appkit-adapter-ethers5'
     import { base } from 'https://esm.sh/@reown/appkit/networks'
 
+    // --- CONFIGURAÇÃO ---
     const projectId = 'fbc5f569abebf58f9c260075a2882c1a'; 
+    const GRES_API = "https://script.google.com/macros/s/AKfycbyf-SDsGZs67lWct1fs-XNWMPiVi9ZZYDhvfW_Y4elNSxAvfQm-Vgq4Mx-r8SgN_xlDdA/exec"; // <--- COLOQUE SUA URL AQUI
     const GRES_TREASURY = "0xC5a3941635c0da1B020DE56165Ff729f975d708d";
-    const GRES_API = "https://script.google.com/macros/s/AKfycbwNtslcaSE5P0nZdXgzC2U7U_0Gcsv5xW1Svc7XVtIeyn2ZyZnLc-CUz79oGIPYUdcRHg/exec"; 
     const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
     
     let currentLotPrice = 0.002;
-    let connectedAddress = null; 
-
-    document.getElementById('agree-terms').checked = false;
+    let connectedAddress = null;
 
     const modal = createAppKit({
         adapters: [new Ethers5Adapter()],
@@ -222,66 +163,52 @@
         projectId
     })
 
+    // Sincronização de Dados (Roadmap e Lotes)
     async function syncData() {
         try {
-            // Anti-cache param garantirá que pegue a versão mais nova do Google Apps Script
             const res = await fetch(GRES_API + "?t=" + new Date().getTime());
             const data = await res.json();
-            console.log("Payload recebido da Planilha:", data); 
             
-            // Lógica do Lote e Porcentagem (> 55%)
+            // Lógica do Lote
             if(data.lotInfo) {
                 currentLotPrice = data.lotInfo.price;
                 document.getElementById('price-display').innerText = `$${data.lotInfo.price}`;
                 document.getElementById('next-price-display').innerText = `$${data.lotInfo.nextPrice}`;
                 
                 const perc = data.lotInfo.filledPercentage || 0;
-                const lotName = data.lotInfo.name || "";
-                let lotNum = "Lot 1/4";
-                if(lotName.includes("02")) lotNum = "Lot 2/4";
-                if(lotName.includes("03")) lotNum = "Lot 3/4";
-                if(lotName.includes("04")) lotNum = "Lot 4/4";
+                const lotNum = data.lotInfo.name.includes("01") ? "1/4" : 
+                               data.lotInfo.name.includes("02") ? "2/4" : 
+                               data.lotInfo.name.includes("03") ? "3/4" : "4/4";
 
-                if(perc >= 55) {
-                    document.getElementById('filled-display').innerText = `${lotNum} (${perc}%)`;
-                } else {
-                    document.getElementById('filled-display').innerText = lotNum;
-                }
+                document.getElementById('filled-display').innerText = perc >= 55 ? `Lot ${lotNum} (${perc}%)` : `Lot ${lotNum}`;
             }
 
             // Lógica do Roadmap
-            const container = document.getElementById('roadmap-container');
-            if (data.roadmap && data.roadmap.length > 0) {
+            if (data.roadmap) {
+                const container = document.getElementById('roadmap-container');
                 container.innerHTML = '';
                 data.roadmap.forEach(item => {
-                    if (item.task.toString().startsWith("Q")) {
-                        container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
+                    if (item.task.startsWith("Q")) {
+                        container.innerHTML += `<div class="roadmap-header">${item.task}</div>`;
                     } else {
-                        // Evita quebra se a planilha não enviar o status corretamente
-                        const stat = item.status || "PLANNED";
-                        const statusClass = stat.toLowerCase().replace(/\s/g, '');
-                        container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${statusClass}">${stat}</span></div>`;
+                        const statusClass = item.status.toLowerCase().replace(/\s/g, '');
+                        container.innerHTML += `
+                            <div class="roadmap-item">
+                                <span>• ${item.task}</span>
+                                <span class="status-badge status-${statusClass}">${item.status}</span>
+                            </div>`;
                     }
                 });
-            } else {
-                container.innerHTML = "<em>Data available soon. (Debug: Verifique se a Aba 'Roadmap' na planilha possui Cabeçalhos na Linha 1)</em>";
             }
-        } catch (e) { 
-            console.error("Sync error", e); 
-        }
+        } catch (e) { console.error("Sync Error", e); }
     }
 
-    window.calculateTokens = () => {
-        const val = document.getElementById('invest-amount').value;
-        const tokens = val / currentLotPrice;
-        document.getElementById('token-calc').innerText = val > 0 ? tokens.toLocaleString(undefined, {maximumFractionDigits: 0}) : "0";
-    }
-
+    // Listener de Carteira
     modal.subscribeAccount(account => {
         if (account.isConnected) {
             connectedAddress = account.address;
-            document.getElementById('btn-top-con').innerText = connectedAddress.substring(0,6) + "..." + connectedAddress.substring(38);
-            document.getElementById('wallet-status').innerText = `🟢 Wallet Connected: ${connectedAddress.substring(0,6)}...`;
+            document.getElementById('btn-top-con').innerText = connectedAddress.substring(0,6) + "...";
+            document.getElementById('wallet-status').innerText = "🟢 Wallet Connected";
             document.getElementById('wallet-status').style.color = "#28a745";
             document.getElementById('ref-area').style.display = 'block';
             document.getElementById('ref-link').value = window.location.origin + "/?ref=" + connectedAddress;
@@ -289,45 +216,47 @@
             connectedAddress = null;
             document.getElementById('btn-top-con').innerText = "Connect Wallet";
             document.getElementById('wallet-status').innerText = "🔴 Wallet Not Connected";
-            document.getElementById('wallet-status').style.color = "#888";
             document.getElementById('ref-area').style.display = 'none';
         }
     });
 
     window.connectWallet = () => modal.open();
-    
+    window.calculateTokens = () => {
+        const val = document.getElementById('invest-amount').value;
+        document.getElementById('token-calc').innerText = val > 0 ? (val / currentLotPrice).toLocaleString() : "0";
+    }
+
     window.triggerAirdrop = () => {
-        alert("Connect your wallet to copy and share your link found in the 'SEED ROUND ACCESS' box below.");
+        alert("Connect your wallet, copy and share the link that will appear in the \"SEED ROUND ACCESS\" box below.");
     };
 
     window.copyRef = () => {
-        const copyText = document.getElementById("ref-link");
-        copyText.select();
-        navigator.clipboard.writeText(copyText.value);
-        alert("Partner Link Copied! Share to earn 20% bonus.");
+        const el = document.getElementById('ref-link');
+        el.select();
+        navigator.clipboard.writeText(el.value);
+        alert("Partner Link Copied!");
     }
 
+    // LÓGICA DE COMPRA EM CASCATA
     window.investNow = async () => {
-        if (!connectedAddress) {
-            modal.open();
-            return;
-        }
+        // 1. Carteira
+        if (!connectedAddress) { modal.open(); return; }
         
+        // 2. Termos
         if (!document.getElementById('agree-terms').checked) {
-            alert("Please accept the Terms & Conditions before proceeding.");
-            return;
+            alert("Please accept the Terms & Conditions."); return;
         }
 
+        // 3. Email
         const email = document.getElementById('user-email').value;
         if (!email || !email.includes('@')) {
-            alert("Please enter a valid email address.");
-            return;
+            alert("Please enter a valid email."); return;
         }
 
+        // 4. Valor
         const amount = document.getElementById('invest-amount').value;
-        if (!amount || amount < 1) {
-            alert("Please enter a valid investment amount (Minimum 1 USDC).");
-            return;
+        if (!amount || amount <= 0) {
+            alert("Please enter an investment amount."); return;
         }
 
         try {
@@ -335,29 +264,20 @@
             const signer = provider.getSigner();
             const usdc = new ethers.Contract(USDC_BASE, ["function transfer(address to, uint amount) returns (bool)"], signer);
             
-            alert("Please confirm the transaction in your wallet.");
-            
+            alert("Confirm transaction in your wallet...");
             const tx = await usdc.transfer(GRES_TREASURY, ethers.utils.parseUnits(amount, 6));
-            await tx.wait(); 
+            await tx.wait();
             
-            await fetch(GRES_API, {
-                method: 'POST', mode: 'no-cors',
-                body: JSON.stringify({ 
-                    email: email, 
-                    wallet: connectedAddress, 
-                    value: amount, 
-                    hash: tx.hash, 
-                    ref: new URLSearchParams(window.location.search).get('ref') || "" 
-                })
-            });
-            
+            // Sucesso
             document.getElementById('success-modal').style.display = 'flex';
-            syncData();
             
-        } catch (e) { 
-            console.error("Tx Error:", e);
-            alert("Transaction failed or was canceled. Check if you have sufficient USDC and ETH for gas fees on Base Network."); 
-        }
+            // Envia para planilha (silencioso)
+            fetch(GRES_API, {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify({ email, wallet: connectedAddress, value: amount, hash: tx.hash })
+            });
+
+        } catch (e) { alert("Transaction failed."); }
     }
 
     syncData();
