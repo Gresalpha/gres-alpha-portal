@@ -1,0 +1,126 @@
+<script type="module">
+    import { createAppKit } from 'https://esm.sh/@reown/appkit'
+    import { Ethers5Adapter } from 'https://esm.sh/@reown/appkit-adapter-ethers5'
+    import { base } from 'https://esm.sh/@reown/appkit/networks'
+
+    const projectId = 'fbc5f569abebf58f9c260075a2882c1a'; 
+    const GRES_TREASURY = "0xC5a3941635c0da1B020DE56165Ff729f975d708d";
+    
+    // VERIFIQUE SE ESTE LINK É O SEU MAIS RECENTE:
+    const GRES_API = "https://script.google.com/macros/s/AKfycbyf-SDsGZs67lWct1fs-XNWMPiVi9ZZYDhvfW_Y4elNSxAvfQm-Vgq4Mx-r8SgN_xlDdA/exec"; 
+    
+    const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+    let currentLotPrice = 0.002;
+
+    const modal = createAppKit({
+        adapters: [new Ethers5Adapter()],
+        networks: [base],
+        metadata: { name: 'GRES Protocol', url: window.location.origin, icons: [] },
+        projectId
+    })
+
+    async function syncData() {
+        try {
+            const res = await fetch(GRES_API);
+            const data = await res.json();
+            
+            // Sync Lot Info - Ajustado para 'filledPercentage'
+            if(data.lotInfo) {
+                currentLotPrice = data.lotInfo.price;
+                document.getElementById('price-display').innerText = `$${data.lotInfo.price}`;
+                document.getElementById('next-price-display').innerText = `$${data.lotInfo.nextPrice}`;
+                document.getElementById('filled-display').innerText = `${data.lotInfo.filledPercentage}%`;
+            }
+
+            // Sync Roadmap
+            const container = document.getElementById('roadmap-container');
+            if (data.roadmap && data.roadmap.length > 0) {
+                container.innerHTML = '';
+                data.roadmap.forEach(item => {
+                    // Detecta se é um título de Roadmap (ex: Q1 2026) ou uma tarefa
+                    if (item.task.toString().trim().startsWith("Q")) {
+                        container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
+                    } else {
+                        const statusClass = item.status.toLowerCase().replace(/\s/g, '');
+                        container.innerHTML += `
+                            <div class="roadmap-item">
+                                <p>• ${item.task}</p>
+                                <span class="status-badge status-${statusClass}">${item.status}</span>
+                            </div>`;
+                    }
+                });
+            }
+        } catch (e) { 
+            console.error("Sync error", e);
+            document.getElementById('roadmap-container').innerText = "Roadmap temporarily unavailable.";
+        }
+    }
+
+    window.calculateTokens = () => {
+        const val = document.getElementById('invest-amount').value;
+        const tokens = val / currentLotPrice;
+        document.getElementById('token-calc').innerText = val > 0 ? tokens.toLocaleString(undefined, {maximumFractionDigits: 0}) : "0";
+    }
+
+    modal.subscribeState(async state => {
+        if (modal.getIsConnected()) {
+            const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
+            const addr = await provider.getSigner().getAddress();
+            document.getElementById('btn-top-con').innerText = addr.substring(0,6) + "...";
+            document.getElementById('wallet-status').innerText = `🟢 Connected: ${addr.substring(0,6)}...`;
+            document.getElementById('wallet-status').style.color = "#28a745";
+            document.getElementById('ref-area').style.display = 'block';
+            document.getElementById('ref-link').value = window.location.origin + "/?ref=" + addr;
+        }
+    });
+
+    window.connectWallet = () => modal.open();
+    window.copyRef = () => {
+        const copyText = document.getElementById("ref-link");
+        copyText.select();
+        navigator.clipboard.writeText(copyText.value);
+        alert("Strategic Partner Link Copied!");
+    }
+
+    window.investNow = async () => {
+        if (!modal.getIsConnected()) return modal.open();
+        if (!document.getElementById('agree-terms').checked) return alert("Please accept the Terms & Conditions.");
+        
+        const email = document.getElementById('user-email').value;
+        const amount = document.getElementById('invest-amount').value;
+        if(!email || !amount || amount <= 0) return alert("Please fill a valid email and amount.");
+
+        try {
+            const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
+            const signer = provider.getSigner();
+            const usdc = new ethers.Contract(USDC_BASE, ["function transfer(address to, uint amount) returns (bool)"], signer);
+            
+            // 6 casas decimais para USDC
+            const tx = await usdc.transfer(GRES_TREASURY, ethers.utils.parseUnits(amount.toString(), 6));
+            
+            alert("Transaction sent! Please wait for confirmation on Base Network...");
+            await tx.wait();
+            
+            // Envia para a planilha
+            await fetch(GRES_API, {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify({ 
+                    email, 
+                    wallet: await signer.getAddress(), 
+                    value: amount, 
+                    hash: tx.hash, 
+                    ref: new URLSearchParams(window.location.search).get('ref') || "" 
+                })
+            });
+            
+            alert("Allocation Confirmed! Welcome to GRES.ALPHA.");
+            syncData();
+        } catch (e) { 
+            console.error(e);
+            alert("Transaction failed. Make sure you have USDC and ETH for gas on Base."); 
+        }
+    }
+
+    // Inicializa a página
+    syncData();
+</script>
