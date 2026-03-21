@@ -23,9 +23,9 @@
         .sticky-header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(5, 7, 10, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; max-width: 1100px; margin: 0 auto; width: 90%; }
         
-        /* Logo Branding - Updated to prioritize image over text */
-        .logo { display: flex; align-items: center; }
-        .logo img { height: 45px; width: auto; display: block; }
+        /* Branding Fix: Only Logo, No Text */
+        .logo { display: flex; align-items: center; height: 50px; }
+        .logo img { height: 100%; width: auto; display: block; }
         
         .nav-actions { display: flex; gap: 15px; }
         
@@ -41,33 +41,46 @@
         } 
         .hero-headline p { color: var(--text-dim); margin: 0; font-size: 18px; }
 
-        /* Buttons */
+        /* Document Links & GRES Engine */
+        .doc-buttons { display: flex; justify-content: center; gap: 15px; margin: 40px 0; flex-wrap: wrap; }
+        .btn-doc { padding: 10px 20px; border: 1px solid #333; border-radius: 8px; color: #ccc; text-decoration: none; font-size: 13px; background: rgba(255,255,255,0.02); }
+        .eco-img-container { width: 100%; max-width: 900px; margin: 0 auto 60px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; }
+        .eco-img-container img { width: 100%; display: block; min-height: 200px; }
+
+        /* Investment UI */
+        .invest-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); text-align: center; }
+        .lot-info { display: flex; justify-content: space-between; background: #0a0c11; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; font-size: 12px; }
+        .lot-info span { display: block; color: var(--gold); font-size: 16px; font-weight: bold; margin-top: 5px; }
+        .urgency { text-align: center; color: #ff4d4d; font-size: 12px; margin-top: 10px; font-weight: bold; animation: pulse 2s infinite; }
+        
         button { border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-con { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; }
         .btn-airdrop { background: rgba(197,160,89,0.1); border: 1px dashed var(--gold); color: var(--gold); padding: 10px 20px; }
         .btn-buy { background: var(--gold); color: black; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; padding: 16px; width: 100%; margin-top: 15px; }
-        .btn-buy:hover { box-shadow: 0 0 20px rgba(197,160,89,0.4); transform: translateY(-2px); }
-        .btn-copy { background: #333; color: white; padding: 10px 15px; font-size: 12px; }
-
-        /* Investment Card */
-        .invest-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); text-align: center; }
-        .lot-info { display: flex; justify-content: space-between; background: #0a0c11; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; font-size: 12px; }
-        .lot-info span { display: block; color: var(--gold); font-size: 16px; font-weight: bold; margin-top: 5px; }
         
         input[type="email"], input[type="number"], input[type="text"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: white; border-radius: 8px; box-sizing: border-box; }
         
-        /* Roadmap Status Coloring */
-        .roadmap-section { padding: 40px 0; max-width: 800px; margin: 0 auto; }
+        /* Team Section */
+        .section-title { text-align: center; color: var(--gold); font-size: 32px; margin: 60px 0 40px; }
+        .founder-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
+        .founder-card { width: 260px; background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); text-align: center; }
+        .founder-img { width: 100px; height: 100px; background: #222; border-radius: 50%; margin: 0 auto 15px; border: 2px solid var(--gold); overflow: hidden; }
+        .founder-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Roadmap */
         .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
         .roadmap-item { background: var(--card); padding: 12px 18px; border-radius: 10px; border-left: 3px solid #333; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
         .status-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; border: 1px solid transparent; }
         
-        /* Required Roadmap Colors */
-        .status-planned   { color: #888888; border-color: #888888; background: rgba(136,136,136,0.1); } /* Gray */
-        .status-working   { color: #ffc107; border-color: #ffc107; background: rgba(255,193,7,0.1); }  /* Yellow */
-        .status-delivered { color: #1e90ff; border-color: #1e90ff; background: rgba(30,144,255,0.1); } /* Blue */
-        .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); } /* Green */
+        /* Roadmap Status */
+        .status-planned   { color: #888888; border-color: #888888; background: rgba(136,136,136,0.1); }
+        .status-working   { color: #ffc107; border-color: #ffc107; background: rgba(255,193,7,0.1); }
+        .status-delivered { color: #1e90ff; border-color: #1e90ff; background: rgba(30,144,255,0.1); }
+        .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); }
 
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal-content { background: var(--card); padding: 35px; border-radius: 16px; max-width: 600px; border: 1px solid var(--gold); position: relative; }
+        
         footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; font-size: 11px; color: #555; margin-top: 40px; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
@@ -77,7 +90,7 @@
 <div class="sticky-header">
     <nav>
         <div class="logo">
-            <img src="Logo_Gres.png" alt="GRES Logo">
+            <img src="Logo Gres.jpg" alt="GRES Logo">
         </div>
         <div class="nav-actions">
             <button class="btn-airdrop" onclick="triggerAirdrop()">🎁 AIRDROP</button>
@@ -91,6 +104,15 @@
 </div>
 
 <div class="container">
+    <div class="doc-buttons">
+        <a href="Lightpaper.pdf" target="_blank" class="btn-doc">📄 READ LIGHTPAPER</a>
+        <a href="Tokenomics.pdf" target="_blank" class="btn-doc">💎 GRES.ALPHA TOKENOMICS</a>
+    </div>
+
+    <div class="eco-img-container">
+        <img src="ecosystem.png" alt="GRES Engine Architecture" onerror="this.src='https://via.placeholder.com/900x400?text=GRES+Engine+Diagram+Missing'">
+    </div>
+
     <div class="invest-card">
         <h3 style="color: white; margin-top: 0; letter-spacing: 2px;">SEED ROUND ACCESS</h3>
         <div class="lot-info">
@@ -98,14 +120,36 @@
             <div>Next Lot<span id="next-price-display">$0.004</span></div>
             <div>Lot Filled<span id="filled-display">Lot 1/4</span></div>
         </div>
+        <div class="urgency">⚠️ Lot Allocation is strictly limited. Closing soon.</div>
+
         <input type="email" id="user-email" placeholder="Your Email">
         <input type="number" id="invest-amount" placeholder="Investment Amount (USDC)" oninput="calculateTokens()">
         <button class="btn-buy" onclick="investNow()">PURCHASE GRES.ALPHA</button>
-        <div id="wallet-status" class="wallet-status">🔴 Wallet Not Connected</div>
+        <div id="wallet-status" class="wallet-status" style="margin-top:10px; font-size:12px; color:#888;">🔴 Wallet Not Connected</div>
+    </div>
+
+    <h2 class="section-title">The Team</h2>
+    <div class="founder-grid">
+        <div class="founder-card">
+            <div class="founder-img">
+                <img src="thiago.jpg" onerror="this.src='https://via.placeholder.com/100?text=TS'">
+            </div>
+            <h3>Thiago Sequinel</h3>
+            <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">FOUNDER & CEO</p>
+            <p style="font-size:12px; color:var(--text-dim);">Strategist specialized in RWA and institutional real estate structures.</p>
+        </div>
+        <div class="founder-card">
+            <div class="founder-img">
+                <img src="kamil.jpg" onerror="this.src='https://via.placeholder.com/100?text=KC'">
+            </div>
+            <h3>Kamil Cieslak</h3>
+            <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">CO-FOUNDER & CFO</p>
+            <p style="font-size:12px; color:var(--text-dim);">Financial wizard executing liquidity engineering and operational compliance.</p>
+        </div>
     </div>
 
     <div class="roadmap-section">
-        <h2 style="text-align: center; color: var(--gold);">Strategic Roadmap</h2>
+        <h2 class="section-title">Strategic Roadmap</h2>
         <div id="roadmap-container" style="text-align: center; color: var(--text-dim);">Syncing data from protocol...</div>
     </div>
 </div>
@@ -133,7 +177,6 @@
         try {
             const res = await fetch(GRES_API + "?t=" + new Date().getTime());
             const data = await res.json();
-            
             const container = document.getElementById('roadmap-container');
             if (data.roadmap) {
                 container.innerHTML = '';
@@ -141,7 +184,6 @@
                     if (item.task.toString().startsWith("Q")) {
                         container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
                     } else {
-                        // Map status to classes for specific colors requested
                         const statusClass = item.status.toString().toLowerCase().replace(/\s/g, '');
                         container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${statusClass}">${item.status}</span></div>`;
                     }
