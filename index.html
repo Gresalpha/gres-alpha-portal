@@ -8,18 +8,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
     
     <style>
+        /* Brand Colors mapping: Ouro Dimensional, Preto GRES, Branco Sólido */
         :root { --gold: #c5a059; --dark: #05070a; --card: #0f121a; --text-dim: #888; --border: #1a1e26; }
-        /* Aumentado o padding-top para o header não cobrir o conteúdo se o texto quebrar linha */
+        
         body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; padding-top: 250px; } 
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
         /* Sticky Header */
         .sticky-header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(5, 7, 10, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; max-width: 1100px; margin: 0 auto; width: 90%; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
+        
+        /* Updated Logo implementation following the Brand Book */
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
+        .logo img { height: 40px; border-radius: 4px; }
+        
         .nav-actions { display: flex; gap: 15px; }
         
-        /* Headline - FIX para não cortar o texto */
+        /* Headline */
         .hero-headline { text-align: center; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .hero-headline h1 { 
             font-size: clamp(22px, 3.5vw, 38px); 
@@ -28,7 +33,6 @@
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             line-height: 1.3;
-            /* Removido o nowrap para permitir quebra em telas menores sem sumir com o texto */
         } 
         .hero-headline p { color: var(--text-dim); margin: 0; font-size: 18px; }
 
@@ -89,8 +93,12 @@
         .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
         .roadmap-item { background: var(--card); padding: 12px 18px; border-radius: 10px; border-left: 3px solid #333; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
         .status-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; border: 1px solid transparent; }
+        
+        /* Updated Roadmap Status Colors */
+        .status-planned   { color: #888888; border-color: #888888; background: rgba(136,136,136,0.1); }
+        .status-working   { color: #ffc107; border-color: #ffc107; background: rgba(255,193,7,0.1); }
+        .status-delivered { color: #1e90ff; border-color: #1e90ff; background: rgba(30,144,255,0.1); }
         .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); }
-        .status-planned { color: #888; border-color: #888; background: rgba(136,136,136,0.1); }
 
         footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; font-size: 11px; color: #555; margin-top: 40px; }
         
@@ -101,7 +109,10 @@
 
 <div class="sticky-header">
     <nav>
-        <div class="logo">GRES PROTOCOL</div>
+        <div class="logo">
+            <img src="Logo Gres.jpg" alt="GRES Logo" onerror="this.style.display='none'">
+            GRES PROTOCOL
+        </div>
         <div class="nav-actions">
             <button class="btn-airdrop" onclick="triggerAirdrop()">🎁 AIRDROP</button>
             <button class="btn-con" onclick="connectWallet()" id="btn-top-con">Connect Wallet</button>
@@ -267,6 +278,7 @@
                     if (item.task.toString().startsWith("Q")) {
                         container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
                     } else {
+                        // Dynamic class matching: planned, working, delivered, validated
                         const statusClass = item.status.toString().toLowerCase().replace(/\s/g, '');
                         container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${statusClass}">${item.status}</span></div>`;
                     }
