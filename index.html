@@ -8,8 +8,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
     
     <style>
-        /* Brand Colors mapping: Ouro Dimensional, Preto GRES, Branco Sólido */
-        :root { --gold: #c5a059; --dark: #05070a; --card: #0f121a; --text-dim: #888; --border: #1a1e26; }
+        :root { 
+            --gold: #c5a059; 
+            --dark: #05070a; 
+            --card: #0f121a; 
+            --text-dim: #888; 
+            --border: #1a1e26; 
+        }
         
         body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; padding-top: 250px; } 
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
@@ -18,9 +23,9 @@
         .sticky-header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(5, 7, 10, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; max-width: 1100px; margin: 0 auto; width: 90%; }
         
-        /* Updated Logo implementation following the Brand Book */
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
-        .logo img { height: 40px; border-radius: 4px; }
+        /* Logo Branding - Updated to prioritize image over text */
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 45px; width: auto; display: block; }
         
         .nav-actions { display: flex; gap: 15px; }
         
@@ -44,64 +49,26 @@
         .btn-buy:hover { box-shadow: 0 0 20px rgba(197,160,89,0.4); transform: translateY(-2px); }
         .btn-copy { background: #333; color: white; padding: 10px 15px; font-size: 12px; }
 
-        /* Document Links */
-        .doc-buttons { display: flex; justify-content: center; gap: 15px; margin: 40px 0; flex-wrap: wrap; }
-        .btn-doc { padding: 10px 20px; border: 1px solid #333; border-radius: 8px; color: #ccc; text-decoration: none; font-size: 13px; background: rgba(255,255,255,0.02); }
-
-        /* Ecosystem Image */
-        .eco-img-container { width: 100%; max-width: 900px; margin: 0 auto 60px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-        .eco-img-container img { width: 100%; display: block; }
-
-        /* Investment Engine */
+        /* Investment Card */
         .invest-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); text-align: center; }
         .lot-info { display: flex; justify-content: space-between; background: #0a0c11; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; font-size: 12px; }
-        .lot-info div { text-align: center; }
         .lot-info span { display: block; color: var(--gold); font-size: 16px; font-weight: bold; margin-top: 5px; }
-        .urgency { text-align: center; color: #ff4d4d; font-size: 12px; margin-top: 10px; font-weight: bold; animation: pulse 2s infinite; }
         
         input[type="email"], input[type="number"], input[type="text"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: white; border-radius: 8px; box-sizing: border-box; }
         
-        .calc-box { font-size: 12px; color: var(--text-dim); text-align: right; margin-top: -5px; margin-bottom: 15px; }
-        .calc-box span { color: var(--gold); font-weight: bold; }
-        
-        .terms-box { display: flex; align-items: flex-start; gap: 10px; font-size: 11px; color: #888; margin-top: 15px; text-align: left; }
-        .terms-box input { width: auto; margin: 2px 0 0 0; }
-        .terms-box a { color: var(--gold); text-decoration: underline; cursor: pointer; }
-        
-        .wallet-status { display: inline-block; margin-top: 10px; font-size: 12px; color: #888; text-align: center; width: 100%; font-weight: bold; }
-
-        .ref-box { background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 12px; margin-top: 20px; display: none; text-align: left; }
-        .ref-input-group { display: flex; gap: 10px; align-items: center; }
-
-        /* Modal Overlays */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .modal-content { background: var(--card); padding: 35px; border-radius: 16px; max-width: 600px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--gold); margin: 20px; position: relative; }
-        .modal-close { position: absolute; top: 20px; right: 25px; cursor: pointer; color: var(--gold); font-weight: bold; font-size: 24px; line-height: 1; }
-
-        /* Success Modal Specific */
-        #success-modal .modal-content { border-color: #28a745; text-align: center; }
-
-        .section-title { text-align: center; color: var(--gold); font-size: 32px; margin: 60px 0 40px; }
-        
-        /* Founders */
-        .founder-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
-        .founder-card { width: 260px; background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); text-align: center; }
-        .founder-img { width: 100px; height: 100px; background: #222; border-radius: 50%; margin: 0 auto 15px; border: 2px solid var(--gold); overflow: hidden; }
-        
-        /* Roadmap */
+        /* Roadmap Status Coloring */
         .roadmap-section { padding: 40px 0; max-width: 800px; margin: 0 auto; }
         .roadmap-header { margin-top: 30px; padding-bottom: 8px; border-bottom: 1px solid #333; color: white; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
         .roadmap-item { background: var(--card); padding: 12px 18px; border-radius: 10px; border-left: 3px solid #333; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
         .status-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase; font-weight: bold; border: 1px solid transparent; }
         
-        /* Updated Roadmap Status Colors */
-        .status-planned   { color: #888888; border-color: #888888; background: rgba(136,136,136,0.1); }
-        .status-working   { color: #ffc107; border-color: #ffc107; background: rgba(255,193,7,0.1); }
-        .status-delivered { color: #1e90ff; border-color: #1e90ff; background: rgba(30,144,255,0.1); }
-        .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); }
+        /* Required Roadmap Colors */
+        .status-planned   { color: #888888; border-color: #888888; background: rgba(136,136,136,0.1); } /* Gray */
+        .status-working   { color: #ffc107; border-color: #ffc107; background: rgba(255,193,7,0.1); }  /* Yellow */
+        .status-delivered { color: #1e90ff; border-color: #1e90ff; background: rgba(30,144,255,0.1); } /* Blue */
+        .status-validated { color: #28a745; border-color: #28a745; background: rgba(40,167,69,0.1); } /* Green */
 
         footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; font-size: 11px; color: #555; margin-top: 40px; }
-        
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
 </head>
@@ -110,8 +77,7 @@
 <div class="sticky-header">
     <nav>
         <div class="logo">
-            <img src="Logo Gres.jpg" alt="GRES Logo" onerror="this.style.display='none'">
-            GRES PROTOCOL
+            <img src="Logo_Gres.png" alt="GRES Logo">
         </div>
         <div class="nav-actions">
             <button class="btn-airdrop" onclick="triggerAirdrop()">🎁 AIRDROP</button>
@@ -125,95 +91,22 @@
 </div>
 
 <div class="container">
-    <div class="doc-buttons">
-        <a href="Lightpaper.pdf" target="_blank" class="btn-doc">📄 READ LIGHTPAPER</a>
-        <a href="Tokenomics.pdf" target="_blank" class="btn-doc">💎 GRES.ALPHA TOKENOMICS</a>
-    </div>
-
-    <div class="eco-img-container">
-        <img src="ecosystem.png" alt="GRES Ecosystem Diagram" onerror="this.src='https://via.placeholder.com/900x400?text=Ecosystem+Image+Missing'">
-    </div>
-
     <div class="invest-card">
         <h3 style="color: white; margin-top: 0; letter-spacing: 2px;">SEED ROUND ACCESS</h3>
-        
         <div class="lot-info">
             <div>Current Price<span id="price-display">$0.002</span></div>
             <div>Next Lot<span id="next-price-display">$0.004</span></div>
             <div>Lot Filled<span id="filled-display">Lot 1/4</span></div>
         </div>
-        <div class="urgency">⚠️ Lot Allocation is strictly limited. Closing soon.</div>
-
-        <input type="email" id="user-email" placeholder="Your Email (we will send you the allocation details)">
-        
+        <input type="email" id="user-email" placeholder="Your Email">
         <input type="number" id="invest-amount" placeholder="Investment Amount (USDC)" oninput="calculateTokens()">
-        <div class="calc-box">Estimated GRES.ALPHA: <span id="token-calc">0</span></div>
-        
-        <div class="terms-box">
-            <input type="checkbox" id="agree-terms" autocomplete="off">
-            <label for="agree-terms">I confirm I am not a US Citizen and I agree to the <a onclick="document.getElementById('tc-modal').style.display='flex'">Terms & Conditions</a>.</label>
-        </div>
-
         <button class="btn-buy" onclick="investNow()">PURCHASE GRES.ALPHA</button>
         <div id="wallet-status" class="wallet-status">🔴 Wallet Not Connected</div>
-
-        <div id="ref-area" class="ref-box">
-            <p style="font-size: 11px; color: var(--gold); margin-bottom: 5px; text-transform: uppercase; font-weight: bold;">Earn 20% AIRDROP on investments made via the individual link below.</p>
-            <div class="ref-input-group">
-                <input type="text" id="ref-link" readonly style="font-size: 10px; color: var(--gold);">
-                <button class="btn-copy" onclick="copyRef()">COPY</button>
-            </div>
-        </div>
     </div>
 
     <div class="roadmap-section">
-        <h2 class="section-title">Strategic Roadmap</h2>
+        <h2 style="text-align: center; color: var(--gold);">Strategic Roadmap</h2>
         <div id="roadmap-container" style="text-align: center; color: var(--text-dim);">Syncing data from protocol...</div>
-    </div>
-
-    <h2 class="section-title">The Team</h2>
-    <div class="founder-grid">
-        <div class="founder-card">
-            <div class="founder-img"><img src="https://via.placeholder.com/100" style="width:100%"></div>
-            <h3>Thiago Sequinel</h3>
-            <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">FOUNDER & CEO</p>
-            <p style="font-size:12px; color:var(--text-dim);">Strategist specialized in RWA and institutional real estate structures.</p>
-            <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">LinkedIn Profile →</a>
-        </div>
-        
-        <div class="founder-card">
-            <div class="founder-img"><img src="https://via.placeholder.com/100" style="width:100%"></div>
-            <h3>Kamil Cieslak</h3>
-            <p style="color:var(--gold); font-size:11px; margin:5px 0 15px;">CO-FOUNDER & CFO</p>
-            <p style="font-size:12px; color:var(--text-dim);">Financial wizard executing liquidity engineering and operational compliance.</p>
-            <a href="https://www.linkedin.com/in/kamilcieslak85/" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">LinkedIn Profile →</a>
-        </div>
-    </div>
-</div>
-
-<div id="tc-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="modal-close" onclick="document.getElementById('tc-modal').style.display='none'">&times;</span>
-        <h3 style="color: var(--gold); margin-top: 0; padding-right: 30px;">Terms & Conditions</h3>
-        <p style="font-size: 13px; color: #ccc; line-height: 1.8;">
-            1. <strong>Not a Security:</strong> The GRES.ALPHA token is strictly a utility and ecosystem incentive token. It does not represent equity, shares, units, or any ownership rights.<br><br>
-            2. <strong>Volatile Nature:</strong> The protocol is provided "as is" and without warranties. There is a risk of losing the entire amount invested.<br><br>
-            3. <strong>Regulatory Compliance:</strong> By purchasing, you attest that you are not a resident or citizen of the United States of America, nor of any jurisdiction where the purchase of cryptographic tokens is prohibited by law.<br><br>
-            4. <strong>No Financial Advice:</strong> Nothing on this platform constitutes financial, legal, or tax advice.<br><br>
-            5. <strong>Professional Consultation:</strong> GRES Protocol strongly recommends consulting a professional financial advisor if you have any questions.
-        </p>
-    </div>
-</div>
-
-<div id="success-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="modal-close" onclick="location.reload()">&times;</span>
-        <h2 style="color: #28a745; margin-top: 0;">Allocation Confirmed! 🎉</h2>
-        <p style="font-size: 15px; color: #ccc; line-height: 1.6; margin: 20px 0;">
-            Transaction successful.<br><br>
-            A confirmation email has been sent.<strong style="color: white;"> Please check your spam folder</strong>.
-        </p>
-        <button class="btn-buy" style="background: #28a745; color: white;" onclick="location.reload()">GOT IT</button>
     </div>
 </div>
 
@@ -226,130 +119,38 @@
     import { Ethers5Adapter } from 'https://esm.sh/@reown/appkit-adapter-ethers5'
     import { base } from 'https://esm.sh/@reown/appkit/networks'
 
-    // --- CONFIGURAÇÃO ---
     const projectId = 'fbc5f569abebf58f9c260075a2882c1a'; 
-    
-    // COLE SUA URL DE IMPLANTAÇÃO DO GOOGLE AQUI:
     const GRES_API = "https://script.google.com/macros/s/AKfycbyf-SDsGZs67lWct1fs-XNWMPiVi9ZZYDhvfW_Y4elNSxAvfQm-Vgq4Mx-r8SgN_xlDdA/exec"; 
-    
-    const GRES_TREASURY = "0xC5a3941635c0da1B020DE56165Ff729f975d708d";
-    const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
-    
-    let currentLotPrice = 0.002;
-    let connectedAddress = null; 
-
-    // Garante check resetado
-    document.getElementById('agree-terms').checked = false;
 
     const modal = createAppKit({
         adapters: [new Ethers5Adapter()],
         networks: [base],
         metadata: { name: 'GRES Protocol', url: window.location.origin, icons: [] },
         projectId
-    })
+    });
 
-    // Sincronização Dinâmica (Preço, Lote e Roadmap)
     async function syncData() {
         try {
             const res = await fetch(GRES_API + "?t=" + new Date().getTime());
             const data = await res.json();
             
-            if(data.lotInfo) {
-                currentLotPrice = data.lotInfo.price;
-                document.getElementById('price-display').innerText = `$${data.lotInfo.price}`;
-                document.getElementById('next-price-display').innerText = `$${data.lotInfo.nextPrice}`;
-                
-                const perc = data.lotInfo.filledPercentage || 0;
-                const lotNum = data.lotInfo.name.includes("01") ? "1/4" : 
-                               data.lotInfo.name.includes("02") ? "2/4" : 
-                               data.lotInfo.name.includes("03") ? "3/4" : "4/4";
-
-                if(perc >= 55) {
-                    document.getElementById('filled-display').innerText = `Lot ${lotNum} (${perc}%)`;
-                } else {
-                    document.getElementById('filled-display').innerText = `Lot ${lotNum}`;
-                }
-            }
-
             const container = document.getElementById('roadmap-container');
-            if (data.roadmap && data.roadmap.length > 0) {
+            if (data.roadmap) {
                 container.innerHTML = '';
                 data.roadmap.forEach(item => {
                     if (item.task.toString().startsWith("Q")) {
                         container.innerHTML += `<div class="roadmap-header"><span>${item.task}</span></div>`;
                     } else {
-                        // Dynamic class matching: planned, working, delivered, validated
+                        // Map status to classes for specific colors requested
                         const statusClass = item.status.toString().toLowerCase().replace(/\s/g, '');
                         container.innerHTML += `<div class="roadmap-item"><p>• ${item.task}</p><span class="status-badge status-${statusClass}">${item.status}</span></div>`;
                     }
                 });
-            } else {
-                container.innerHTML = "<em>Data from on-chain protocol synced soon.</em>";
             }
         } catch (e) { console.error("Sync error", e); }
     }
 
-    modal.subscribeAccount(account => {
-        if (account.isConnected) {
-            connectedAddress = account.address;
-            document.getElementById('btn-top-con').innerText = connectedAddress.substring(0,6) + "...";
-            document.getElementById('wallet-status').innerText = "🟢 Wallet Connected";
-            document.getElementById('wallet-status').style.color = "#28a745";
-            document.getElementById('ref-area').style.display = 'block';
-            document.getElementById('ref-link').value = window.location.origin + "/?ref=" + connectedAddress;
-        } else {
-            connectedAddress = null;
-            document.getElementById('btn-top-con').innerText = "Connect Wallet";
-            document.getElementById('wallet-status').innerText = "🔴 Wallet Not Connected";
-            document.getElementById('wallet-status').style.color = "#888";
-            document.getElementById('ref-area').style.display = 'none';
-        }
-    });
-
     window.connectWallet = () => modal.open();
-    window.calculateTokens = () => {
-        const val = document.getElementById('invest-amount').value;
-        const tokens = val / currentLotPrice;
-        document.getElementById('token-calc').innerText = val > 0 ? tokens.toLocaleString(undefined, {maximumFractionDigits: 0}) : "0";
-    }
-
-    window.triggerAirdrop = () => {
-        alert("Connect your wallet, copy and share the link that will appear in the \"SEED ROUND ACCESS\" box below.");
-    };
-
-    window.copyRef = () => {
-        const copyText = document.getElementById("ref-link");
-        copyText.select();
-        navigator.clipboard.writeText(copyText.value);
-        alert("Partner Link Copied!");
-    }
-
-    window.investNow = async () => {
-        if (!connectedAddress) { modal.open(); return; }
-        if (!document.getElementById('agree-terms').checked) { alert("Please accept the Terms & Conditions."); return; }
-        const email = document.getElementById('user-email').value;
-        if (!email || !email.includes('@')) { alert("Please enter a valid email address."); return; }
-        const amount = document.getElementById('invest-amount').value;
-        if (!amount || amount < 1) { alert("Please enter a valid investment amount (Minimum 1 USDC)."); return; }
-
-        try {
-            const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
-            const signer = provider.getSigner();
-            const usdc = new ethers.Contract(USDC_BASE, ["function transfer(address to, uint amount) returns (bool)"], signer);
-            alert("Please confirm the USDC transfer in your wallet.");
-            const tx = await usdc.transfer(GRES_TREASURY, ethers.utils.parseUnits(amount.toString(), 6));
-            document.getElementById('success-modal').style.display = 'flex';
-            await tx.wait();
-            fetch(GRES_API, {
-                method: 'POST', mode: 'no-cors',
-                body: JSON.stringify({ 
-                    email: email, wallet: connectedAddress, value: amount, hash: tx.hash, 
-                    ref: new URLSearchParams(window.location.search).get('ref') || "" 
-                })
-            });
-        } catch (e) { alert("Transaction failed."); }
-    }
-
     syncData();
 </script>
 </body>
