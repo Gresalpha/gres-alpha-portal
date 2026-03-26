@@ -880,18 +880,18 @@ const ROADMAP = [
         { text: "Lightpaper v1.0 & Utility Token Paper published",           status: "done" },
         { text: "Visual identity and design system finalized",               status: "prog" },
         { text: "Community channels active (Telegram, Discord, X)",          status: "prog" },
-        { text: "Landing page with early adopter whitelist live",            status: "prog" },
-        { text: "Referral & early adopter program active",                   status: "prog" },
+        { text: "Landing page with early adopter whitelist live",            status: "done" },
+        { text: "Referral & early adopter program active",                   status: "done" },
       ]},
       { label: "Strategy & Legal", items: [
         { text: "Business model defined (NAV, Flywheel, Collateral)",        status: "done" },
         { text: "EU jurisdiction study (LU, CH, LI, ES)",                    status: "prog" },
         { text: "Teaser Pitch Deck for seed investors",                      status: "prog" },
-        { text: "Legal registrations opened (Spain / EU Foundation)",        status: "todo" },
+        { text: "Legal registrations opened (Spain / EU Foundation)",        status: "prog" },
       ]},
       { label: "Technology", items: [
         { text: "Platform backlog structured (93 stories / 18 epics)",       status: "done" },
-        { text: "AI Oracle architecture and tech stack defined",             status: "todo" },
+        { text: "AI Oracle architecture and tech stack defined",             status: "prog" },
         { text: "Portal prototyping — wireframes & design system",           status: "todo" },
       ]},
     ],
@@ -1103,14 +1103,15 @@ window.submitWaitlist = async function() {
   try {
     // Save to Google Sheets — Waitlist tab
     fetch(CONFIG.sheetsAPI, {
-      method: 'POST', mode: 'no-cors',
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         sheet: 'Waitlist',
         name: name,
         email: email,
         date: new Date().toISOString(),
       }),
-    });
+    }).catch(err => console.error('Waitlist fetch error', err));
   } catch(e) { console.error('Waitlist save error', e); }
 
   // Show success
@@ -1189,7 +1190,7 @@ window.investNow = async function() {
     const tx = await usdc.transfer(CONFIG.treasuryWallet, ethers.utils.parseUnits(amount.toString(), 6));
     document.getElementById('success-modal').classList.add('active');
     await tx.wait();
-    fetch(CONFIG.sheetsAPI, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ email, wallet: connectedAddress, value: amount, hash: tx.hash, ref: new URLSearchParams(window.location.search).get('ref') || '' }) });
+    fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: amount, hash: tx.hash, ref: new URLSearchParams(window.location.search).get('ref') || '', lot: CONFIG.currentLot }) }).catch(err => console.error('Tx log error', err));
   } catch (e) { console.error('Tx error:', e); alert('Transaction failed.'); }
 };
 
