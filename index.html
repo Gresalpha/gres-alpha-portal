@@ -105,8 +105,8 @@ a:hover { color: var(--gold-light); }
 .logo-text span { font-weight: 300; color: var(--text-secondary); font-size: 12px; display: block; letter-spacing: 1px; margin-top: -2px; }
 
 .header-nav { display: flex; align-items: center; gap: 28px; }
-.header-nav a { font-size: 13px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.3px; }
-.header-nav a:hover { color: var(--text); }
+.header-nav a { font-size: 13px; color: var(--text); font-weight: 500; letter-spacing: 0.3px; opacity: 0.7; }
+.header-nav a:hover { color: var(--gold); opacity: 1; }
 
 .header-actions { display: flex; align-items: center; gap: 12px; }
 
@@ -238,7 +238,7 @@ a:hover { color: var(--gold-light); }
 /* ══════════════════════════════════════════
    SECTION STYLES
    ══════════════════════════════════════════ */
-.section { padding: 80px 0; }
+.section { padding: 56px 0; }
 .section-label { font-family: var(--font-heading); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 12px; }
 .section-title { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 42px); font-weight: 600; color: var(--text); line-height: 1.2; margin-bottom: 16px; }
 .section-subtitle { font-size: 16px; color: var(--text-secondary); max-width: 560px; line-height: 1.7; font-weight: 300; }
@@ -362,7 +362,7 @@ a:hover { color: var(--gold-light); }
 /* ══════════════════════════════════════════
    ECOSYSTEM IMAGE
    ══════════════════════════════════════════ */
-.eco-section { padding: 40px 0 80px; text-align: center; }
+.eco-section { padding: 20px 0 40px; text-align: center; }
 .eco-frame { max-width: 900px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); }
 .eco-frame img { width: 100%; display: block; }
 
@@ -382,7 +382,7 @@ a:hover { color: var(--gold-light); }
 /* ══════════════════════════════════════════
    ROADMAP
    ══════════════════════════════════════════ */
-.roadmap-section { padding: 80px 0; }
+.roadmap-section { padding: 56px 0; }
 .roadmap-timeline { max-width: 760px; margin: 48px auto 0; position: relative; padding-left: 32px; }
 .roadmap-timeline::before { content: ''; position: absolute; left: 11px; top: 16px; bottom: 16px; width: 1px; background: var(--border); }
 
@@ -451,12 +451,12 @@ a:hover { color: var(--gold-light); }
 /* ══════════════════════════════════════════
    FOOTER
    ══════════════════════════════════════════ */
-.footer { border-top: 1px solid var(--border); padding: 48px 0 32px; margin-top: 40px; }
+.footer { border-top: 1px solid var(--border); padding: 32px 0 24px; margin-top: 40px; }
 .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
 .footer-left { font-size: 12px; color: var(--text-muted); }
 .footer-left a { color: var(--text-secondary); }
 .footer-social { display: flex; gap: 8px; }
-.footer-disclaimer { max-width: 1140px; margin: 24px auto 0; padding: 20px 24px 0; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; text-align: center; }
+.footer-disclaimer { max-width: 1140px; margin: 12px auto 0; padding: 20px 24px 0; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; text-align: center; }
 
 /* ══════════════════════════════════════════
    MODALS
@@ -662,7 +662,7 @@ a:hover { color: var(--gold-light); }
       <div class="section-title">Two Tokens, One Ecosystem</div>
       <div class="section-subtitle">$GRES for perpetual asset-backed value. GRES.ALPHA for early access and ecosystem incentives.</div>
     </div>
-    <div class="eco-frame" style="margin-top:40px;">
+    <div class="eco-frame" style="margin-top:24px;">
       <img src="ecosystem.png" alt="GRES Tokens Engine" onerror="this.parentElement.style.display='none'">
     </div>
   </div>
@@ -674,7 +674,7 @@ a:hover { color: var(--gold-light); }
     <div class="section-center">
       <div class="section-label">Why GRES</div>
       <div class="section-title">Built Different From Day One</div>
-      <div class="section-subtitle">The GRES Protocol solves every structural failure of real estate tokenization 1.0.</div>
+      <div class="section-subtitle">GRES Protocol solves the structural problem of real estate tokenization 1.0.</div>
     </div>
     <div class="value-grid">
       <div class="value-card"><div class="value-icon gold">🏛️</div><h3>Rolex Governance Model</h3><p>A non-profit Foundation holds 100% of property deeds, legally ring-fenced from the Operator. Your assets are protected — always.</p></div>
@@ -714,14 +714,13 @@ a:hover { color: var(--gold-light); }
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer">
   <div class="footer-inner">
-    <div class="footer-left">© 2026 GRES Protocol. All rights reserved. &nbsp;|&nbsp; <a href="#" onclick="openModal('tc-modal')">Terms</a></div>
+    <div class="footer-left">© 2026 GRES Protocol. All rights reserved. &nbsp;|&nbsp; <a href="#" onclick="openModal('tc-modal')">Terms</a> &nbsp;|&nbsp; Founded by <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank">Thiago Sequinel</a></div>
     <div class="footer-social social-row">
       <a href="https://t.me/gresprotocol" target="_blank" class="social-icon" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
       <a href="https://x.com/gresprotocol" target="_blank" class="social-icon" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
       <a href="https://linkedin.com/company/gresprotocol" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
     </div>
   </div>
-  <div style="text-align:center;max-width:1140px;margin:16px auto 0;padding:0 24px;font-size:12px;color:var(--text-muted)">Founded by <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--text-secondary);font-weight:500">Thiago Sequinel</a> &middot; <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--text-secondary)">LinkedIn &rarr;</a></div>
   <div class="footer-disclaimer">This website is for informational purposes only and does not constitute a security offer or investment advice. GRES.ALPHA is a utility token and does not represent equity, debt, or ownership. Participation carries inherent risks. Consult your legal and financial advisors before proceeding. Not available to US persons.</div>
 </footer>
 
@@ -746,9 +745,9 @@ a:hover { color: var(--gold-light); }
 <div class="modal-overlay" id="wp-modal">
   <div class="modal-box" style="text-align:center;">
     <button class="modal-close" onclick="closeModal('wp-modal')">&times;</button>
-    <div style="font-size:48px; margin-bottom:16px;">📄</div>
-    <h3 style="color:var(--gold)">Whitepaper Coming Soon</h3>
-    <p style="margin:16px 0 24px;">The full GRES Protocol Whitepaper will be published when Lot 01 opens. Waitlist members will be the first to receive it.</p>
+    <h3 style="color:var(--gold);margin-bottom:20px;">Whitepaper</h3>
+    <p style="margin:0 0 8px;font-size:15px;color:var(--text);line-height:1.7;">The full GRES Protocol Whitepaper will be published when <strong style="color:var(--gold)">Lot 01</strong> opens.</p>
+    <p style="margin:0 0 24px;font-size:14px;color:var(--text-secondary);line-height:1.7;">Waitlist members will be the first to receive it.</p>
     <button class="btn-waitlist" onclick="closeModal('wp-modal'); openModal('waitlist-modal');" style="width:100%;">✉ Join the Waitlist</button>
     <p style="margin-top:16px;font-size:12px;color:var(--text-muted);">In the meantime, read our <a href="Lightpaper.pdf" target="_blank">Lightpaper</a> and <a href="Tokenomics.pdf" target="_blank">Token Paper</a>.</p>
   </div>
