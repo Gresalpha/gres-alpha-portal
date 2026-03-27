@@ -504,6 +504,18 @@ a:hover { color: var(--gold-light); }
   .hero-ctas { flex-direction: column; align-items: center; }
   .community-btns { flex-direction: column; }
 }
+
+/* FAQ */
+.faq-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;background:var(--bg-card);transition:var(--transition)}
+.faq-item:hover{border-color:var(--border-light)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;cursor:pointer;gap:16px}
+.faq-q h3{font-family:var(--font-heading);font-size:14px;font-weight:600;color:var(--text);margin:0;line-height:1.4}
+.faq-q svg{width:18px;height:18px;color:var(--text-muted);flex-shrink:0;transition:transform .3s}
+.faq-item.open .faq-q svg{transform:rotate(180deg)}
+.faq-item.open .faq-q h3{color:var(--gold)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-item.open .faq-a{max-height:600px}
+.faq-a-inner{padding:0 24px 20px;font-size:14px;color:var(--text-secondary);line-height:1.7}
 </style>
 </head>
 <body>
@@ -519,25 +531,16 @@ a:hover { color: var(--gold-light); }
       <a href="#sale">Token Sale</a>
       <a href="#how">How It Works</a>
       <a href="#roadmap">Roadmap</a>
-      <a href="#team">Team</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <div class="header-actions">
       <div class="social-row">
         <a href="https://t.me/gresprotocol" target="_blank" class="social-icon" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
         <a href="https://x.com/gresprotocol" target="_blank" class="social-icon" title="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-        <a href="https://discord.gg/gresprotocol" target="_blank" class="social-icon" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg></a>
         <a href="https://linkedin.com/company/gresprotocol" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
       </div>
-      <!-- AIRDROP — disabled pre-launch -->
-      <div class="coming-soon-wrapper">
-        <button class="btn-airdrop btn-coming-soon" disabled>🎁 AIRDROP</button>
-        <span class="cs-tag">Soon</span>
-      </div>
-      <!-- CONNECT WALLET — disabled pre-launch -->
-      <div class="coming-soon-wrapper" id="connect-wrapper">
-        <button class="btn btn-outline btn-coming-soon" id="btn-connect" disabled>Connect Wallet</button>
-        <span class="cs-tag">Soon</span>
-      </div>
+      <button class="btn-airdrop btn-coming-soon" disabled>🎁 AIRDROP</button>
+      <button class="btn btn-outline btn-coming-soon" id="btn-connect" disabled>Connect Wallet</button>
     </div>
   </div>
 </header>
@@ -549,11 +552,7 @@ a:hover { color: var(--gold-light); }
     <h1 class="animate-up delay-1">The Future of Real Estate<br>Is <em>On-Chain</em></h1>
     <p class="hero-sub animate-up delay-2">The first perpetual, AI-managed real estate fund. Institutional-grade governance, real-time NAV, and global liquidity — powered by blockchain.</p>
     <div class="hero-ctas animate-up delay-3">
-      <!-- ACQUIRE — disabled pre-launch -->
-      <div class="coming-soon-wrapper">
-        <button class="btn btn-primary btn-coming-soon" disabled>Acquire GRES.ALPHA</button>
-        <span class="cs-tag">Coming Soon</span>
-      </div>
+      <button class="btn btn-primary btn-coming-soon" disabled>Acquire GRES.ALPHA</button>
       <!-- WAITLIST — active in pre-launch -->
       <button class="btn-waitlist" onclick="openModal('waitlist-modal')">✉ Join the Waitlist</button>
     </div>
@@ -599,6 +598,7 @@ a:hover { color: var(--gold-light); }
           </div>
           <div class="raise-track"><div class="raise-fill" id="raise-fill" style="width:0%"></div></div>
         </div>
+        <div style="text-align:center;font-size:13px;color:var(--text-secondary);margin-bottom:24px;font-weight:500">Hard Cap: <strong style="color:var(--gold)">$1,000,000 USD</strong></div>
         <div class="metrics-row">
           <div class="metric-card"><div class="metric-val">250M</div><div class="metric-label">Total Supply</div></div>
           <div class="metric-card"><div class="metric-val">185M</div><div class="metric-label">Public Sale</div></div>
@@ -612,13 +612,24 @@ a:hover { color: var(--gold-light); }
           <h3>Seed Round Access</h3>
           <p>Secure your allocation at the earliest price</p>
         </div>
+        <!-- COUNTDOWN -->
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">Public Sale Opens In</div>
+          <div style="display:flex;justify-content:center;gap:10px">
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-days">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Days</div></div>
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-hours">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Hours</div></div>
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-mins">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Min</div></div>
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-secs">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Sec</div></div>
+          </div>
+          <div style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Waitlist members get 48h exclusive early access. <a onclick="openModal('waitlist-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
+        </div>
         <div class="pre-launch-badge"><span class="dot"></span> Smart contract deployment pending</div>
         <div class="invest-lot-bar">
           <div><div class="label">Starting Price</div><div class="value" id="card-price">$0.002</div></div>
           <div><div class="label">Next Lot</div><div class="value" id="card-next">$0.004</div></div>
           <div><div class="label">Status</div><div class="value" id="card-lot">Pre-Launch</div></div>
         </div>
-        <div class="invest-urgency" style="display:none" id="invest-urgency">⚠ Lot allocation is limited — closing soon</div>
+        <div class="invest-urgency" id="invest-urgency" style="color:var(--gold-dim)">⏳ Lot 01 opens soon — Waitlist members get 48h early access</div>
 
         <div class="input-group"><label>Email Address</label><input type="email" class="input-field" id="user-email" placeholder="you@email.com" disabled style="opacity:0.4"></div>
         <div class="input-group"><label>Investment Amount (USDC)</label><input type="number" class="input-field" id="invest-amount" placeholder="100" min="1" disabled style="opacity:0.4"></div>
@@ -688,16 +699,15 @@ a:hover { color: var(--gold-light); }
   </div>
 </section>
 
-<!-- ═══════════ TEAM ═══════════ -->
-<section class="section" id="team">
-  <div class="container section-center">
-    <div class="section-label">Leadership</div>
-    <div class="section-title">The Team</div>
-    <div class="team-grid">
-      <div class="team-card"><div class="team-avatar"><img src="https://via.placeholder.com/100" alt="Thiago Sequinel"></div><h3>Thiago Sequinel</h3><div class="team-role">Founder & CEO</div><div class="team-bio">Strategy, vision & ecosystem architecture</div><a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" class="team-link">LinkedIn →</a></div>
-      <div class="team-card"><div class="team-avatar"><img src="https://via.placeholder.com/100" alt="Kamil Cieslak"></div><h3>Kamil Cieslak</h3><div class="team-role">Co-Founder & CFO</div><div class="team-bio">Finance, modeling & institutional relations</div><a href="https://www.linkedin.com/in/kamilcieslak85/" target="_blank" class="team-link">LinkedIn →</a></div>
-      <div class="team-card"><div class="team-avatar"><img src="https://via.placeholder.com/100" alt="CTO"></div><h3>TBA</h3><div class="team-role">Co-Founder & CTO</div><div class="team-bio">Technology, smart contracts & AI Oracle</div><a href="#" class="team-link">Coming Soon</a></div>
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-label">FAQ</div>
+      <div class="section-title">Frequently Asked Questions</div>
+      <div class="section-subtitle">Everything you need to know before joining.</div>
     </div>
+    <div id="faq-list" style="max-width:760px;margin:48px auto 0;"></div>
   </div>
 </section>
 
@@ -708,10 +718,10 @@ a:hover { color: var(--gold-light); }
     <div class="footer-social social-row">
       <a href="https://t.me/gresprotocol" target="_blank" class="social-icon" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
       <a href="https://x.com/gresprotocol" target="_blank" class="social-icon" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://discord.gg/gresprotocol" target="_blank" class="social-icon" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg></a>
       <a href="https://linkedin.com/company/gresprotocol" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
     </div>
   </div>
+  <div style="text-align:center;max-width:1140px;margin:16px auto 0;padding:0 24px;font-size:12px;color:var(--text-muted)">Founded by <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--text-secondary);font-weight:500">Thiago Sequinel</a> &middot; <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" style="color:var(--text-secondary)">LinkedIn &rarr;</a></div>
   <div class="footer-disclaimer">This website is for informational purposes only and does not constitute a security offer or investment advice. GRES.ALPHA is a utility token and does not represent equity, debt, or ownership. Participation carries inherent risks. Consult your legal and financial advisors before proceeding. Not available to US persons.</div>
 </footer>
 
@@ -738,8 +748,9 @@ a:hover { color: var(--gold-light); }
     <button class="modal-close" onclick="closeModal('wp-modal')">&times;</button>
     <div style="font-size:48px; margin-bottom:16px;">📄</div>
     <h3 style="color:var(--gold)">Whitepaper Coming Soon</h3>
-    <p style="margin:16px 0 24px;">The full GRES Protocol Whitepaper will be published alongside the opening of <strong style="color:var(--text)">Lot 01</strong>. Join the waitlist to be the first to receive it.</p>
+    <p style="margin:16px 0 24px;">The full GRES Protocol Whitepaper will be published when Lot 01 opens. Waitlist members will be the first to receive it.</p>
     <button class="btn-waitlist" onclick="closeModal('wp-modal'); openModal('waitlist-modal');" style="width:100%;">✉ Join the Waitlist</button>
+    <p style="margin-top:16px;font-size:12px;color:var(--text-muted);">In the meantime, read our <a href="Lightpaper.pdf" target="_blank">Lightpaper</a> and <a href="Tokenomics.pdf" target="_blank">Token Paper</a>.</p>
   </div>
 </div>
 
@@ -841,8 +852,8 @@ const CONFIG = {
   // ── Social Links ──
   telegram:  "https://t.me/gresprotocol",
   x:         "https://x.com/gresprotocol",
-  discord:   "https://discord.gg/gresprotocol",
   linkedin:  "https://linkedin.com/company/gresprotocol",
+  saleStartDate: new Date("2026-05-01T00:00:00Z"),
 
   // ── Wallets & APIs ──
   treasuryWallet: "0xC5a3941635c0da1B020DE56165Ff729f975d708d",
@@ -879,7 +890,7 @@ const ROADMAP = [
       { label: "Brand & Community", items: [
         { text: "Lightpaper v1.0 & Utility Token Paper published",           status: "done" },
         { text: "Visual identity and design system finalized",               status: "prog" },
-        { text: "Community channels active (Telegram, Discord, X)",          status: "prog" },
+        { text: "Community channels active (Telegram, X)",          status: "prog" },
         { text: "Landing page with early adopter whitelist live",            status: "done" },
         { text: "Referral & early adopter program active",                   status: "prog" },
       ]},
@@ -1194,11 +1205,53 @@ window.investNow = async function() {
   } catch (e) { console.error('Tx error:', e); alert('Transaction failed.'); }
 };
 
+
+/* ── FAQ DATA ── */
+const FAQ = [
+  { q: "What is GRES.ALPHA?", a: "GRES.ALPHA is a utility token designed to fund the development of the GRES Protocol. It is NOT a security, equity, or ownership stake. Holders gain access to a Buyback & Burn mechanism and significant fee reductions within the future ecosystem through Platform Credits." },
+  { q: "What is the GRES Protocol?", a: "GRES is the first perpetual, AI-managed real estate fund built on blockchain. It tokenizes a diversified global portfolio of real estate assets, providing investors with a liquid, asset-backed token ($GRES) whose value is driven by real-time Net Asset Value calculated by an AI Oracle." },
+  { q: "How does the 50x return potential work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The protocol\u2019s Buyback & Burn mechanism purchases tokens back at a floor price of $0.05 and a cap of $0.10 \u2014 representing a 25x to 50x multiple from the Lot 01 entry price. This buyback is funded by 0.5% of all transactional volume within the ecosystem." },
+  { q: "What is the Buyback & Burn mechanism?", a: "The protocol allocates 0.5% of all transactional volume to buy GRES.ALPHA from liquidity pools and permanently burn them. This creates mathematically enforced deflation: supply decreases over time while buyback demand is constant. The burn floor is $0.05 and the burn cap is $0.10, engineered for total supply absorption within 60 months." },
+  { q: "How are my assets protected?", a: "The GRES Protocol uses the \u201CRolex Governance Model\u201D \u2014 a non-profit Foundation holds 100% of all property deeds and titles, legally ring-fenced from the for-profit Operator. This means your real estate backing is protected even if the technology company faces issues. Think of it as a Vanguard-like structure for digital real estate." },
+  { q: "What happens after I buy GRES.ALPHA?", a: "Your tokens are sent to your wallet on the BASE network (Ethereum L2). During the development phase, you hold them. When the mainnet launches, you can burn your GRES.ALPHA to receive Platform Credits (fee discounts) or hold them for the Buyback & Burn mechanism. You will be guided through every step via email and our Telegram community." },
+  { q: "When does Lot 01 open?", a: "Lot 01 opens soon. Waitlist members receive 48 hours of exclusive early access before the public sale begins on May 1st. Join the waitlist now to secure priority access at the lowest price ($0.002)." },
+  { q: "How do I buy? What do I need?", a: "You need a Web3 wallet (such as MetaMask or Coinbase Wallet) connected to the BASE network, funded with USDC stablecoins. A step-by-step buying guide will be sent to all waitlist members before Lot 01 opens." },
+  { q: "What is the referral program?", a: "Every community member gets a unique referral link. When someone you refer purchases GRES.ALPHA, you receive an airdrop equal to 20% of their purchase amount. Example: your friend buys $500 worth of GRES.ALPHA (250,000 tokens), you receive 50,000 tokens ($100 value at Lot 01 price) \u2014 for free." },
+  { q: "Is GRES.ALPHA a security?", a: "No. GRES.ALPHA is classified as a utility token. It does not represent equity, debt, dividends, or ownership in any entity. It provides access to ecosystem utilities (fee reductions via Platform Credits) and is subject to a Buyback & Burn mechanism. The protocol is designed for full alignment with MiCA (EU) regulations. Always consult your own legal and financial advisors." },
+];
+
+function renderFAQ() {
+  const container = document.getElementById('faq-list');
+  if (!container) return;
+  const chevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+  container.innerHTML = FAQ.map(f =>
+    '<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><h3>' + f.q + '</h3>' + chevron + '</div><div class="faq-a"><div class="faq-a-inner">' + f.a + '</div></div></div>'
+  ).join('');
+}
+window.toggleFaq = function(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(f => { if(f !== el) f.classList.remove('open'); });
+  el.classList.toggle('open', !wasOpen);
+};
+
+/* ── Countdown ── */
+function updateCountdown() {
+  const diff = CONFIG.saleStartDate - new Date();
+  if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '0'; }); return; }
+  const el = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+  el('cd-days', Math.floor(diff / 86400000));
+  el('cd-hours', String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0'));
+  el('cd-mins', String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0'));
+  el('cd-secs', String(Math.floor((diff % 60000) / 1000)).padStart(2,'0'));
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
 // ── Init ──
 renderLots();
 renderRoadmap();
+renderFAQ();
 
 </script>
 </body>
 </html>
-
