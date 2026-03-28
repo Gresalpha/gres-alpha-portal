@@ -629,6 +629,7 @@ a:hover { color: var(--gold-light); }
           <div><div class="label">Next Lot</div><div class="value" id="card-next">$0.004</div></div>
           <div><div class="label">Status</div><div class="value" id="card-lot">Pre-Launch</div></div>
         </div>
+        <div id="waitlist-gate-msg" style="display:none;text-align:center;padding:16px;margin-bottom:16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated)"><p id="waitlist-gate-text" style="font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5"></p></div>
         <div class="invest-urgency" id="invest-urgency" style="color:var(--gold-dim)">⏳ Lot 01 opens soon — Waitlist members get 48h early access</div>
 
         <div class="input-group"><label>Email Address</label><input type="email" class="input-field" id="user-email" placeholder="you@email.com" disabled style="opacity:0.4"></div>
@@ -861,6 +862,14 @@ const CONFIG = {
 
   // ── Smart Contract (set when deployed) ──
   saleContract: null,  // "0x..." when ready
+  
+  // ── Whitelist (for "waitlist" mode) ──
+  // Populate from Waitlist sheet (column Wallet) before switching to "waitlist".
+  // When smart contract is deployed, this check moves on-chain.
+  whitelist: [
+    // "0xABC...123",
+    // "0xDEF...456",
+  ],
 
   // ── Lot Details ──
   // status: "completed" | "active" | "upcoming" | "future"
@@ -1061,6 +1070,96 @@ function calcPhaseStatus(phases) {
   });
 }
 
+// ── Whitelist Check ──
+function isWhitelisted(address) {
+  if (!address) return false;
+  // TODO: When smart contract deployed, replace with contract call
+  return CONFIG.whitelist.some(w => w.toLowerCase() === address.toLowerCase());
+}
+
+// ── Apply Sale State ──
+function applySaleState() {
+  const s = CONFIG.saleStatus;
+  const conn = !!connectedAddress;
+  const wl = conn && isWhitelisted(connectedAddress);
+  const bc = document.getElementById('btn-connect');
+  const ba = document.querySelector('.btn-airdrop');
+  const bp = document.getElementById('btn-purchase');
+  const ei = document.getElementById('user-email');
+  const ai = document.getElementById('invest-amount');
+  const tc = document.getElementById('agree-terms');
+  const plb = document.querySelector('.pre-launch-badge');
+  const urg = document.getElementById('invest-urgency');
+  const gm = document.getElementById('waitlist-gate-msg');
+  const gt = document.getElementById('waitlist-gate-text');
+  const cl = document.getElementById('card-lot');
+  const ws = document.getElementById('wallet-status');
+
+  function enableForm(on) {
+    if (ei) { ei.disabled = !on; ei.style.opacity = on ? '1' : '0.4'; }
+    if (ai) { ai.disabled = !on; ai.style.opacity = on ? '1' : '0.4'; if (on) ai.oninput = calculateTokens; }
+    if (tc) tc.disabled = !on;
+  }
+  function setBtnPurchase(enabled, text) {
+    if (!bp) return;
+    bp.disabled = !enabled;
+    if (enabled) bp.classList.remove('btn-disabled'); else bp.classList.add('btn-disabled');
+    bp.textContent = text;
+  }
+
+  if (s === 'pre-launch') {
+    if (bc) { bc.disabled = true; bc.classList.add('btn-coming-soon'); }
+    if (ba) { ba.disabled = true; ba.classList.add('btn-coming-soon'); }
+    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Smart contract deployment pending'; }
+    if (gm) gm.style.display = 'none';
+    if (cl) cl.textContent = 'Pre-Launch';
+    enableForm(false);
+    setBtnPurchase(false, 'Coming Soon');
+    if (ws) ws.innerHTML = 'Join the <a onclick="openModal(\'waitlist-modal\')" style="cursor:pointer;text-decoration:underline">Waitlist</a> to be notified when Lot 01 opens.';
+
+  } else if (s === 'waitlist') {
+    if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
+    if (ba) { ba.disabled = false; ba.classList.remove('btn-coming-soon'); }
+    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early Access &mdash; Waitlist Only'; }
+    if (cl) cl.textContent = 'Early Access';
+    if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '&#128274; Early access active &mdash; waitlist members only'; }
+
+    if (!conn) {
+      enableForm(false);
+      setBtnPurchase(false, 'Connect Wallet to Continue');
+      if (gm) gm.style.display = 'none';
+      if (ws) ws.innerHTML = 'Connect your wallet to check early access eligibility.';
+    } else if (wl) {
+      enableForm(true);
+      setBtnPurchase(true, 'Purchase GRES.ALPHA');
+      if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'rgba(16,185,129,0.3)'; }
+      if (gt) gt.innerHTML = '<span style="color:var(--green)">&#10003;</span> <strong style="color:var(--green)">Early access granted.</strong> You are on the waitlist. Purchase your allocation below.';
+    } else {
+      enableForm(false);
+      setBtnPurchase(false, 'Public Sale Opens May 1st');
+      if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'var(--border)'; }
+      if (gt) gt.innerHTML = '&#9203; Your wallet is not on the waitlist. The public sale opens on <strong style="color:var(--gold)">May 1st, 2026</strong>.';
+    }
+
+  } else if (s === 'live') {
+    if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
+    if (ba) { ba.disabled = false; ba.classList.remove('btn-coming-soon'); }
+    if (plb) plb.style.display = 'none';
+    if (gm) gm.style.display = 'none';
+    if (cl) cl.textContent = '0' + CONFIG.currentLot + ' / 04';
+    if (urg) { urg.style.color = 'var(--red)'; urg.innerHTML = '&#128308; Lot 0' + CONFIG.currentLot + ' is LIVE &mdash; limited allocation'; }
+
+    if (conn) {
+      enableForm(true);
+      setBtnPurchase(true, 'Purchase GRES.ALPHA');
+    } else {
+      enableForm(false);
+      setBtnPurchase(false, 'Connect Wallet to Purchase');
+      if (ws) ws.innerHTML = 'Connect your wallet to purchase GRES.ALPHA.';
+    }
+  }
+}
+
 // ── Render Lot Grid ──
 function renderLots() {
   const grid = document.getElementById('lot-grid');
@@ -1224,12 +1323,14 @@ modal.subscribeAccount(account => {
     document.getElementById('wallet-status').innerHTML = '<span style="color:var(--green)">● Connected</span>';
     document.getElementById('referral-gate').style.display = 'block';
     updateWaitlistWalletUI();
+    applySaleState();
   } else {
     connectedAddress = null;
     document.getElementById('btn-connect').textContent = 'Connect Wallet';
     document.getElementById('wallet-status').innerHTML = 'Join the <a onclick="openModal(\'waitlist-modal\')" style="cursor:pointer; text-decoration:underline;">Waitlist</a> to be notified when Lot 01 opens.';
     document.getElementById('referral-gate').style.display = 'none';
     updateWaitlistWalletUI();
+    applySaleState();
   }
 });
 
@@ -1237,8 +1338,12 @@ window.connectWallet = () => modal.open();
 
 // ── Purchase Flow (disabled in pre-launch) ──
 window.investNow = async function() {
-  if (CONFIG.saleStatus === 'pre-launch' || CONFIG.saleStatus === 'waitlist') {
+  if (CONFIG.saleStatus === 'pre-launch') {
     alert('The sale has not started yet. Join the waitlist to be notified.');
+    return;
+  }
+  if (CONFIG.saleStatus === 'waitlist' && !isWhitelisted(connectedAddress)) {
+    alert('Your wallet is not on the waitlist. Public sale opens May 1st.');
     return;
   }
   if (!connectedAddress) { modal.open(); return; }
@@ -1306,6 +1411,7 @@ updateCountdown();
 renderLots();
 renderRoadmap();
 renderFAQ();
+applySaleState();
 
 </script>
 </body>
