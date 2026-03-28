@@ -621,7 +621,7 @@ a:hover { color: var(--gold-light); }
             <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-mins">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Min</div></div>
             <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-secs">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Sec</div></div>
           </div>
-          <div style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Waitlist members get 48h exclusive early access. <a onclick="openModal('waitlist-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
+          <div id="cd-waitlist-cta" style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Waitlist members get 48h exclusive early access. <a onclick="openModal('waitlist-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
         </div>
         <div class="pre-launch-badge"><span class="dot"></span> Smart contract deployment pending</div>
         <div class="invest-lot-bar">
@@ -815,7 +815,7 @@ a:hover { color: var(--gold-light); }
         </div>
         
         <button class="btn-waitlist" style="width:100%;" onclick="submitWaitlist()">✉ Join Waitlist</button>
-        <p style="font-size:10px;color:var(--text-muted);margin-top:8px;text-align:center;line-height:1.4">Wallet is optional for now — you can connect it later before Lot 01 opens.</p>
+        
       </div>
     </div>
     
@@ -866,7 +866,7 @@ const CONFIG = {
   // 1. Start at "pre-launch" (current)
   // 2. 48h before May 1st: change to "waitlist" + deploy
   // 3. May 1st: change to "live" + deploy
-  saleStatus: "live",
+  saleStatus: "pre-launch",
 
   // ── Token Sale (update when live) ──
   currentLot: 1,
@@ -883,7 +883,7 @@ const CONFIG = {
   // Populate from Waitlist sheet (column Wallet) before switching to "waitlist".
   // When smart contract is deployed, this check moves on-chain.
   whitelist: [
-  "0xC5a3941635c0da1B020DE56165Ff729f975d708d",
+    // "0xABC...123",
     // "0xDEF...456",
   ],
 
@@ -1089,13 +1089,19 @@ function calcPhaseStatus(phases) {
 // ── Airdrop Button Handler ──
 window.handleAirdropClick = function() {
   if (!connectedAddress) {
-    // No wallet connected - prompt to connect
     modal.open();
-  } else {
-    // Wallet connected - scroll to referral section
-    const rg = document.getElementById('referral-gate');
-    if (rg) rg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
   }
+  // In waitlist mode, check if whitelisted
+  if (CONFIG.saleStatus === 'waitlist' && !isWhitelisted(connectedAddress)) {
+    const diff = CONFIG.saleStartDate - new Date();
+    const hours = Math.max(0, Math.floor(diff / 3600000));
+    alert('Your wallet is not on the waitlist. The public sale opens in ' + hours + ' hours.');
+    return;
+  }
+  // Scroll to referral section
+  const rg = document.getElementById('referral-gate');
+  if (rg) rg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
 // ── Whitelist Check ──
@@ -1129,8 +1135,8 @@ function applySaleState() {
   const ws = document.getElementById('wallet-status');
 
   function enableForm(on) {
-    if (ei) { ei.disabled = !on; ei.style.opacity = on ? '1' : '0.4'; }
-    if (ai) { ai.disabled = !on; ai.style.opacity = on ? '1' : '0.4'; if (on) ai.oninput = calculateTokens; }
+    if (ei) { ei.disabled = !on; ei.style.opacity = on ? '1' : '0.4'; if (on) { ei.style.borderColor = 'var(--gold-dim)'; ei.style.background = 'var(--bg-elevated)'; } else { ei.style.borderColor = ''; ei.style.background = ''; } }
+    if (ai) { ai.disabled = !on; ai.style.opacity = on ? '1' : '0.4'; if (on) { ai.oninput = calculateTokens; ai.style.borderColor = 'var(--gold-dim)'; ai.style.background = 'var(--bg-elevated)'; } else { ai.style.borderColor = ''; ai.style.background = ''; } }
     if (tc) tc.disabled = !on;
   }
   function setBtnPurchase(enabled, text) {
@@ -1164,11 +1170,12 @@ function applySaleState() {
     if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '&#128274; Early access active &mdash; waitlist members only'; }
     if (cdBlock) cdBlock.style.display = 'block';
     if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Early Access Active';
-    if (heroWL) heroWL.style.display = 'inline-flex';
-
-    if (!conn) {
+    if (heroWL) heroWL.style.display = 'none';
+    var cdCta = document.getElementById('cd-waitlist-cta');
+    if (cdCta) cdCta.innerHTML = 'Early access is active for waitlist members.';  if (!conn) {
       enableForm(false);
       setBtnPurchase(false, 'Connect Wallet to Continue');
+      if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Continue'; bp.onclick = function(){ modal.open(); }; }
       if (gm) gm.style.display = 'none';
       if (rg) rg.style.display = 'none';
       if (ws) ws.innerHTML = 'Connect your wallet to check early access eligibility.';
@@ -1177,6 +1184,7 @@ function applySaleState() {
       setBtnPurchase(true, 'Purchase GRES.ALPHA');
       if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'rgba(16,185,129,0.3)'; }
       if (gt) gt.innerHTML = '<span style="color:var(--green)">&#10003;</span> <strong style="color:var(--green)">Early access granted.</strong> You are on the waitlist. Purchase your allocation below.';
+      if (bp) bp.onclick = function(){ investNow(); };
       if (rg) rg.style.display = 'block';
       if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
     } else {
@@ -1211,11 +1219,13 @@ function applySaleState() {
     if (conn) {
       enableForm(true);
       setBtnPurchase(true, 'Purchase GRES.ALPHA');
+      if (bp) bp.onclick = function(){ investNow(); };
       if (rg) rg.style.display = 'block';
       if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
     } else {
       enableForm(false);
-      setBtnPurchase(false, 'Connect Wallet to Purchase');
+      // Button is ENABLED and opens wallet modal
+      if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Purchase'; bp.onclick = function(){ modal.open(); }; }
       if (ws) ws.innerHTML = 'Connect your wallet to purchase GRES.ALPHA.';
       if (rg) rg.style.display = 'none';
     }
@@ -1314,8 +1324,9 @@ window.submitWaitlist = async function() {
   const email = document.getElementById('wl-email').value.trim();
   if (!name) { alert('Please enter your name.'); return; }
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  if (!connectedAddress) { alert('Please connect your wallet before joining the waitlist.'); return; }
 
-  const wallet = connectedAddress || '';
+  const wallet = connectedAddress;
 
   try {
     fetch(CONFIG.sheetsAPI, {
@@ -1335,6 +1346,11 @@ window.submitWaitlist = async function() {
   document.getElementById('wl-form-area').style.display = 'none';
   document.getElementById('wl-success').style.display = 'block';
   document.getElementById('wl-confirm-email').textContent = email;
+  
+  // Disconnect wallet after submission (pre-launch has no way to disconnect via header)
+  if (connectedAddress) {
+    try { modal.disconnect(); } catch(e) {}
+  }
   
   // Show wallet confirmation if connected
   if (wallet) {
