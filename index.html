@@ -1,224 +1,1312 @@
-// ══════════════════════════════════════════════════════════════
-// GRES Protocol — Google Apps Script v4
-//
-// MUDANÇA: usa MailApp (não GmailApp) — mais confiável em Web Apps
-//
-// TESTE RÁPIDO:
-//   1. Cole este código, salve
-//   2. No topo, selecione a função "testarEmail" no dropdown
-//   3. Clique ▶ Run
-//   4. Autorize quando pedir (IMPORTANTE: aceite TODOS os escopos)
-//   5. Verifique se o email chegou
-//   6. Só depois faça o Deploy
-// ══════════════════════════════════════════════════════════════
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRES Protocol — Global Real Estate Standard</title>
+<meta name="description" content="The first perpetual real estate fund with AI-driven NAV. Secure early access to institutional-grade real estate tokenization.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
 
-var SENDER_NAME = "GRES Protocol";
+<style>
+/* ══════════════════════════════════════════
+   GRES PROTOCOL — DESIGN SYSTEM
+   ══════════════════════════════════════════ */
+:root {
+  --bg-primary: #06080C;
+  --bg-card: #0C0F16;
+  --bg-elevated: #111520;
+  --bg-input: #0A0C12;
+  --gold: #C9A96E;
+  --gold-light: #E8D5A8;
+  --gold-dim: #8B7340;
+  --gold-glow: rgba(201,169,110,0.15);
+  --text: #E8E4DC;
+  --text-secondary: #7A7D85;
+  --text-muted: #4A4D55;
+  --border: #1A1E2A;
+  --border-light: #252A38;
+  --green: #10B981;
+  --green-dim: rgba(16,185,129,0.12);
+  --red: #EF4444;
+  --blue: #3B82F6;
+  --blue-dim: rgba(59,130,246,0.12);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow: 0 20px 60px rgba(0,0,0,0.4);
+  --shadow-gold: 0 0 40px rgba(201,169,110,0.08);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
 
-// ╔════════════════════════════════════════╗
-// ║  FUNÇÃO DE TESTE — rode antes do deploy  ║
-// ║  Troque o email abaixo pelo seu         ║
-// ╚════════════════════════════════════════╝
-function testarEmail() {
-  var emailDestino = "thiagosequinel@gmail.com"; // ← TROQUE PELO SEU
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  MailApp.sendEmail({
-    to: emailDestino,
-    subject: "GRES — Teste de Email ✓",
-    name: SENDER_NAME,
-    htmlBody: '<div style="padding:40px;background:#0C0F16;border-radius:16px;text-align:center;font-family:Arial,sans-serif;">'
-      + '<h1 style="color:#C9A96E;letter-spacing:4px;">GRES PROTOCOL</h1>'
-      + '<p style="color:#10B981;font-size:18px;margin-top:20px;">✓ Email funcionando!</p>'
-      + '<p style="color:#7A7D85;font-size:14px;margin-top:10px;">Se você está lendo isto, o envio de emails está OK.</p>'
-      + '</div>'
+body {
+  background: var(--bg-primary);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+::selection { background: var(--gold); color: var(--bg-primary); }
+a { color: var(--gold); text-decoration: none; transition: var(--transition); }
+a:hover { color: var(--gold-light); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+
+.animate-up { animation: fadeUp 0.7s ease both; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* ══════════════════════════════════════════
+   HEADER
+   ══════════════════════════════════════════ */
+.header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  background: rgba(6,8,12,0.88);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(201,169,110,0.08);
+}
+
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1140px; margin: 0 auto; padding: 0 24px; height: 72px;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: 18px; letter-spacing: 3px; color: var(--gold);
+}
+.logo img { height: 36px; border-radius: 4px; }
+.logo-text span { font-weight: 300; color: var(--text-secondary); font-size: 12px; display: block; letter-spacing: 1px; margin-top: -2px; }
+
+.header-nav { display: flex; align-items: center; gap: 28px; }
+.header-nav a { font-size: 13px; color: var(--text); font-weight: 500; letter-spacing: 0.3px; opacity: 0.7; }
+.header-nav a:hover { color: var(--gold); opacity: 1; }
+
+.header-actions { display: flex; align-items: center; gap: 12px; }
+
+.social-row { display: flex; align-items: center; gap: 6px; }
+.social-icon {
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-muted);
+  transition: var(--transition); cursor: pointer;
+}
+.social-icon:hover { border-color: var(--gold-dim); color: var(--gold); background: var(--gold-glow); }
+.social-icon svg { width: 16px; height: 16px; }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+.btn-outline { background: transparent; border: 1px solid var(--gold-dim); color: var(--gold); padding: 9px 20px; font-size: 12px; letter-spacing: 0.5px; }
+.btn-outline:hover { border-color: var(--gold); background: var(--gold-glow); }
+.btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-primary); padding: 14px 28px; font-size: 14px; letter-spacing: 0.5px; }
+.btn-primary:hover { box-shadow: 0 0 30px rgba(201,169,110,0.3); transform: translateY(-1px); }
+.btn-lg { padding: 18px 32px; font-size: 15px; width: 100%; border-radius: var(--radius); }
+.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 20px; font-size: 13px; }
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* Disabled / Coming Soon state */
+.btn-coming-soon {
+  opacity: 0.35 !important; cursor: not-allowed !important;
+  pointer-events: none; position: relative;
+  filter: grayscale(0.5);
+}
+.coming-soon-wrapper { position: relative; display: inline-flex; }
+.coming-soon-wrapper .cs-tag {
+  position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-heading); font-size: 8px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-muted); white-space: nowrap;
+  background: var(--bg-primary); padding: 1px 6px; border-radius: 3px;
+}
+
+.btn-airdrop {
+  background: rgba(201,169,110,0.08); border: 1px dashed var(--gold-dim); color: var(--gold);
+  padding: 9px 16px; font-family: var(--font-heading); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.5px; border-radius: 8px; cursor: pointer; transition: var(--transition);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-airdrop:hover { background: var(--gold-glow); border-color: var(--gold); }
+
+/* Waitlist button (active in pre-launch) */
+.btn-waitlist {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-primary); padding: 14px 28px; font-size: 14px;
+  letter-spacing: 0.5px; border: none; border-radius: 8px;
+  font-family: var(--font-heading); font-weight: 600; cursor: pointer;
+  transition: var(--transition); display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-waitlist:hover { box-shadow: 0 0 30px rgba(201,169,110,0.3); transform: translateY(-1px); }
+
+/* Pre-launch state */
+.pre-launch-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: var(--blue); padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+.pre-launch-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); animation: pulse 2s infinite; }
+.btn-disabled { opacity: 0.35 !important; pointer-events: none; cursor: not-allowed; filter: grayscale(0.5); }
+.raise-progress { transition: all 0.3s ease; }
+.raise-progress.hidden { display: none; }
+
+/* ══════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════ */
+.hero {
+  padding: 160px 0 80px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 600px;
+  background: radial-gradient(ellipse, rgba(201,169,110,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-heading); font-size: 11px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px;
+  background: var(--gold-glow); padding: 8px 20px; border-radius: 40px;
+  border: 1px solid rgba(201,169,110,0.15);
+}
+.hero-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 600; line-height: 1.15; margin-bottom: 20px; color: var(--text);
+}
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dim));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.hero-sub {
+  font-size: 17px; color: var(--text-secondary); max-width: 580px;
+  margin: 0 auto 40px; line-height: 1.7; font-weight: 300;
+}
+.hero-ctas { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+
+/* Trust Badges */
+.trust-bar {
+  display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+  padding: 28px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.3px;
+}
+.trust-item svg { width: 18px; height: 18px; color: var(--gold-dim); }
+
+/* Docs row */
+.docs-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 48px 0; }
+.doc-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--bg-card);
+  color: var(--text-secondary); font-size: 13px; font-weight: 500;
+  transition: var(--transition); cursor: pointer;
+}
+.doc-link:hover { border-color: var(--gold-dim); color: var(--gold); }
+.doc-link svg { width: 16px; height: 16px; }
+.doc-link.disabled { opacity: 0.35; pointer-events: none; filter: grayscale(0.5); }
+
+/* ══════════════════════════════════════════
+   SECTION STYLES
+   ══════════════════════════════════════════ */
+.section { padding: 56px 0; }
+.section-label { font-family: var(--font-heading); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 12px; }
+.section-title { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 42px); font-weight: 600; color: var(--text); line-height: 1.2; margin-bottom: 16px; }
+.section-subtitle { font-size: 16px; color: var(--text-secondary); max-width: 560px; line-height: 1.7; font-weight: 300; }
+.section-center { text-align: center; }
+.section-center .section-subtitle { margin: 0 auto; }
+
+/* ══════════════════════════════════════════
+   TOKEN SALE ENGINE
+   ══════════════════════════════════════════ */
+.sale-section { padding: 60px 0 80px; }
+.sale-layout { display: grid; grid-template-columns: 1fr 440px; gap: 60px; align-items: start; }
+
+.sale-info h2 { font-family: var(--font-display); font-size: 36px; font-weight: 600; margin-bottom: 16px; line-height: 1.2; }
+.sale-info h2 em { font-style: italic; background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.sale-info > p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; margin-bottom: 32px; }
+
+/* Lot Grid */
+.lot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 32px; }
+.lot-card { text-align: center; padding: 16px 8px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-card); transition: var(--transition); }
+.lot-card.completed { border-color: rgba(16,185,129,0.3); background: var(--green-dim); }
+.lot-card.active { border-color: var(--gold-dim); background: var(--gold-glow); animation: float 4s ease infinite; }
+.lot-card.upcoming, .lot-card.future { opacity: 0.5; }
+.lot-name { font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+.lot-card.completed .lot-name { color: var(--green); }
+.lot-card.active .lot-name { color: var(--gold); }
+.lot-price { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--text); margin: 4px 0 2px; }
+.lot-raise { font-size: 12px; color: var(--text-secondary); }
+.lot-status { font-size: 10px; font-weight: 600; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.lot-card.completed .lot-status { color: var(--green); }
+.lot-card.active .lot-status { color: var(--gold); }
+
+/* Progress bar */
+.raise-progress { margin-bottom: 28px; }
+.raise-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+.raise-labels strong { color: var(--gold); font-weight: 600; }
+.raise-track { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.raise-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-light)); transition: width 1s ease; }
+
+/* Key metrics */
+.metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; }
+.metric-val { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--text); }
+.metric-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── INVESTMENT CARD ── */
+.invest-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); padding: 36px;
+  box-shadow: var(--shadow), var(--shadow-gold); position: relative;
+}
+.invest-card::before {
+  content: ''; position: absolute; top: -1px; left: 20%; right: 20%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+.invest-header { text-align: center; margin-bottom: 24px; }
+.invest-header h3 { font-family: var(--font-heading); font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.invest-header p { font-size: 12px; color: var(--text-muted); }
+
+.invest-lot-bar {
+  display: flex; justify-content: space-between;
+  background: var(--bg-input); padding: 14px 18px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  margin-bottom: 20px; font-size: 12px;
+}
+.invest-lot-bar div { text-align: center; }
+.invest-lot-bar .label { color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.invest-lot-bar .value { color: var(--gold); font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin-top: 2px; }
+
+.invest-urgency { text-align: center; color: var(--red); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 20px; animation: pulse 2.5s infinite; }
+
+.input-group { margin-bottom: 12px; }
+.input-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+.input-field {
+  width: 100%; padding: 14px 16px;
+  background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text);
+  font-family: var(--font-body); font-size: 14px;
+  transition: var(--transition); outline: none;
+}
+.input-field::placeholder { color: var(--text-muted); }
+.input-field:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 3px var(--gold-glow); }
+
+.calc-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); margin-bottom: 16px; padding: 0 4px; }
+.calc-row .tokens { color: var(--gold); font-weight: 700; font-family: var(--font-heading); }
+
+.terms-check { display: flex; align-items: flex-start; gap: 10px; font-size: 11px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
+.terms-check input[type="checkbox"] { margin-top: 2px; accent-color: var(--gold); flex-shrink: 0; }
+.terms-check a { color: var(--gold); text-decoration: underline; cursor: pointer; }
+
+.wallet-status { text-align: center; font-size: 12px; margin-top: 12px; font-weight: 500; color: var(--text-muted); }
+
+/* ── REFERRAL BOX ── */
+.referral-gate {
+  margin-top: 20px; padding: 20px; border-radius: var(--radius);
+  border: 1px dashed var(--gold-dim); background: var(--gold-glow); display: none;
+}
+.referral-gate h4 { font-family: var(--font-heading); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.referral-gate p { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
+
+.community-btns { display: flex; gap: 8px; margin-bottom: 12px; }
+.community-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  border: none; cursor: pointer; transition: var(--transition); font-family: var(--font-heading);
+  text-decoration: none;
+}
+.community-btn.tg { background: #229ED9; color: white; }
+
+.community-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.community-btn svg { width: 16px; height: 16px; }
+
+.community-confirm { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; }
+.community-confirm input { accent-color: var(--gold); }
+
+.ref-link-area { display: none; }
+.ref-input-row { display: flex; gap: 8px; }
+.ref-input-row input { flex: 1; padding: 10px 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--gold); font-size: 11px; font-family: monospace; }
+.btn-copy { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; transition: var(--transition); font-family: var(--font-heading); }
+.btn-copy:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+/* ══════════════════════════════════════════
+   ECOSYSTEM IMAGE
+   ══════════════════════════════════════════ */
+.eco-section { padding: 20px 0 40px; text-align: center; }
+.eco-frame { max-width: 900px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.eco-frame img { width: 100%; display: block; }
+
+/* ══════════════════════════════════════════
+   VALUE PROPOSITIONS
+   ══════════════════════════════════════════ */
+.value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+.value-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; transition: var(--transition); }
+.value-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+.value-icon { width: 48px; height: 48px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 22px; }
+.value-icon.gold { background: var(--gold-glow); border: 1px solid rgba(201,169,110,0.2); }
+.value-icon.green { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.2); }
+.value-icon.blue { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.2); }
+.value-card h3 { font-family: var(--font-heading); font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+.value-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+/* ══════════════════════════════════════════
+   ROADMAP
+   ══════════════════════════════════════════ */
+.roadmap-section { padding: 56px 0; }
+.roadmap-timeline { max-width: 760px; margin: 48px auto 0; position: relative; padding-left: 32px; }
+.roadmap-timeline::before { content: ''; position: absolute; left: 11px; top: 16px; bottom: 16px; width: 1px; background: var(--border); }
+
+.rm-phase { position: relative; margin-bottom: 16px; cursor: pointer; }
+.rm-dot { position: absolute; left: -32px; top: 20px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: var(--bg-primary); z-index: 2; display: flex; align-items: center; justify-content: center; }
+.rm-dot svg { width: 10px; height: 10px; display: none; }
+.rm-phase.completed .rm-dot { border-color: var(--green); background: var(--green-dim); }
+.rm-phase.completed .rm-dot svg { display: block; color: var(--green); }
+.rm-phase.live .rm-dot { border-color: var(--gold); background: var(--gold-glow); }
+.rm-phase.live .rm-dot::after { content:''; width:8px; height:8px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+.rm-phase.next .rm-dot { border-color: var(--blue); background: var(--blue-dim); }
+
+.rm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; transition: var(--transition); }
+.rm-phase:hover .rm-card { border-color: var(--border-light); }
+.rm-phase.live .rm-card { border-left: 2px solid var(--gold); }
+.rm-phase.next .rm-card { border-left: 2px solid var(--blue); }
+
+.rm-top { display: flex; align-items: center; gap: 12px; }
+.rm-num { font-family: var(--font-heading); font-size: 12px; font-weight: 600; color: var(--text-muted); min-width: 20px; }
+.rm-info { flex: 1; min-width: 0; }
+.rm-name { font-family: var(--font-heading); font-size: 16px; font-weight: 600; }
+.rm-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.rm-progress { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.rm-ptrack { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.rm-pfill { height: 100%; border-radius: 2px; }
+.rm-plabel { font-size: 11px; font-family: var(--font-heading); font-weight: 600; min-width: 32px; text-align: right; }
+
+.rm-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.rm-badge { font-family: var(--font-heading); font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+.rm-badge.b-done { background: var(--green-dim); color: var(--green); }
+.rm-badge.b-live { background: var(--gold-glow); color: var(--gold); }
+.rm-badge.b-next { background: var(--blue-dim); color: var(--blue); }
+.rm-badge.b-future { background: rgba(74,77,85,0.2); color: var(--text-muted); }
+
+.rm-chevron { width: 18px; height: 18px; color: var(--text-muted); transition: transform 0.3s; flex-shrink: 0; }
+.rm-phase.open .rm-chevron { transform: rotate(180deg); }
+.rm-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.rm-phase.open .rm-body { max-height: 1200px; }
+
+.rm-milestones { padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border); }
+.rm-group { margin-bottom: 14px; }
+.rm-group-label { font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+.rm-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.5; margin-bottom: 5px; }
+.rm-item svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
+.rm-item.done svg { color: var(--green); }
+.rm-item.done span { color: var(--text-secondary); }
+.rm-item.prog svg { color: var(--gold); }
+.rm-item.prog span { color: var(--text); }
+.rm-item.todo svg { color: var(--text-muted); }
+.rm-item.todo span { color: var(--text-muted); }
+
+/* ══════════════════════════════════════════
+   TEAM
+   ══════════════════════════════════════════ */
+.team-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 48px; }
+.team-card { width: 220px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: var(--transition); }
+.team-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+.team-avatar { width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 16px; border: 2px solid var(--border); overflow: hidden; background: var(--bg-elevated); }
+.team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-card h3 { font-family: var(--font-heading); font-size: 15px; font-weight: 600; }
+.team-role { font-size: 11px; color: var(--gold-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin: 4px 0 12px; }
+.team-bio { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px; min-height: 36px; }
+.team-link { font-size: 11px; color: var(--gold); font-weight: 500; }
+
+/* ══════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════ */
+.footer { border-top: 1px solid var(--border); padding: 32px 0 24px; margin-top: 40px; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+.footer-left { font-size: 12px; color: var(--text-muted); }
+.footer-left a { color: var(--text-secondary); }
+.footer-social { display: flex; gap: 8px; }
+.footer-disclaimer { max-width: 1140px; margin: 12px auto 0; padding: 20px 24px 0; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-muted); line-height: 1.7; text-align: center; }
+
+/* ══════════════════════════════════════════
+   MODALS
+   ══════════════════════════════════════════ */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; }
+.modal-overlay.active { display: flex; }
+.modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; max-width: 520px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: var(--shadow); }
+.modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; line-height: 1; transition: var(--transition); }
+.modal-close:hover { color: var(--text); }
+.modal-box h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+.modal-box p, .modal-box li { font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
+
+.modal-success .modal-box { border-color: rgba(16,185,129,0.3); text-align: center; }
+.modal-success h3 { color: var(--green); font-size: 22px; }
+
+/* Waitlist modal */
+.wl-form { margin-top: 20px; }
+.wl-form .input-group { margin-bottom: 14px; }
+.wl-community { margin: 16px 0; padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elevated); }
+.wl-community p { font-size: 12px; margin-bottom: 10px; color: var(--text-secondary); }
+.wl-success { display: none; text-align: center; padding: 20px 0; }
+.wl-success h3 { color: var(--green); margin-bottom: 12px; }
+.wl-success p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+@media (max-width: 968px) {
+  .sale-layout { grid-template-columns: 1fr; gap: 40px; }
+  .invest-card { max-width: 480px; margin: 0 auto; }
+  .header-nav { display: none; }
+}
+@media (max-width: 768px) {
+  .value-grid { grid-template-columns: 1fr; }
+  .lot-grid { grid-template-columns: repeat(2, 1fr); }
+  .metrics-row { grid-template-columns: 1fr; }
+  .hero { padding: 120px 0 60px; }
+  .team-card { width: 100%; max-width: 280px; }
+  .invest-card { padding: 24px; }
+  .invest-lot-bar { flex-direction: column; gap: 12px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .trust-bar { gap: 16px; }
+}
+@media (max-width: 480px) {
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .community-btns { flex-direction: column; }
+}
+
+/* FAQ */
+.faq-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;background:var(--bg-card);transition:var(--transition)}
+.faq-item:hover{border-color:var(--border-light)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;cursor:pointer;gap:16px}
+.faq-q h3{font-family:var(--font-heading);font-size:14px;font-weight:600;color:var(--text);margin:0;line-height:1.4}
+.faq-q svg{width:18px;height:18px;color:var(--text-muted);flex-shrink:0;transition:transform .3s}
+.faq-item.open .faq-q svg{transform:rotate(180deg)}
+.faq-item.open .faq-q h3{color:var(--gold)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-item.open .faq-a{max-height:600px}
+.faq-a-inner{padding:0 24px 20px;font-size:14px;color:var(--text-secondary);line-height:1.7}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <img src="Logo Gres.jpg" alt="GRES" onerror="this.style.display='none'">
+      <div class="logo-text">GRES<span>PROTOCOL</span></div>
+    </a>
+    <nav class="header-nav">
+      <a href="#sale">Token Sale</a>
+      <a href="#how">How It Works</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <div class="social-row">
+        <a href="https://t.me/gresprotocol" target="_blank" class="social-icon" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+        <a href="https://x.com/gresprotocol" target="_blank" class="social-icon" title="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://linkedin.com/company/gresprotocol" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+      <button class="btn-airdrop btn-coming-soon" disabled>🎁 AIRDROP</button>
+      <button class="btn btn-outline btn-coming-soon" id="btn-connect" disabled>Connect Wallet</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-eyebrow animate-up"><span class="dot"></span> Seed Round — Lot 01 Opening Soon</div>
+    <h1 class="animate-up delay-1">The Future of Real Estate<br>Is <em>On-Chain</em></h1>
+    <p class="hero-sub animate-up delay-2">The first perpetual, AI-managed real estate fund. Institutional-grade governance, real-time NAV, and global liquidity — powered by blockchain.</p>
+    <div class="hero-ctas animate-up delay-3">
+      <button class="btn btn-primary btn-coming-soon" disabled>Acquire GRES.ALPHA</button>
+      <!-- WAITLIST — active in pre-launch -->
+      <button class="btn-waitlist" onclick="openModal('waitlist-modal')">✉ Join the Waitlist</button>
+    </div>
+
+    <div class="docs-row animate-up delay-4">
+      <a href="Lightpaper.pdf" target="_blank" class="doc-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Lightpaper
+      </a>
+      <a href="Tokenomics.pdf" target="_blank" class="doc-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Token Paper
+      </a>
+      <!-- WHITEPAPER — opens modal, not download -->
+      <a class="doc-link" onclick="openModal('wp-modal')" style="cursor:pointer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Whitepaper
+      </a>
+    </div>
+
+    <div class="trust-bar animate-up delay-5">
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 100% Asset-Backed</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> MiCA Aligned</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Built on BASE (L2)</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg> AI-Powered NAV</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TOKEN SALE ═══════════ -->
+<section class="sale-section section" id="sale">
+  <div class="container">
+    <div class="sale-layout">
+      <div class="sale-info">
+        <div class="section-label">Early Access</div>
+        <h2>Seed Round:<br><em>GRES.ALPHA</em></h2>
+        <p>GRES.ALPHA is a utility token that funds the development of the GRES Protocol. Early holders secure a buyback yield of up to 50x and massive fee reductions within the future ecosystem.</p>
+        <div class="lot-grid" id="lot-grid"></div>
+        <div class="raise-progress hidden" id="raise-progress">
+          <div class="raise-labels">
+            <span>Raised: <strong id="raised-display">$0</strong></span>
+            <span>Hard Cap: $1,000,000</span>
+          </div>
+          <div class="raise-track"><div class="raise-fill" id="raise-fill" style="width:0%"></div></div>
+        </div>
+        <div style="text-align:center;font-size:13px;color:var(--text-secondary);margin-bottom:24px;font-weight:500">Hard Cap: <strong style="color:var(--gold)">$1,000,000 USD</strong></div>
+        <div class="metrics-row">
+          <div class="metric-card"><div class="metric-val">250M</div><div class="metric-label">Total Supply</div></div>
+          <div class="metric-card"><div class="metric-val">185M</div><div class="metric-label">Public Sale</div></div>
+          <div class="metric-card"><div class="metric-val">$0.05–$0.10</div><div class="metric-label">Burn Price</div></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Investment Card -->
+      <div class="invest-card">
+        <div class="invest-header">
+          <h3>Seed Round Access</h3>
+          <p>Secure your allocation at the earliest price</p>
+        </div>
+        <!-- COUNTDOWN -->
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">Public Sale Opens In</div>
+          <div style="display:flex;justify-content:center;gap:10px">
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-days">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Days</div></div>
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-hours">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Hours</div></div>
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-mins">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Min</div></div>
+            <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-secs">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Sec</div></div>
+          </div>
+          <div style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Waitlist members get 48h exclusive early access. <a onclick="openModal('waitlist-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
+        </div>
+        <div class="pre-launch-badge"><span class="dot"></span> Smart contract deployment pending</div>
+        <div class="invest-lot-bar">
+          <div><div class="label">Starting Price</div><div class="value" id="card-price">$0.002</div></div>
+          <div><div class="label">Next Lot</div><div class="value" id="card-next">$0.004</div></div>
+          <div><div class="label">Status</div><div class="value" id="card-lot">Pre-Launch</div></div>
+        </div>
+        <div class="invest-urgency" id="invest-urgency" style="color:var(--gold-dim)">⏳ Lot 01 opens soon — Waitlist members get 48h early access</div>
+
+        <div class="input-group"><label>Email Address</label><input type="email" class="input-field" id="user-email" placeholder="you@email.com" disabled style="opacity:0.4"></div>
+        <div class="input-group"><label>Investment Amount (USDC)</label><input type="number" class="input-field" id="invest-amount" placeholder="100" min="1" disabled style="opacity:0.4"></div>
+        <div class="calc-row"><span>Estimated GRES.ALPHA</span><span class="tokens" id="token-calc">0</span></div>
+        <div class="terms-check"><input type="checkbox" id="agree-terms" disabled><label for="agree-terms">I confirm I am not a US Citizen and I agree to the <a onclick="openModal('tc-modal')">Terms & Conditions</a>.</label></div>
+
+        <button class="btn btn-primary btn-lg btn-disabled" id="btn-purchase" disabled>Coming Soon</button>
+        <div class="wallet-status" id="wallet-status" style="margin-top:10px; font-size:11px; text-align:center; color:var(--text-muted);">Join the <a onclick="openModal('waitlist-modal')" style="cursor:pointer; text-decoration:underline;">Waitlist</a> to be notified when Lot 01 opens.</div>
+
+        <!-- REFERRAL GATE (hidden in pre-launch) -->
+        <div class="referral-gate" id="referral-gate">
+          <h4>🎁 Earn 20% Airdrop</h4>
+          <p>Refer investors and earn 20% of their allocation in GRES.ALPHA. Join our community first to unlock your referral link.</p>
+          <div class="community-btns">
+            <a href="https://t.me/gresprotocol" target="_blank" class="community-btn tg" id="tg-btn"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Join Telegram</a>
+          </div>
+          <div class="community-confirm"><input type="checkbox" id="community-joined" onchange="checkCommunityGate()"><label for="community-joined">I've joined the GRES community</label></div>
+          <div class="ref-link-area" id="ref-link-area"><div class="ref-input-row"><input type="text" id="ref-link" readonly><button class="btn-copy" onclick="copyRef()">Copy</button></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ECOSYSTEM ═══════════ -->
+<section class="eco-section">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-label">Dual Token Engine</div>
+      <div class="section-title">Two Tokens, One Ecosystem</div>
+      <div class="section-subtitle">$GRES for perpetual asset-backed value. GRES.ALPHA for early access and ecosystem incentives.</div>
+    </div>
+    <div class="eco-frame" style="margin-top:24px;">
+      <img src="ecosystem.png" alt="GRES Tokens Engine" onerror="this.parentElement.style.display='none'">
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ VALUE PROPOSITIONS ═══════════ -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-label">Why GRES</div>
+      <div class="section-title">Built Different From Day One</div>
+      <div class="section-subtitle">GRES Protocol solves the structural problem of real estate tokenization 1.0.</div>
+    </div>
+    <div class="value-grid">
+      <div class="value-card"><div class="value-icon gold">🏛️</div><h3>Rolex Governance Model</h3><p>A non-profit Foundation holds 100% of property deeds, legally ring-fenced from the Operator. Your assets are protected — always.</p></div>
+      <div class="value-card"><div class="value-icon green">🤖</div><h3>AI-Powered Valuation</h3><p>A multi-agent AI Oracle calculates real-time NAV across 20+ markets. No more stale appraisals — every price is data-driven and auditable.</p></div>
+      <div class="value-card"><div class="value-icon blue">🔄</div><h3>Perpetual Flywheel</h3><p>Yields from rents and development are reinvested to acquire new assets, increasing NAV per token without dilution.</p></div>
+      <div class="value-card"><div class="value-icon gold">📋</div><h3>Institutional Compliance</h3><p>Permissioned tokens (ERC-3643 / L3RS-1) with on-chain KYC, dynamic regulatory hooks, and full MiCA alignment from day one.</p></div>
+      <div class="value-card"><div class="value-icon green">🔐</div><h3>Trustless Minting</h3><p>New $GRES tokens can only be minted with cryptographic Proof of Value — either a new registered deed or validated NAV appreciation.</p></div>
+      <div class="value-card"><div class="value-icon blue">💧</div><h3>Deep Liquidity</h3><p>Primary-secondary market arbitrage, incentivized LPs, and a permissioned exchange ensure you can exit your position at any time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ROADMAP ═══════════ -->
+<section class="roadmap-section" id="roadmap">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-label">Development Roadmap</div>
+      <div class="section-title">From Concept to $1B AUM</div>
+      <div class="section-subtitle">Track our progress in real time. Every milestone is verifiable.</div>
+    </div>
+    <div class="roadmap-timeline" id="roadmap-timeline"></div>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-label">FAQ</div>
+      <div class="section-title">Frequently Asked Questions</div>
+      <div class="section-subtitle">Everything you need to know before joining.</div>
+    </div>
+    <div id="faq-list" style="max-width:760px;margin:48px auto 0;"></div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-left">© 2026 GRES Protocol. All rights reserved. &nbsp;|&nbsp; <a href="#" onclick="openModal('tc-modal')">Terms</a> &nbsp;|&nbsp; Founded by <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank">Thiago Sequinel</a></div>
+    <div class="footer-social social-row">
+      <a href="https://t.me/gresprotocol" target="_blank" class="social-icon" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+      <a href="https://x.com/gresprotocol" target="_blank" class="social-icon" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="https://linkedin.com/company/gresprotocol" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    </div>
+  </div>
+  <div class="footer-disclaimer">This website is for informational purposes only and does not constitute a security offer or investment advice. GRES.ALPHA is a utility token and does not represent equity, debt, or ownership. Participation carries inherent risks. Consult your legal and financial advisors before proceeding. Not available to US persons.</div>
+</footer>
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- Terms & Conditions -->
+<div class="modal-overlay" id="tc-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('tc-modal')">&times;</button>
+    <h3 style="color:var(--gold)">Terms & Conditions</h3>
+    <ol style="padding-left:18px;">
+      <li><strong>Not a Security:</strong> GRES.ALPHA is a utility and ecosystem incentive token. It does not represent equity, shares, units, or any ownership rights.</li>
+      <li><strong>Volatile Nature:</strong> The protocol is provided "as is" and without warranties. There is a risk of losing the entire amount invested.</li>
+      <li><strong>Regulatory Compliance:</strong> By purchasing, you attest that you are not a resident or citizen of the United States, nor of any jurisdiction where cryptographic token purchases are prohibited.</li>
+      <li><strong>No Financial Advice:</strong> Nothing on this platform constitutes financial, legal, or tax advice.</li>
+      <li><strong>Professional Consultation:</strong> GRES Protocol recommends consulting a professional financial advisor before participating.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Whitepaper Modal -->
+<div class="modal-overlay" id="wp-modal">
+  <div class="modal-box" style="text-align:center;">
+    <button class="modal-close" onclick="closeModal('wp-modal')">&times;</button>
+    <h3 style="color:var(--gold);margin-bottom:20px;">Whitepaper</h3>
+    <p style="margin:0 0 8px;font-size:15px;color:var(--text);line-height:1.7;">The full GRES Protocol Whitepaper will be published when <strong style="color:var(--gold)">Lot 01</strong> opens.</p>
+    <p style="margin:0 0 24px;font-size:14px;color:var(--text-secondary);line-height:1.7;">Waitlist members will be the first to receive it.</p>
+    <button class="btn-waitlist" onclick="closeModal('wp-modal'); openModal('waitlist-modal');" style="width:100%;">✉ Join the Waitlist</button>
+    <p style="margin-top:16px;font-size:12px;color:var(--text-muted);">In the meantime, read our <a href="Lightpaper.pdf" target="_blank">Lightpaper</a> and <a href="Tokenomics.pdf" target="_blank">Token Paper</a>.</p>
+  </div>
+</div>
+
+<!-- Waitlist Modal -->
+<div class="modal-overlay" id="waitlist-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('waitlist-modal')">&times;</button>
+    
+    <!-- FORM -->
+    <div id="wl-form-area">
+      <h3 style="color:var(--gold)">Join the Waitlist</h3>
+      <p>Be the first to know when Lot 01 opens. Waitlist members get <strong style="color:var(--gold)">48 hours of exclusive early access</strong> before the public sale.</p>
+      
+      <div class="wl-form">
+        <div class="input-group">
+          <label>Your Name</label>
+          <input type="text" class="input-field" id="wl-name" placeholder="Full name">
+        </div>
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" class="input-field" id="wl-email" placeholder="you@email.com">
+        </div>
+
+        <!-- WALLET CONNECTION -->
+        <div style="margin:16px 0;padding:20px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated)">
+          <p style="font-weight:600;color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Connect Your Wallet</p>
+          <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">Your wallet address is needed for early access and token delivery.</p>
+          <div id="wl-wallet-disconnected">
+            <button onclick="connectWalletForWaitlist()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
+            <p style="font-size:10px;color:var(--text-muted);margin-top:8px;text-align:center;line-height:1.5">Don’t have a wallet? No problem — clicking above will guide you to create one with <strong>Coinbase Wallet</strong>, <strong>MetaMask</strong>, or other providers. It takes less than 2 minutes.</p>
+          </div>
+          <div id="wl-wallet-connected" style="display:none">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
+              <span style="color:var(--green);font-size:14px">●</span>
+              <span id="wl-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
+              <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wl-community">
+          <p style="font-weight:600; color:var(--gold); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">Join our community for priority updates</p>
+          <div class="community-btns">
+            <a href="https://t.me/gresprotocol" target="_blank" class="community-btn tg"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Telegram</a>
+          </div>
+        </div>
+        
+        <button class="btn-waitlist" style="width:100%;" onclick="submitWaitlist()">✉ Join Waitlist</button>
+        <p style="font-size:10px;color:var(--text-muted);margin-top:8px;text-align:center;line-height:1.4">Wallet is optional for now — you can connect it later before Lot 01 opens.</p>
+      </div>
+    </div>
+    
+    <!-- SUCCESS -->
+    <div class="wl-success" id="wl-success">
+      <div style="font-size:48px; margin-bottom:16px;">✓</div>
+      <h3>You're on the list!</h3>
+      <p>A confirmation email will be sent to <strong id="wl-confirm-email" style="color:var(--text)"></strong>.</p>
+      <div id="wl-success-wallet" style="display:none;margin-top:10px;font-size:12px;padding:10px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;text-align:left"><span style="color:var(--green)">●</span> Wallet registered: <strong id="wl-confirm-wallet" style="color:var(--gold);font-family:monospace;font-size:11px"></strong></div>
+      <p style="margin-top:12px;"><strong style="color:var(--gold)">Please check your spam folder</strong> and mark us as safe. We'll notify you via email and community channels when the GRES.ALPHA sale begins.</p>
+      <p style="margin-top:16px; font-size:12px;">Stay connected — follow us on our socials for real-time updates.</p>
+      <button class="btn-waitlist" style="width:100%; margin-top:16px;" onclick="closeModal('waitlist-modal')">Got It</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal (for purchases — future) -->
+<div class="modal-overlay modal-success" id="success-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="location.reload()">&times;</button>
+    <div style="font-size:48px;margin-bottom:16px;">✓</div>
+    <h3>Allocation Confirmed</h3>
+    <p style="margin:16px 0 24px;">Transaction successful. A confirmation email has been sent — <strong style="color:var(--text)">please check your spam folder</strong>.</p>
+    <button class="btn btn-primary btn-lg" style="background:var(--green);" onclick="location.reload()">Got It</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ██████  JAVASCRIPT  ██████
+     ═══════════════════════════════════════════════════════════════════ -->
+<script type="module">
+import { createAppKit } from 'https://esm.sh/@reown/appkit'
+import { Ethers5Adapter } from 'https://esm.sh/@reown/appkit-adapter-ethers5'
+import { base } from 'https://esm.sh/@reown/appkit/networks'
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  CONFIGURATION — EDIT THIS SECTION TO UPDATE THE SITE           ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+
+const CONFIG = {
+  // ── Sale Status (CHANGE THIS TO CONTROL THE SITE) ──
+  // "pre-launch" = everything disabled, only waitlist active
+  // "waitlist"   = 48h early access: only whitelisted wallets can buy
+  // "live"       = public sale open to everyone
+  //
+  // HOW TO LAUNCH:
+  // 1. Start at "pre-launch" (current)
+  // 2. 48h before May 1st: change to "waitlist" + deploy
+  // 3. May 1st: change to "live" + deploy
+  saleStatus: "pre-launch",
+
+  // ── Token Sale (update when live) ──
+  currentLot: 1,
+  lotPrice: 0.002,
+  nextLotPrice: 0.004,
+  totalRaised: 0,
+  hardCap: 1000000,
+  showRaiseBarAfter: 50000,
+
+  // ── Smart Contract (set when deployed) ──
+  saleContract: null,  // "0x..." when ready
+
+  // ── Lot Details ──
+  // status: "completed" | "active" | "upcoming" | "future"
+  lots: [
+    { name: "Lot 01", price: 0.002, raise: "$100K", status: "upcoming" },
+    { name: "Lot 02", price: 0.004, raise: "$200K", status: "future"   },
+    { name: "Lot 03", price: 0.007, raise: "$350K", status: "future"   },
+    { name: "Lot 04", price: 0.010, raise: "$350K", status: "future"   },
+  ],
+
+  // ── Social Links ──
+  telegram:  "https://t.me/gresprotocol",
+  x:         "https://x.com/gresprotocol",
+  linkedin:  "https://linkedin.com/company/gresprotocol",
+  saleStartDate: new Date("2026-05-01T00:00:00Z"),
+
+  // ── Wallets & APIs ──
+  treasuryWallet: "0xC5a3941635c0da1B020DE56165Ff729f975d708d",
+  usdcContract:   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  sheetsAPI: "https://script.google.com/macros/s/AKfycbx6HF8f0XnYUcMsZsWoUj6-xZggkqKAtxRCvSd6aVgbmthcKyqBj8pQflxvPfHH5IlGUQ/exec",
+  walletConnectId: "fbc5f569abebf58f9c260075a2882c1a",
+};
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  ROADMAP — EDIT MILESTONES HERE                                 ║
+   ║                                                                  ║
+   ║  HOW TO UPDATE:                                                  ║
+   ║  1. Find the milestone you want to change                       ║
+   ║  2. Change its "status" value:                                  ║
+   ║     • "todo" = Not started (gray circle)                        ║
+   ║     • "prog" = In progress (gold dot)                           ║
+   ║     • "done" = Completed (green check)                          ║
+   ║  3. Save the file. Progress % and badge auto-calculate.         ║
+   ║                                                                  ║
+   ║  Phase status auto-calculates from milestones:                  ║
+   ║     • All "done" → "completed" (green)                          ║
+   ║     • Any "prog" or mix → "live" (gold, in progress)            ║
+   ║     • All "todo" but previous phase done → "next" (blue)        ║
+   ║     • Otherwise → "future" (gray)                               ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+
+const ROADMAP = [
+  {
+    phase: "01",
+    name: "Genesis — Foundation & Community",
+    subtitle: "Identity, legal architecture, and early community",
+    groups: [
+      { label: "Brand & Community", items: [
+        { text: "Lightpaper v1.0 & Utility Token Paper published",           status: "done" },
+        { text: "Visual identity and design system finalized",               status: "prog" },
+        { text: "Community channels active (Telegram, X)",          status: "prog" },
+        { text: "Landing page with early adopter whitelist live",            status: "done" },
+        { text: "Referral & early adopter program active",                   status: "prog" },
+      ]},
+      { label: "Strategy & Legal", items: [
+        { text: "Business model defined (NAV, Flywheel, Collateral)",        status: "done" },
+        { text: "EU jurisdiction study (LU, CH, LI, ES)",                    status: "prog" },
+        { text: "Teaser Pitch Deck for seed investors",                      status: "prog" },
+        { text: "Legal registrations opened (Spain / EU Foundation)",        status: "prog" },
+      ]},
+      { label: "Technology", items: [
+        { text: "Platform backlog structured (93 stories / 18 epics)",       status: "done" },
+        { text: "AI Oracle architecture and tech stack defined",             status: "prog" },
+        { text: "Portal prototyping — wireframes & design system",           status: "todo" },
+      ]},
+    ],
+  },
+  {
+    phase: "02",
+    name: "Blueprint — Protocol & First Assets",
+    subtitle: "Builder portal, automated due diligence, and LOIs with EU developers",
+    groups: [
+      { label: "Transparency & Trust", items: [
+        { text: "Public transparency portal (reports & metrics) live",       status: "todo" },
+        { text: "MVP Report: capital allocation & pilot assets documented",  status: "todo" },
+        { text: "Monthly AMAs with community + active support channel",      status: "todo" },
+      ]},
+      { label: "Pilot Asset Portfolio", items: [
+        { text: "Asset selection criteria (Entry Score, Sector Fit) published", status: "todo" },
+        { text: "LOIs signed with first European developers",                status: "todo" },
+        { text: "Digital NDAs and Term Sheets signed",                       status: "todo" },
+        { text: "Public announcement of 2+ EU developer partnerships",      status: "todo" },
+      ]},
+      { label: "Platform (MVP)", items: [
+        { text: "Builder portal with project submission form",               status: "todo" },
+        { text: "ADD v1 — viability score per project within 48h",           status: "todo" },
+        { text: "KYC/AML integrated — investor onboarding",                  status: "todo" },
+        { text: "SPV structure & segregated accounts defined",               status: "todo" },
+      ]},
+    ],
+  },
+  {
+    phase: "03",
+    name: "Vault — Security & Institutional",
+    subtitle: "Tier-1 audit, MiCA licenses, and institutional roadshow",
+    groups: [
+      { label: "Security & Compliance", items: [
+        { text: "Tier-1 smart contract audit (CertiK/Hacken) published",    status: "todo" },
+        { text: "ERC-3643 / L3RS-1: native compliance layer deployed",      status: "todo" },
+        { text: "ONCHAINID integrated — on-chain KYC/AML identity",         status: "todo" },
+        { text: "MiCA/CNMV licenses active & Foundation registered in EU",  status: "todo" },
+      ]},
+      { label: "Product & Investors", items: [
+        { text: "Investor dashboard beta (NAV, yield, live portfolio)",      status: "todo" },
+        { text: "First Investment Memorandum published",                     status: "todo" },
+        { text: "SEPA + card + crypto gateway integrated",                   status: "todo" },
+        { text: "AI Oracle MVP: real-time NAV data feed",                    status: "todo" },
+      ]},
+      { label: "Institutional Expansion", items: [
+        { text: "European institutional roadshow initiated",                 status: "todo" },
+        { text: "EU Asset Management boutique partnerships formalized",      status: "todo" },
+        { text: "Due diligence of 3+ builders completed",                    status: "todo" },
+      ]},
+    ],
+  },
+  {
+    phase: "04",
+    name: "Ignition — Mainnet & Flywheel",
+    subtitle: "First assets on-chain, primary $GRES, and ecosystem activation",
+    groups: [
+      { label: "Platform Launch", items: [
+        { text: "Mainnet launch — audited platform in production",           status: "todo" },
+        { text: "GRES.ALPHA to Platform Credits conversion activated",       status: "todo" },
+        { text: "First primary $GRES round open to the public",             status: "todo" },
+        { text: "$GRES/USDC liquidity on DEXs via third-party providers",   status: "todo" },
+      ]},
+      { label: "First On-Chain Portfolio", items: [
+        { text: "Property deeds registered on-chain (Proof of Deed)",       status: "todo" },
+        { text: "$GRES minted with NAV 100% backed by physical assets",     status: "todo" },
+        { text: "AI Oracle live — real-time portfolio NAV",                  status: "todo" },
+        { text: "Public Proof of Reserves — verifiable on-chain",           status: "todo" },
+      ]},
+      { label: "Flywheel & Scale", items: [
+        { text: "Yield split smart contract active",                         status: "todo" },
+        { text: "Regional Agent network operational in EU markets",          status: "todo" },
+        { text: "GTM campaign — $300K marketing (target: $10M AUM)",        status: "todo" },
+        { text: "On-chain governance — holders vote on priorities",          status: "todo" },
+      ]},
+    ],
+  },
+  {
+    phase: "∞",
+    name: "Perpetual — The Fund That Never Stops",
+    subtitle: "Global scale, full AI Oracle, and $1B AUM",
+    groups: [
+      { label: "Long-Term Vision", items: [
+        { text: "$1B in AUM — diversified EU portfolio",                     status: "todo" },
+        { text: "AI Oracle with CV and 24/7 scraping in 20+ markets",       status: "todo" },
+        { text: "$GRES with compound NAV from growing asset portfolio",     status: "todo" },
+        { text: "GRES Exchange: permissioned secondary market",             status: "todo" },
+        { text: "GRES Loyalty: holder access to portfolio properties",      status: "todo" },
+        { text: "Back-office largely automated by AI",                       status: "todo" },
+      ]},
+    ],
+  },
+];
+
+
+/* ══════════════════════════════════════════
+   APPLICATION LOGIC (don't edit below
+   unless you know what you're doing)
+   ══════════════════════════════════════════ */
+
+let connectedAddress = null;
+
+// ── Calculate phase progress dynamically ──
+function calcPhaseProgress(phase) {
+  let total = 0, doneCount = 0, progCount = 0;
+  phase.groups.forEach(g => g.items.forEach(item => {
+    total++;
+    if (item.status === "done") doneCount++;
+    else if (item.status === "prog") progCount++;
+  }));
+  // done = 1 point, prog = 0.5 points
+  const score = doneCount + (progCount * 0.5);
+  return Math.round((score / total) * 100);
+}
+
+// ── Auto-detect phase status from milestones ──
+function calcPhaseStatus(phases) {
+  let prevCompleted = true;
+  phases.forEach((phase, i) => {
+    const allItems = phase.groups.flatMap(g => g.items);
+    const allDone = allItems.every(it => it.status === "done");
+    const anyStarted = allItems.some(it => it.status === "done" || it.status === "prog");
+    
+    if (allDone) {
+      phase._status = "completed";
+    } else if (anyStarted) {
+      phase._status = "live";
+    } else if (prevCompleted || (i > 0 && phases[i-1]._status === "live")) {
+      phase._status = "next";
+    } else {
+      phase._status = "future";
+    }
+    prevCompleted = allDone;
   });
-
-  Logger.log("Email de teste enviado para: " + emailDestino);
-  Logger.log("Quota restante: " + MailApp.getRemainingDailyQuota() + " emails");
 }
 
+// ── Render Lot Grid ──
+function renderLots() {
+  const grid = document.getElementById('lot-grid');
+  grid.innerHTML = CONFIG.lots.map(lot => {
+    const label = lot.status === 'completed' ? '✓ Closed' : lot.status === 'active' ? '● Live Now' : lot.status === 'upcoming' ? 'Next' : 'Future';
+    return `<div class="lot-card ${lot.status}"><div class="lot-name">${lot.name}</div><div class="lot-price">$${lot.price}</div><div class="lot-raise">${lot.raise}</div><div class="lot-status">${label}</div></div>`;
+  }).join('');
 
-// ── GET ──
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok" }))
-    .setMimeType(ContentService.MimeType.JSON);
+  // Raise bar
+  const raiseEl = document.getElementById('raise-progress');
+  if (CONFIG.totalRaised >= CONFIG.showRaiseBarAfter) {
+    raiseEl.classList.remove('hidden');
+    document.getElementById('raise-fill').style.width = Math.round((CONFIG.totalRaised / CONFIG.hardCap) * 100) + '%';
+    document.getElementById('raised-display').textContent = '$' + CONFIG.totalRaised.toLocaleString();
+  } else {
+    raiseEl.classList.add('hidden');
+  }
+
+  document.getElementById('card-price').textContent = '$' + CONFIG.lotPrice;
+  document.getElementById('card-next').textContent = '$' + CONFIG.nextLotPrice;
 }
 
+// ── Render Roadmap ──
+function renderRoadmap() {
+  calcPhaseStatus(ROADMAP);
+  const container = document.getElementById('roadmap-timeline');
+  const svgCheck = `<svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><polyline points="4,7 6,9.5 10,4.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>`;
+  const svgProg = `<svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="currentColor"/></svg>`;
+  const svgTodo = `<svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/></svg>`;
+  const chevron = `<svg class="rm-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
 
-// ── POST ──
-function doPost(e) {
-  try {
-    var data = JSON.parse(e.postData.contents);
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+  container.innerHTML = ROADMAP.map(phase => {
+    const status = phase._status;
+    const progress = calcPhaseProgress(phase);
+    const isOpen = status === 'live' ? 'open' : '';
+    const badgeClass = status === 'completed' ? 'b-done' : status === 'live' ? 'b-live' : status === 'next' ? 'b-next' : 'b-future';
+    const badgeText = status === 'completed' ? 'Completed' : status === 'live' ? `${progress}% Done` : status === 'next' ? 'Up Next' : 'Future';
+    const fillColor = status === 'completed' ? 'var(--green)' : status === 'live' ? 'var(--gold)' : status === 'next' ? 'var(--blue)' : 'var(--text-muted)';
+    const labelColor = status === 'completed' ? 'color:var(--green)' : status === 'live' ? 'color:var(--gold)' : status === 'next' ? 'color:var(--blue)' : '';
 
-    // ═══ WAITLIST ═══
-    if (data.sheet === "Waitlist") {
+    const progressHTML = progress > 0 ? `<div class="rm-progress"><div class="rm-ptrack"><div class="rm-pfill" style="width:${progress}%;background:${fillColor}"></div></div><div class="rm-plabel" style="${labelColor}">${progress}%</div></div>` : '';
 
-      var sheet = ss.getSheetByName("Waitlist");
-      if (!sheet) {
-        sheet = ss.insertSheet("Waitlist");
-        sheet.appendRow(["Nome", "Email", "Data", "Wallet"]);
-        sheet.getRange(1, 1, 1, 4).setFontWeight("bold");
-      }
+    const groupsHTML = phase.groups.map(g => `<div class="rm-group"><div class="rm-group-label">${g.label}</div><div>${g.items.map(item => {
+      const icon = item.status === 'done' ? svgCheck : item.status === 'prog' ? svgProg : svgTodo;
+      return `<div class="rm-item ${item.status}">${icon}<span>${item.text}</span></div>`;
+    }).join('')}</div></div>`).join('');
 
-      // Evitar duplicatas
-      var lastRow = sheet.getLastRow();
-      if (lastRow > 1) {
-        var emails = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
-        for (var i = 0; i < emails.length; i++) {
-          if (emails[i][0] === data.email) {
-            return _json({ status: "duplicate" });
-          }
-        }
-      }
+    return `<div class="rm-phase ${status} ${isOpen}" onclick="togglePhase(this)"><div class="rm-dot"><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg></div><div class="rm-card"><div class="rm-top"><div class="rm-num">${phase.phase}</div><div class="rm-info"><div class="rm-name">${phase.name}</div><div class="rm-sub">${phase.subtitle}</div>${progressHTML}</div><div class="rm-meta"><span class="rm-badge ${badgeClass}">${badgeText}</span>${chevron}</div></div><div class="rm-body"><div class="rm-milestones">${groupsHTML}</div></div></div></div>`;
+  }).join('');
+}
 
-      // Gravar na planilha
-      sheet.appendRow([
-        data.name || "",
-        data.email || "",
-        Utilities.formatDate(new Date(), "Europe/Madrid", "dd/MM/yyyy HH:mm:ss"),
-        data.wallet || ""
-      ]);
+// ── Toggle Roadmap ──
+window.togglePhase = function(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.rm-phase.open').forEach(p => { if(p !== el) p.classList.remove('open'); });
+  el.classList.toggle('open', !wasOpen);
+};
 
-      // Enviar email
-      try {
-        sendWaitlistEmail(data.name, data.email);
-        Logger.log("Waitlist email SENT to: " + data.email);
-      } catch (emailErr) {
-        Logger.log("EMAIL FAILED: " + emailErr.message);
-      }
+// ── Modals ──
+window.openModal = function(id) { document.getElementById(id).classList.add('active'); };
+window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if(e.target === m) m.classList.remove('active'); });
+});
 
-      return _json({ status: "ok", type: "waitlist" });
-    }
+// ── Connect Wallet from Waitlist Modal ──
+window.connectWalletForWaitlist = function() {
+  modal.open();
+};
 
-    // ═══ INVESTIDORES ═══
-    if (data.sheet === "Investidores") {
-
-      var sheet = ss.getSheetByName("Investidores");
-      if (!sheet) {
-        sheet = ss.insertSheet("Investidores");
-        sheet.appendRow(["Data","Email","Carteira_Investidor","Valor_USDC","TxHash","Ref_Wallet","Lote_Atual","Bonus_Airdrop"]);
-        sheet.getRange(1, 1, 1, 8).setFontWeight("bold");
-      }
-
-      var bonusAirdrop = "";
-      if (data.ref && data.ref !== "") {
-        var prices = { 1:0.002, 2:0.004, 3:0.007, 4:0.010 };
-        var price = prices[data.lot] || 0.002;
-        bonusAirdrop = Math.floor((parseFloat(data.value) / price) * 0.20);
-      }
-
-      sheet.appendRow([
-        Utilities.formatDate(new Date(), "Europe/Madrid", "dd/MM/yyyy HH:mm:ss"),
-        data.email || "",
-        data.wallet || "",
-        data.value || "",
-        data.hash || "",
-        data.ref || "",
-        "Lot 0" + (data.lot || "1"),
-        bonusAirdrop
-      ]);
-
-      try {
-        if (data.email) sendTransactionEmail(data.email, data.value, data.hash);
-        Logger.log("Transaction email SENT to: " + data.email);
-      } catch (emailErr) {
-        Logger.log("TX EMAIL FAILED: " + emailErr.message);
-      }
-
-      return _json({ status: "ok", type: "investidor" });
-    }
-
-    return _json({ status: "error", message: "Unknown sheet type" });
-
-  } catch (err) {
-    Logger.log("doPost ERROR: " + err.message);
-    return _json({ error: err.message });
+// Update wallet UI inside waitlist modal
+function updateWaitlistWalletUI() {
+  const disc = document.getElementById('wl-wallet-disconnected');
+  const conn = document.getElementById('wl-wallet-connected');
+  const addr = document.getElementById('wl-wallet-addr');
+  if (!disc || !conn) return;
+  if (connectedAddress) {
+    disc.style.display = 'none';
+    conn.style.display = 'block';
+    if (addr) addr.textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
+  } else {
+    disc.style.display = 'block';
+    conn.style.display = 'none';
   }
 }
 
+// ── Waitlist Submission ──
+window.submitWaitlist = async function() {
+  const name = document.getElementById('wl-name').value.trim();
+  const email = document.getElementById('wl-email').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
 
-function _json(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
+  const wallet = connectedAddress || '';
+
+  try {
+    fetch(CONFIG.sheetsAPI, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        sheet: 'Waitlist',
+        name: name,
+        email: email,
+        date: new Date().toISOString(),
+        wallet: wallet,
+      }),
+    }).catch(err => console.error('Waitlist fetch error', err));
+  } catch(e) { console.error('Waitlist save error', e); }
+
+  // Show success
+  document.getElementById('wl-form-area').style.display = 'none';
+  document.getElementById('wl-success').style.display = 'block';
+  document.getElementById('wl-confirm-email').textContent = email;
+  
+  // Show wallet confirmation if connected
+  if (wallet) {
+    const wlw = document.getElementById('wl-success-wallet');
+    const wlwa = document.getElementById('wl-confirm-wallet');
+    if (wlw) wlw.style.display = 'block';
+    if (wlwa) wlwa.textContent = wallet.substring(0,6) + '...' + wallet.slice(-4);
+  }
+};
+
+// ── Community Gate for Referral (future use) ──
+window.checkCommunityGate = function() {
+  const joined = document.getElementById('community-joined').checked;
+  const area = document.getElementById('ref-link-area');
+  if (joined && connectedAddress) {
+    area.style.display = 'block';
+    document.getElementById('ref-link').value = window.location.origin + window.location.pathname + '?ref=' + connectedAddress;
+  } else { area.style.display = 'none'; }
+};
+
+window.copyRef = function() {
+  const input = document.getElementById('ref-link');
+  input.select();
+  navigator.clipboard.writeText(input.value);
+  const btn = input.nextElementSibling;
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy', 2000);
+};
+
+// ── Calculate Tokens ──
+window.calculateTokens = function() {
+  const val = parseFloat(document.getElementById('invest-amount').value) || 0;
+  document.getElementById('token-calc').textContent = val > 0 ? Math.floor(val / CONFIG.lotPrice).toLocaleString() : '0';
+};
+
+// ── Wallet Connection ──
+const modal = createAppKit({
+  adapters: [new Ethers5Adapter()],
+  networks: [base],
+  metadata: { name: 'GRES Protocol', url: window.location.origin, icons: [] },
+  projectId: CONFIG.walletConnectId,
+});
+
+modal.subscribeAccount(account => {
+  if (account.isConnected) {
+    connectedAddress = account.address;
+    document.getElementById('btn-connect').textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
+    document.getElementById('wallet-status').innerHTML = '<span style="color:var(--green)">● Connected</span>';
+    document.getElementById('referral-gate').style.display = 'block';
+    updateWaitlistWalletUI();
+  } else {
+    connectedAddress = null;
+    document.getElementById('btn-connect').textContent = 'Connect Wallet';
+    document.getElementById('wallet-status').innerHTML = 'Join the <a onclick="openModal(\'waitlist-modal\')" style="cursor:pointer; text-decoration:underline;">Waitlist</a> to be notified when Lot 01 opens.';
+    document.getElementById('referral-gate').style.display = 'none';
+    updateWaitlistWalletUI();
+  }
+});
+
+window.connectWallet = () => modal.open();
+
+// ── Purchase Flow (disabled in pre-launch) ──
+window.investNow = async function() {
+  if (CONFIG.saleStatus === 'pre-launch' || CONFIG.saleStatus === 'waitlist') {
+    alert('The sale has not started yet. Join the waitlist to be notified.');
+    return;
+  }
+  if (!connectedAddress) { modal.open(); return; }
+  if (!document.getElementById('agree-terms').checked) { alert('Please accept the Terms & Conditions.'); return; }
+  const email = document.getElementById('user-email').value;
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  const amount = parseFloat(document.getElementById('invest-amount').value);
+  if (!amount || amount < 1) { alert('Minimum 1 USDC.'); return; }
+
+  try {
+    const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
+    const signer = provider.getSigner();
+    const usdc = new ethers.Contract(CONFIG.usdcContract, ['function transfer(address to, uint amount) returns (bool)'], signer);
+    alert('Please confirm the USDC transfer in your wallet.');
+    const tx = await usdc.transfer(CONFIG.treasuryWallet, ethers.utils.parseUnits(amount.toString(), 6));
+    document.getElementById('success-modal').classList.add('active');
+    await tx.wait();
+    fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: amount, hash: tx.hash, ref: new URLSearchParams(window.location.search).get('ref') || '', lot: CONFIG.currentLot }) }).catch(err => console.error('Tx log error', err));
+  } catch (e) { console.error('Tx error:', e); alert('Transaction failed.'); }
+};
+
+
+/* ── FAQ DATA ── */
+const FAQ = [
+  { q: "What is GRES.ALPHA?", a: "GRES.ALPHA is a utility token designed to fund the development of the GRES Protocol. It is NOT a security, equity, or ownership stake. Holders gain access to a Buyback & Burn mechanism and significant fee reductions within the future ecosystem through Platform Credits." },
+  { q: "What is the GRES Protocol?", a: "GRES is the first perpetual, AI-managed real estate fund built on blockchain. It tokenizes a diversified global portfolio of real estate assets, providing investors with a liquid, asset-backed token ($GRES) whose value is driven by real-time Net Asset Value calculated by an AI Oracle." },
+  { q: "How does the 50x return potential work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The protocol\u2019s Buyback & Burn mechanism purchases tokens back at a floor price of $0.05 and a cap of $0.10 \u2014 representing a 25x to 50x multiple from the Lot 01 entry price. This buyback is funded by 0.5% of all transactional volume within the ecosystem." },
+  { q: "What is the Buyback & Burn mechanism?", a: "The protocol allocates 0.5% of all transactional volume to buy GRES.ALPHA from liquidity pools and permanently burn them. This creates mathematically enforced deflation: supply decreases over time while buyback demand is constant. The burn floor is $0.05 and the burn cap is $0.10, engineered for total supply absorption within 60 months." },
+  { q: "How are my assets protected?", a: "The GRES Protocol uses the \u201CRolex Governance Model\u201D \u2014 a non-profit Foundation holds 100% of all property deeds and titles, legally ring-fenced from the for-profit Operator. This means your real estate backing is protected even if the technology company faces issues. Think of it as a Vanguard-like structure for digital real estate." },
+  { q: "What happens after I buy GRES.ALPHA?", a: "Your tokens are sent to your wallet on the BASE network (Ethereum L2). During the development phase, you hold them. When the mainnet launches, you can burn your GRES.ALPHA to receive Platform Credits (fee discounts) or hold them for the Buyback & Burn mechanism. You will be guided through every step via email and our Telegram community." },
+  { q: "When does Lot 01 open?", a: "Lot 01 opens soon. Waitlist members receive 48 hours of exclusive early access before the public sale begins on May 1st. Join the waitlist now to secure priority access at the lowest price ($0.002)." },
+  { q: "How do I buy? What do I need?", a: "You need a Web3 wallet (such as MetaMask or Coinbase Wallet) connected to the BASE network, funded with USDC stablecoins. A step-by-step buying guide will be sent to all waitlist members before Lot 01 opens." },
+  { q: "What is the referral program?", a: "Every community member gets a unique referral link. When someone you refer purchases GRES.ALPHA, you receive an airdrop equal to 20% of their purchase amount. Example: your friend buys $500 worth of GRES.ALPHA (250,000 tokens), you receive 50,000 tokens ($100 value at Lot 01 price) \u2014 for free." },
+  { q: "Is GRES.ALPHA a security?", a: "No. GRES.ALPHA is classified as a utility token. It does not represent equity, debt, dividends, or ownership in any entity. It provides access to ecosystem utilities (fee reductions via Platform Credits) and is subject to a Buyback & Burn mechanism. The protocol is designed for full alignment with MiCA (EU) regulations. Always consult your own legal and financial advisors." },
+];
+
+function renderFAQ() {
+  const container = document.getElementById('faq-list');
+  if (!container) return;
+  const chevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+  container.innerHTML = FAQ.map(f =>
+    '<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><h3>' + f.q + '</h3>' + chevron + '</div><div class="faq-a"><div class="faq-a-inner">' + f.a + '</div></div></div>'
+  ).join('');
 }
+window.toggleFaq = function(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(f => { if(f !== el) f.classList.remove('open'); });
+  el.classList.toggle('open', !wasOpen);
+};
 
-
-// ══════════════════════════════════════════
-// EMAILS (usando MailApp — não precisa de escopo Gmail)
-// ══════════════════════════════════════════
-
-function sendWaitlistEmail(name, email) {
-  MailApp.sendEmail({
-    to: email,
-    subject: "GRES Protocol — You're on the Waitlist ✓",
-    name: SENDER_NAME,
-    htmlBody:
-      '<div style="margin:0;padding:0;background:#f5f3ef;font-family:Georgia,serif;">'
-    + '<div style="max-width:560px;margin:0 auto;padding:40px 20px;">'
-    + '<div style="background:#0C0F16;border-radius:16px;padding:40px;text-align:center;">'
-
-    + '<h1 style="color:#C9A96E;font-family:Arial,sans-serif;font-size:24px;letter-spacing:4px;margin:0 0 4px;">GRES PROTOCOL</h1>'
-    + '<p style="color:#7A7D85;font-size:11px;margin:0 0 28px;letter-spacing:2px;">GLOBAL REAL ESTATE STANDARD</p>'
-    + '<div style="width:50px;height:2px;background:#C9A96E;margin:0 auto 28px;"></div>'
-
-    + '<h2 style="color:#E8E4DC;font-size:20px;margin:0 0 14px;">Welcome, ' + (name || 'there') + '.</h2>'
-    + '<p style="color:#7A7D85;font-size:14px;line-height:1.7;margin:0 0 24px;">'
-    + 'You are now on the GRES Protocol waitlist. We will notify you as soon as the '
-    + '<span style="color:#C9A96E;font-weight:bold;">GRES.ALPHA Seed Round (Lot 01)</span> is live.</p>'
-
-    + '<div style="background:#111520;border-radius:10px;padding:20px;text-align:left;margin:0 0 24px;border:1px solid #1A1E2A;">'
-    + '<p style="color:#C9A96E;font-size:10px;font-family:Arial,sans-serif;letter-spacing:1.5px;margin:0 0 10px;font-weight:bold;">WHAT HAPPENS NEXT</p>'
-    + '<p style="color:#999;font-size:13px;line-height:1.8;margin:0;">'
-    + '1. Smart contract is being deployed on BASE<br>'
-    + '2. You will receive an email when Lot 01 opens<br>'
-    + '3. Waitlist members get priority access<br>'
-    + '4. Join our Telegram for real-time updates</p>'
-    + '</div>'
-
-    + '<a href="https://t.me/gresprotocol" style="display:inline-block;background:#229ED9;color:white;padding:12px 32px;border-radius:8px;text-decoration:none;font-size:14px;font-family:Arial,sans-serif;font-weight:bold;">Join Telegram</a>'
-
-    + '<div style="margin-top:28px;padding-top:18px;border-top:1px solid #1A1E2A;">'
-    + '<p style="color:#4A4D55;font-size:10px;margin:0;"><a href="https://gres.network" style="color:#C9A96E;text-decoration:none;">gres.network</a> &nbsp;|&nbsp; &copy; 2026 GRES Protocol</p>'
-    + '</div>'
-
-    + '</div></div></div>'
-  });
+/* ── Countdown ── */
+function updateCountdown() {
+  const diff = CONFIG.saleStartDate - new Date();
+  if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '0'; }); return; }
+  const el = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+  el('cd-days', Math.floor(diff / 86400000));
+  el('cd-hours', String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0'));
+  el('cd-mins', String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0'));
+  el('cd-secs', String(Math.floor((diff % 60000) / 1000)).padStart(2,'0'));
 }
+setInterval(updateCountdown, 1000);
+updateCountdown();
 
+// ── Init ──
+renderLots();
+renderRoadmap();
+renderFAQ();
 
-function sendTransactionEmail(email, value, hash) {
-  MailApp.sendEmail({
-    to: email,
-    subject: "GRES.ALPHA — Allocation Confirmed ✓",
-    name: SENDER_NAME,
-    htmlBody:
-      '<div style="margin:0;padding:0;background:#f5f3ef;font-family:Georgia,serif;">'
-    + '<div style="max-width:560px;margin:0 auto;padding:40px 20px;">'
-    + '<div style="background:#0C0F16;border-radius:16px;padding:40px;text-align:center;">'
-
-    + '<h1 style="color:#C9A96E;font-family:Arial,sans-serif;font-size:24px;letter-spacing:4px;margin:0 0 4px;">GRES PROTOCOL</h1>'
-    + '<p style="color:#7A7D85;font-size:11px;margin:0 0 28px;letter-spacing:2px;">GLOBAL REAL ESTATE STANDARD</p>'
-    + '<div style="width:50px;height:2px;background:#10B981;margin:0 auto 28px;"></div>'
-
-    + '<h2 style="color:#10B981;font-size:20px;margin:0 0 14px;">Allocation Confirmed &#10003;</h2>'
-    + '<p style="color:#7A7D85;font-size:14px;line-height:1.7;margin:0 0 24px;">'
-    + 'Your purchase of <span style="color:#C9A96E;font-weight:bold;">$' + (value||'—') + ' USDC</span> in GRES.ALPHA has been confirmed on the BASE network.</p>'
-
-    + '<div style="background:#111520;border-radius:10px;padding:16px;text-align:left;margin:0 0 24px;border:1px solid #1A1E2A;">'
-    + '<p style="color:#7A7D85;font-size:11px;margin:0 0 6px;">Transaction Hash:</p>'
-    + '<p style="color:#C9A96E;font-size:11px;word-break:break-all;margin:0;font-family:monospace;">'
-    + '<a href="https://basescan.org/tx/' + (hash||'') + '" style="color:#C9A96E;">' + (hash||'pending') + '</a></p>'
-    + '</div>'
-
-    + '<p style="color:#7A7D85;font-size:13px;line-height:1.6;margin:0 0 20px;">'
-    + 'Tokens will be distributed according to the lot schedule. You will be notified when distribution begins.</p>'
-
-    + '<div style="margin-top:28px;padding-top:18px;border-top:1px solid #1A1E2A;">'
-    + '<p style="color:#4A4D55;font-size:10px;margin:0;"><a href="https://gres.network" style="color:#C9A96E;text-decoration:none;">gres.network</a> &nbsp;|&nbsp; &copy; 2026 GRES Protocol</p>'
-    + '</div>'
-
-    + '</div></div></div>'
-  });
-}
+</script>
+</body>
+</html>
