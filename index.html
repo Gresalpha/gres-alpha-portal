@@ -748,23 +748,33 @@ a:hover { color: var(--gold-light); }
     <button class="modal-close" onclick="closeModal('wp-modal')">&times;</button>
     <h3 style="color:var(--gold);margin-bottom:20px;">Whitepaper</h3>
     
-    <!-- Pre-community state -->
-    <div id="wp-step1">
-      <p style="margin:0 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.7;">Join our community to access the full GRES Protocol Whitepaper and receive priority updates.</p>
-      <div style="margin-bottom:16px">
-        <a href="https://t.me/gresprotocol" target="_blank" class="community-btn tg" style="display:inline-flex;padding:12px 24px;border-radius:8px;font-size:13px"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>&nbsp; Join Telegram</a>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:16px"><input type="checkbox" id="wp-community-check" style="accent-color:var(--gold)" onchange="var b=document.getElementById('wp-unlock-btn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4'"><label for="wp-community-check" style="font-size:12px;color:var(--text-secondary)">I've joined the community</label></div>
-      <button id="wp-unlock-btn" disabled class="btn-waitlist" style="width:100%;opacity:0.4" onclick="document.getElementById('wp-step1').style.display='none';document.getElementById('wp-step2').style.display='block'">Unlock Whitepaper</button>
+    <!-- PRE-LAUNCH: join waitlist to get early access -->
+    <div id="wp-prelaunch">
+      <p style="margin:0 0 8px;font-size:14px;color:var(--text);line-height:1.7;">The full GRES Protocol Whitepaper will be available to <strong style="color:var(--gold)">waitlist members</strong> before the public launch.</p>
+      <p style="margin:0 0 20px;font-size:13px;color:var(--text-secondary);line-height:1.7;">Join the waitlist now to receive early access to the Whitepaper and the token pre-sale.</p>
+      <button class="btn-waitlist" onclick="closeModal('wp-modal'); openModal('waitlist-modal');" style="width:100%;">✉ Join the Waitlist</button>
+      <p style="margin-top:16px;font-size:12px;color:var(--text-muted);">In the meantime, read our <a href="Lightpaper.pdf" target="_blank">Lightpaper</a> and <a href="Tokenomics.pdf" target="_blank">Token Paper</a>.</p>
     </div>
     
-    <!-- Post-community state -->
-    <div id="wp-step2" style="display:none">
-      <p style="margin:0 0 20px;font-size:14px;color:var(--text-secondary);line-height:1.7;">Access the GRES Protocol documentation:</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <a href="Lightpaper.pdf" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);font-family:var(--font-heading);font-size:13px;font-weight:600;text-decoration:none;transition:var(--transition)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Lightpaper v1.0</a>
-        <a href="Tokenomics.pdf" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);font-family:var(--font-heading);font-size:13px;font-weight:600;text-decoration:none;transition:var(--transition)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Token Paper v1.0</a>
-        <a href="Whitepaper.pdf" target="_blank" id="wp-download-link" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--radius);border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;text-decoration:none;transition:var(--transition)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Whitepaper v1.0</a>
+    <!-- WAITLIST & LIVE: community gate then docs -->
+    <div id="wp-active" style="display:none">
+      <!-- Step 1: community gate -->
+      <div id="wp-step1">
+        <p style="margin:0 0 16px;font-size:14px;color:var(--text-secondary);line-height:1.7;">Join our community to access the full GRES Protocol Whitepaper and receive priority updates.</p>
+        <div style="margin-bottom:16px">
+          <a href="https://t.me/gresprotocol" target="_blank" class="community-btn tg" style="display:inline-flex;padding:12px 24px;border-radius:8px;font-size:13px"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>&nbsp; Join Telegram</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:16px"><input type="checkbox" id="wp-community-check" style="accent-color:var(--gold)" onchange="var b=document.getElementById('wp-unlock-btn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4'"><label for="wp-community-check" style="font-size:12px;color:var(--text-secondary)">I've joined the community</label></div>
+        <button id="wp-unlock-btn" disabled class="btn-waitlist" style="width:100%;opacity:0.4" onclick="document.getElementById('wp-step1').style.display='none';document.getElementById('wp-step2').style.display='block'">Unlock Whitepaper</button>
+      </div>
+      <!-- Step 2: docs -->
+      <div id="wp-step2" style="display:none">
+        <p style="margin:0 0 20px;font-size:14px;color:var(--text-secondary);line-height:1.7;">Access the GRES Protocol documentation:</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="Lightpaper.pdf" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);font-family:var(--font-heading);font-size:13px;font-weight:600;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Lightpaper v1.0</a>
+          <a href="Tokenomics.pdf" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);font-family:var(--font-heading);font-size:13px;font-weight:600;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Token Paper v1.0</a>
+          <a href="Whitepaper.pdf" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--radius);border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Whitepaper v1.0</a>
+        </div>
       </div>
     </div>
   </div>
@@ -866,7 +876,7 @@ const CONFIG = {
   // 1. Start at "pre-launch" (current)
   // 2. 48h before May 1st: change to "waitlist" + deploy
   // 3. May 1st: change to "live" + deploy
-  saleStatus: "live",
+  saleStatus: "pre-launch",
 
   // ── Token Sale (update when live) ──
   currentLot: 1,
@@ -883,7 +893,7 @@ const CONFIG = {
   // Populate from Waitlist sheet (column Wallet) before switching to "waitlist".
   // When smart contract is deployed, this check moves on-chain.
   whitelist: [
-    "0xC5a3941635c0da1B020DE56165Ff729f975d708d",
+    // "0xABC...123",
     // "0xDEF...456",
   ],
 
@@ -1158,17 +1168,24 @@ function applySaleState() {
     setBtnPurchase(false, 'Coming Soon');
     if (ws) ws.innerHTML = 'Join the <a onclick="openModal(\'waitlist-modal\')" style="cursor:pointer;text-decoration:underline">Waitlist</a> to be notified when Lot 01 opens.';
     if (cdBlock) cdBlock.style.display = 'block';
+    var wpPL = document.getElementById('wp-prelaunch');
+    var wpAC = document.getElementById('wp-active');
+    if (wpPL) wpPL.style.display = 'block';
+    if (wpAC) wpAC.style.display = 'none';
     if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Lot 01 Opening Soon';
     if (heroWL) heroWL.style.display = 'inline-flex';
 
   } else if (s === 'waitlist') {
     if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
     if (ba) { ba.disabled = false; ba.classList.remove('btn-coming-soon'); }
-    if (ha) { ha.disabled = true; ha.classList.add('btn-coming-soon'); }
-    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early Access &mdash; Waitlist Only'; }
+        if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); } if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early Access &mdash; Waitlist Only'; }
     if (cl) cl.textContent = 'Early Access';
     if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '&#128274; Early access active &mdash; waitlist members only'; }
     if (cdBlock) cdBlock.style.display = 'block';
+    var wpPL2 = document.getElementById('wp-prelaunch');
+    var wpAC2 = document.getElementById('wp-active');
+    if (wpPL2) wpPL2.style.display = 'none';
+    if (wpAC2) wpAC2.style.display = 'block';
     if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Early Access Active';
     if (heroWL) heroWL.style.display = 'none';
     var cdCta = document.getElementById('cd-waitlist-cta');
@@ -1199,12 +1216,16 @@ function applySaleState() {
   } else if (s === 'live') {
     if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
     if (ba) { ba.disabled = false; ba.classList.remove('btn-coming-soon'); }
-    if (ha) { ha.disabled = true; ha.classList.add('btn-coming-soon'); }
+    if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); }
     if (plb) plb.style.display = 'none';
     if (gm) gm.style.display = 'none';
     if (cl) cl.textContent = '0' + CONFIG.currentLot + ' / 04';
     if (urg) { urg.style.color = 'var(--red)'; urg.innerHTML = '&#128308; Lot 0' + CONFIG.currentLot + ' is LIVE &mdash; limited allocation'; }
     if (cdBlock) cdBlock.style.display = 'none';
+    var wpPL3 = document.getElementById('wp-prelaunch');
+    var wpAC3 = document.getElementById('wp-active');
+    if (wpPL3) wpPL3.style.display = 'none';
+    if (wpAC3) wpAC3.style.display = 'block';
     if (heroWL) heroWL.style.display = 'none';
     if (heroEye) {
       const lot = CONFIG.currentLot;
