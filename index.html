@@ -916,6 +916,8 @@ const CONFIG = {
   treasuryWallet: "0xC5a3941635c0da1B020DE56165Ff729f975d708d",
   usdcContract:   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
   sheetsAPI: "https://script.google.com/macros/s/AKfycbx6HF8f0XnYUcMsZsWoUj6-xZggkqKAtxRCvSd6aVgbmthcKyqBj8pQflxvPfHH5IlGUQ/exec",
+  // n8n WF4 webhooks — handles email + Sheets in one call
+  n8nWebhook: "https://gres.app.n8n.cloud/webhook",
   walletConnectId: "fbc5f569abebf58f9c260075a2882c1a",
 };
 
@@ -1349,18 +1351,19 @@ window.submitWaitlist = async function() {
 
   const wallet = connectedAddress;
 
+  const ref = new URLSearchParams(window.location.search).get('ref') || '';
+  // n8n webhook: sends welcome email + saves to Google Sheets
   try {
-    fetch(CONFIG.sheetsAPI, {
+    fetch(CONFIG.n8nWebhook + '/waitlist', {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        sheet: 'Waitlist',
-        name: name,
-        email: email,
-        date: new Date().toISOString(),
-        wallet: wallet,
-      }),
-    }).catch(err => console.error('Waitlist fetch error', err));
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, wallet, source: 'landing_page', referral_code: ref }),
+    }).catch(err => {
+      console.error('n8n error, fallback to Sheets:', err);
+      fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ sheet: 'Waitlist', name, email, date: new Date().toISOString(), wallet })
+      }).catch(e => console.error('Sheets fallback error', e));
+    });
   } catch(e) { console.error('Waitlist save error', e); }
 
   // Show success
@@ -1456,7 +1459,19 @@ window.investNow = async function() {
     const tx = await usdc.transfer(CONFIG.treasuryWallet, ethers.utils.parseUnits(amount.toString(), 6));
     document.getElementById('success-modal').classList.add('active');
     await tx.wait();
-    fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: amount, hash: tx.hash, ref: new URLSearchParams(window.location.search).get('ref') || '', lot: CONFIG.currentLot }) }).catch(err => console.error('Tx log error', err));
+    // n8n webhook: sends purchase confirmation email + saves to Google Sheets
+    const tokens = Math.floor(amount / CONFIG.lotPrice);
+    const ref = new URLSearchParams(window.location.search).get('ref') || '';
+    fetch(CONFIG.n8nWebhook + '/purchase', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: amount, tokens, lot: 'Lot 0' + CONFIG.currentLot, tx_hash: tx.hash, referral_code: ref }),
+    }).catch(err => {
+      console.error('n8n purchase error, fallback to Sheets:', err);
+      fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: amount, hash: tx.hash, ref, lot: CONFIG.currentLot })
+      }).catch(e => console.error('Sheets fallback error', e));
+    });
   } catch (e) { console.error('Tx error:', e); alert('Transaction failed.'); }
 };
 
