@@ -623,7 +623,7 @@ a:hover { color: var(--gold-light); }
           </div>
           <div id="cd-waitlist-cta" style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Waitlist members get 48h exclusive early access. <a onclick="openModal('waitlist-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
         </div>
-        <div class="pre-launch-badge"><span class="dot"></span> Smart contract deployment pending</div>
+        <div class="pre-launch-badge"><span class="dot"></span> Sale opens May 13th (waitlist) / May 15th (public)</div>
         <div class="invest-lot-bar">
           <div><div class="label">Starting Price</div><div class="value" id="card-price">$0.002</div></div>
           <div><div class="label">Next Lot</div><div class="value" id="card-next">$0.004</div></div>
@@ -848,7 +848,8 @@ a:hover { color: var(--gold-light); }
     <button class="modal-close" onclick="location.reload()">&times;</button>
     <div style="font-size:48px;margin-bottom:16px;">✓</div>
     <h3>Allocation Confirmed</h3>
-    <p style="margin:16px 0 24px;">Transaction successful. A confirmation email has been sent — <strong style="color:var(--text)">please check your spam folder</strong>.</p>
+    <p style="margin:16px 0 24px;">Transaction successful. Your GRES.ALPHA tokens have been sent to your wallet. A confirmation email has been sent — <strong style="color:var(--text)">please check your spam folder</strong>.</p>
+    <button class="btn btn-ghost" style="width:100%;margin-bottom:10px" onclick="addTokenToWallet()">Add GRES.ALPHA to Wallet</button>
     <button class="btn btn-primary btn-lg" style="background:var(--green);" onclick="location.reload()">Got It</button>
   </div>
 </div>
@@ -867,59 +868,41 @@ import { base } from 'https://esm.sh/@reown/appkit/networks'
    ╚═══════════════════════════════════════════════════════════════════╝ */
 
 const CONFIG = {
-  // ── Sale Status (CHANGE THIS TO CONTROL THE SITE) ──
-  // "pre-launch" = everything disabled, only waitlist active
-  // "waitlist"   = 48h early access: only whitelisted wallets can buy
-  // "live"       = public sale open to everyone
-  //
-  // HOW TO LAUNCH:
-  // 1. Start at "pre-launch" (current)
-  // 2. 48h before May 1st: change to "waitlist" + deploy
-  // 3. May 1st: change to "live" + deploy
   saleStatus: "pre-launch",
-
-  // ── Token Sale (update when live) ──
-  currentLot: 1,
-  lotPrice: 0.002,
-  nextLotPrice: 0.004,
-  totalRaised: 0,
+  saleContract:  "0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93",
+  tokenContract: "0xba8A4A252b3819DD2244338e300a39eD30399c58",
+  usdcContract:  "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  treasuryWallet: "0x1a5ED4aFF8E4FeC1079028870f8E2Cd24ef5Dfc5",
+  saleStartDate:  new Date("2026-05-13T00:00:00Z"),
+  publicSaleDate: new Date("2026-05-15T00:00:00Z"),
+  whitelist: [],
   hardCap: 1000000,
-  showRaiseBarAfter: 50000,
-
-  // ── Smart Contract (set when deployed) ──
-  saleContract: null,  // "0x..." when ready
-  
-  // ── Whitelist (for "waitlist" mode) ──
-  // Populate from Waitlist sheet (column Wallet) before switching to "waitlist".
-  // When smart contract is deployed, this check moves on-chain.
-  whitelist: [
-    // "0xABC...123",
-    // "0xDEF...456",
-  ],
-
-  // ── Lot Details ──
-  // status: "completed" | "active" | "upcoming" | "future"
   lots: [
     { name: "Lot 01", price: 0.002, raise: "$100K", status: "upcoming" },
     { name: "Lot 02", price: 0.004, raise: "$200K", status: "future"   },
     { name: "Lot 03", price: 0.007, raise: "$350K", status: "future"   },
     { name: "Lot 04", price: 0.010, raise: "$350K", status: "future"   },
   ],
-
-  // ── Social Links ──
-  telegram:  "https://t.me/gresprotocol",
-  x:         "https://x.com/gresprotocol",
-  linkedin:  "https://linkedin.com/company/gresprotocol",
-  saleStartDate: new Date("2026-05-15T00:00:00Z"),
-
-  // ── Wallets & APIs ──
-  treasuryWallet: "0xC5a3941635c0da1B020DE56165Ff729f975d708d",
-  usdcContract:   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  sheetsAPI: "https://script.google.com/macros/s/AKfycbxpjSIU-2dizOPZutLHbpoVkFIlr8ALTA1KSROB2e4qIkUpr6lBOru_QcUPlceNb9Z_cw/exec",
-  // n8n WF4 webhooks — handles email + Sheets in one call
   n8nWebhook: "https://gres.app.n8n.cloud/webhook",
+  sheetsAPI: "https://script.google.com/macros/s/AKfycbxpjSIU-2dizOPZutLHbpoVkFIlr8ALTA1KSROB2e4qIkUpr6lBOru_QcUPlceNb9Z_cw/exec",
   walletConnectId: "fbc5f569abebf58f9c260075a2882c1a",
+  telegram: "https://t.me/gresprotocol",
+  x: "https://x.com/gresprotocol",
+  linkedin: "https://linkedin.com/company/gresprotocol",
 };
+
+const SALE_ABI = [
+  'function buy(uint256 usdcAmount)',
+  'function getQuote(uint256 usdcAmount) view returns (uint256 tokenAmount, uint256 usdcUsed)',
+  'function saleStatus() view returns (uint256,uint256,uint256,uint256,uint256,uint256,bool,bool,bool)',
+  'function getLot(uint256 index) view returns (uint256,uint256,uint256,bool,bool)',
+  'function whitelistOnly() view returns (bool)',
+  'function whitelist(address) view returns (bool)',
+  'function currentLot() view returns (uint256)',
+  'function currentPrice() view returns (uint256)',
+  'function saleFinished() view returns (bool)',
+];
+const USDC_ABI = ['function approve(address spender, uint amount) returns (bool)'];
 
 
 /* ╔═══════════════════════════════════════════════════════════════════╗
@@ -1104,30 +1087,43 @@ window.handleAirdropClick = function() {
     modal.open();
     return;
   }
-  // In waitlist mode, check if whitelisted
-  if (CONFIG.saleStatus === 'waitlist' && !isWhitelisted(connectedAddress)) {
-    const diff = CONFIG.saleStartDate - new Date();
-    const hours = Math.max(0, Math.floor(diff / 3600000));
-    alert('Your wallet is not on the waitlist. The public sale opens in ' + hours + ' hours.');
-    return;
-  }
-  // Scroll to referral section
+// Scroll to referral section
   const rg = document.getElementById('referral-gate');
   if (rg) rg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
-// ── Whitelist Check ──
-function isWhitelisted(address) {
+// ── Whitelist Check (on-chain with local fallback) ──
+function isWhitelistedLocal(address) {
   if (!address) return false;
-  // TODO: When smart contract deployed, replace with contract call
   return CONFIG.whitelist.some(w => w.toLowerCase() === address.toLowerCase());
 }
+
+// ── Refresh Sale State from Contract (every 30s) ──
+async function refreshSaleState() {
+  if (!CONFIG.saleContract || CONFIG.saleStatus === 'pre-launch') return;
+  try {
+    const provider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
+    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
+    const [_cL,_cP,_tIL,_tT,_tS,_tR,_wO,_sF,_p] = await sale.saleStatus();
+    const lotNum=_cL.toNumber(), price=_cP.toNumber()/1e6, raised=_tR.toNumber()/1e6;
+    const tokensLeft=parseFloat(ethers.utils.formatUnits(_tIL,18));
+    const lp=[0.002,0.004,0.007,0.010], lr=['$100K','$200K','$350K','$350K'];
+    for(let i=0;i<4;i++){try{const[,,,lA,lSO]=await sale.getLot(i);let st='future';if(lSO)st='completed';else if(lA)st='active';CONFIG.lots[i]={...CONFIG.lots[i],status:st};}catch(e){}}
+    const cp=document.getElementById('card-price'),cn=document.getElementById('card-next'),cl=document.getElementById('card-lot'),ug=document.getElementById('invest-urgency');
+    if(_sF){if(cp)cp.textContent='SOLD OUT';if(cn)cn.textContent='\u2014';if(cl)cl.textContent='Sold Out';if(ug){ug.style.color='var(--green)';ug.innerHTML='\u2705 All lots sold \u2014 Thank you!';}}
+    else{if(cp)cp.textContent='$'+price.toFixed(3);if(cn){const np=lotNum<4?lp[lotNum]:0;cn.textContent=np>0?'$'+np.toFixed(3):'Last Lot';}if(cl)cl.textContent='0'+lotNum+' / 04';if(ug){const lt=lotNum<=3?50e6:35e6,pct=Math.round((tokensLeft/lt)*100);if(pct<20){ug.style.color='var(--red)';ug.innerHTML='\ud83d\udd34 Lot 0'+lotNum+' \u2014 only '+pct+'% remaining!';}else{ug.style.color='var(--gold)';ug.innerHTML='\ud83d\udfe1 Lot 0'+lotNum+' is LIVE \u2014 '+Math.round(tokensLeft).toLocaleString()+' tokens left';}}}
+    if(raised>0){var re=document.getElementById('raise-progress');if(re)re.classList.remove('hidden');var rf=document.getElementById('raise-fill');if(rf)rf.style.width=Math.round((raised/CONFIG.hardCap)*100)+'%';var rd=document.getElementById('raised-display');if(rd)rd.textContent='$'+raised.toLocaleString();}
+    const he=document.getElementById('hero-eyebrow');if(he&&CONFIG.saleStatus==='live'){if(_sF)he.innerHTML='<span class="dot"></span> Seed Round \u2014 Sold Out';else he.innerHTML='<span class="dot"></span> Seed Round \u2014 Lot 0'+lotNum+' is Open';}
+    renderLots();
+  }catch(e){console.error('Contract read error:',e);}
+}
+setInterval(refreshSaleState,30000);
 
 // ── Apply Sale State ──
 function applySaleState() {
   const s = CONFIG.saleStatus;
   const conn = !!connectedAddress;
-  const wl = conn && isWhitelisted(connectedAddress);
+  const wl = conn && isWhitelistedLocal(connectedAddress);
   const bc = document.getElementById('btn-connect');
   const ba = document.getElementById('btn-airdrop');
   const bp = document.getElementById('btn-purchase');
@@ -1161,7 +1157,7 @@ function applySaleState() {
   if (s === 'pre-launch') {
     if (bc) { bc.disabled = true; bc.classList.add('btn-coming-soon'); }
     if (ba) { ba.disabled = true; ba.classList.add('btn-coming-soon'); }
-    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Smart contract deployment pending'; }
+    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Sale opens May 13th (waitlist) / May 15th (public)'; }
     if (ha) { ha.disabled = true; ha.classList.add('btn-coming-soon'); }
     if (gm) gm.style.display = 'none';
     if (rg) rg.style.display = 'none';
@@ -1208,9 +1204,9 @@ function applySaleState() {
       if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
     } else {
       enableForm(false);
-      setBtnPurchase(false, 'Public Sale Opens May 1st');
+      setBtnPurchase(false, 'Public Sale Opens May 15th');
       if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'var(--border)'; }
-      if (gt) gt.innerHTML = '&#9203; Your wallet is not on the waitlist. The public sale opens on <strong style="color:var(--gold)">May 1st, 2026</strong>.';
+      if (gt) gt.innerHTML = '&#9203; Your wallet is not on the waitlist. The public sale opens on <strong style="color:var(--gold)">May 15th, 2026</strong>.';
       if (rg) rg.style.display = 'none';
       if (ws) ws.innerHTML = '<span style="color:var(--text-muted)">&bull; Connected</span>';
     }
@@ -1221,8 +1217,8 @@ function applySaleState() {
     if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); }
     if (plb) plb.style.display = 'none';
     if (gm) gm.style.display = 'none';
-    if (cl) cl.textContent = '0' + CONFIG.currentLot + ' / 04';
-    if (urg) { urg.style.color = 'var(--red)'; urg.innerHTML = '&#128308; Lot 0' + CONFIG.currentLot + ' is LIVE &mdash; limited allocation'; }
+    if (cl) cl.textContent = 'Live';
+    if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '\ud83d\udfe1 Sale is LIVE \u2014 refreshing from contract...'; }
     if (cdBlock) cdBlock.style.display = 'none';
     var wpPL3 = document.getElementById('wp-prelaunch');
     var wpAC3 = document.getElementById('wp-active');
@@ -1230,13 +1226,7 @@ function applySaleState() {
     if (wpAC3) wpAC3.style.display = 'block';
     if (heroWL) heroWL.style.display = 'none';
     if (heroEye) {
-      const lot = CONFIG.currentLot;
-      const allSold = CONFIG.lots.every(l => l.status === 'completed');
-      if (allSold) {
-        heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Sold Out';
-      } else {
-        heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Lot 0' + lot + ' is Open';
-      }
+      heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Live';
     }
 
     if (conn) {
@@ -1263,18 +1253,8 @@ function renderLots() {
     return `<div class="lot-card ${lot.status}"><div class="lot-name">${lot.name}</div><div class="lot-price">$${lot.price}</div><div class="lot-raise">${lot.raise}</div><div class="lot-status">${label}</div></div>`;
   }).join('');
 
-  // Raise bar
-  const raiseEl = document.getElementById('raise-progress');
-  if (CONFIG.totalRaised >= CONFIG.showRaiseBarAfter) {
-    raiseEl.classList.remove('hidden');
-    document.getElementById('raise-fill').style.width = Math.round((CONFIG.totalRaised / CONFIG.hardCap) * 100) + '%';
-    document.getElementById('raised-display').textContent = '$' + CONFIG.totalRaised.toLocaleString();
-  } else {
-    raiseEl.classList.add('hidden');
-  }
+  // Raise bar managed by refreshSaleState()
 
-  document.getElementById('card-price').textContent = '$' + CONFIG.lotPrice;
-  document.getElementById('card-next').textContent = '$' + CONFIG.nextLotPrice;
 }
 
 // ── Render Roadmap ──
@@ -1405,9 +1385,17 @@ window.copyRef = function() {
 };
 
 // ── Calculate Tokens ──
-window.calculateTokens = function() {
+window.calculateTokens = async function() {
   const val = parseFloat(document.getElementById('invest-amount').value) || 0;
-  document.getElementById('token-calc').textContent = val > 0 ? Math.floor(val / CONFIG.lotPrice).toLocaleString() : '0';
+  if (val <= 0) { document.getElementById('token-calc').textContent = '0'; return; }
+  try {
+    if (CONFIG.saleContract && CONFIG.saleStatus !== 'pre-launch') {
+      const provider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
+      const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
+      const [tokenAmount] = await sale.getQuote(ethers.utils.parseUnits(val.toString(), 6));
+      document.getElementById('token-calc').textContent = Math.floor(parseFloat(ethers.utils.formatUnits(tokenAmount, 18))).toLocaleString();
+    } else { document.getElementById('token-calc').textContent = Math.floor(val / 0.002).toLocaleString(); }
+  } catch(e) { document.getElementById('token-calc').textContent = Math.floor(val / 0.002).toLocaleString(); }
 };
 
 // ── Wallet Connection ──
@@ -1434,45 +1422,52 @@ modal.subscribeAccount(account => {
 
 window.connectWallet = () => modal.open();
 
-// ── Purchase Flow (disabled in pre-launch) ──
+// ── Add Token to Wallet ──
+window.addTokenToWallet = async function() {
+  try { await window.ethereum.request({ method: 'wallet_watchAsset', params: { type: 'ERC20', options: { address: CONFIG.tokenContract, symbol: 'GRESALPHA', decimals: 18 } } }); } catch (e) { console.error(e); }
+};
+
+// ── Purchase Flow (approve + buy via Sale Contract) ──
 window.investNow = async function() {
-  if (CONFIG.saleStatus === 'pre-launch') {
-    alert('The sale has not started yet. Join the waitlist to be notified.');
-    return;
-  }
-  if (CONFIG.saleStatus === 'waitlist' && !isWhitelisted(connectedAddress)) {
-    alert('Your wallet is not on the waitlist. Public sale opens May 1st.');
-    return;
-  }
+  if (CONFIG.saleStatus === 'pre-launch') { alert('The sale has not started yet.'); return; }
   if (!connectedAddress) { modal.open(); return; }
   if (!document.getElementById('agree-terms').checked) { alert('Please accept the Terms & Conditions.'); return; }
   const email = document.getElementById('user-email').value;
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
   const amount = parseFloat(document.getElementById('invest-amount').value);
   if (!amount || amount < 1) { alert('Minimum 1 USDC.'); return; }
-
+  const usdcAmount = ethers.utils.parseUnits(amount.toString(), 6);
   try {
     const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
     const signer = provider.getSigner();
-    const usdc = new ethers.Contract(CONFIG.usdcContract, ['function transfer(address to, uint amount) returns (bool)'], signer);
-    alert('Please confirm the USDC transfer in your wallet.');
-    const tx = await usdc.transfer(CONFIG.treasuryWallet, ethers.utils.parseUnits(amount.toString(), 6));
+    const usdc = new ethers.Contract(CONFIG.usdcContract, USDC_ABI, signer);
+    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, signer);
+    const finished = await sale.saleFinished();
+    if (finished) { alert('The sale is finished.'); return; }
+    const isWLOnly = await sale.whitelistOnly();
+    if (isWLOnly) { const isWL = await sale.whitelist(connectedAddress); if (!isWL) { alert('Your wallet is not on the whitelist. Public sale opens May 15th.'); return; } }
+    const [tokenAmount, usdcUsed] = await sale.getQuote(usdcAmount);
+    const tokenFormatted = parseFloat(ethers.utils.formatUnits(tokenAmount, 18)).toLocaleString();
+    const usdcFormatted = parseFloat(ethers.utils.formatUnits(usdcUsed, 6)).toFixed(2);
+    if (!confirm('Step 1/2: Approve $' + usdcFormatted + ' USDC.
+You will receive ' + tokenFormatted + ' GRES.ALPHA tokens.')) return;
+    const approveTx = await usdc.approve(CONFIG.saleContract, usdcUsed);
+    await approveTx.wait();
+    if (!confirm('Step 2/2: Confirm purchase of ' + tokenFormatted + ' GRES.ALPHA.')) return;
+    const buyTx = await sale.buy(usdcAmount);
     document.getElementById('success-modal').classList.add('active');
-    await tx.wait();
-    // n8n webhook: sends purchase confirmation email + saves to Google Sheets
-    const tokens = Math.floor(amount / CONFIG.lotPrice);
+    await buyTx.wait();
+    await refreshSaleState();
+    const tokens = parseFloat(ethers.utils.formatUnits(tokenAmount, 18));
+    const currentLotNum = await sale.currentLot();
     const ref = new URLSearchParams(window.location.search).get('ref') || '';
-    fetch(CONFIG.n8nWebhook + '/purchase', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: amount, tokens, lot: 'Lot 0' + CONFIG.currentLot, tx_hash: tx.hash, referral_code: ref }),
+    fetch(CONFIG.n8nWebhook + '/purchase', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: parseFloat(usdcFormatted), tokens: Math.floor(tokens), lot: 'Lot 0' + currentLotNum.toNumber(), tx_hash: buyTx.hash, referral_code: ref }),
     }).catch(err => {
-      console.error('n8n purchase error, fallback to Sheets:', err);
       fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: amount, hash: tx.hash, ref, lot: CONFIG.currentLot })
-      }).catch(e => console.error('Sheets fallback error', e));
+        body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: parseFloat(usdcFormatted), hash: buyTx.hash, ref, lot: currentLotNum.toNumber() }) }).catch(e => console.error(e));
     });
-  } catch (e) { console.error('Tx error:', e); alert('Transaction failed.'); }
+  } catch (e) { console.error('Purchase error:', e); if (e.reason) alert('Error: ' + e.reason); else if (e.message && e.message.includes('user rejected')) alert('Transaction cancelled.'); else alert('Transaction failed.'); }
 };
 
 
@@ -1483,9 +1478,9 @@ const FAQ = [
   { q: "How does the 50x return potential work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The protocol\u2019s Buyback & Burn mechanism purchases tokens back at a floor price of $0.05 and a cap of $0.10 \u2014 representing a 25x to 50x multiple from the Lot 01 entry price. This buyback is funded by 0.5% of all transactional volume within the ecosystem." },
   { q: "What is the Buyback & Burn mechanism?", a: "The protocol allocates 0.5% of all transactional volume to buy GRES.ALPHA from liquidity pools and permanently burn them. This creates mathematically enforced deflation: supply decreases over time while buyback demand is constant. The burn floor is $0.05 and the burn cap is $0.10, engineered for total supply absorption within 60 months." },
   { q: "How are my assets protected?", a: "The GRES Protocol uses the \u201CRolex Governance Model\u201D \u2014 a non-profit Foundation holds 100% of all property deeds and titles, legally ring-fenced from the for-profit Operator. This means your real estate backing is protected even if the technology company faces issues. Think of it as a Vanguard-like structure for digital real estate." },
-  { q: "What happens after I buy GRES.ALPHA?", a: "Your tokens are sent to your wallet on the BASE network (Ethereum L2). During the development phase, you hold them. When the mainnet launches, you can burn your GRES.ALPHA to receive Platform Credits (fee discounts) or hold them for the Buyback & Burn mechanism. You will be guided through every step via email and our Telegram community." },
-  { q: "When does Lot 01 open?", a: "Lot 01 opens soon. Waitlist members receive 48 hours of exclusive early access before the public sale begins on May 1st. Join the waitlist now to secure priority access at the lowest price ($0.002)." },
-  { q: "How do I buy? What do I need?", a: "You need a Web3 wallet (such as MetaMask or Coinbase Wallet) connected to the BASE network, funded with USDC stablecoins. A step-by-step buying guide will be sent to all waitlist members before Lot 01 opens." },
+  { q: "What happens after I buy GRES.ALPHA?", a: "Your tokens are sent directly to your wallet on the BASE network (Ethereum L2). During the development phase, you hold them. When the mainnet launches, you can burn your GRES.ALPHA to receive Platform Credits (fee discounts) or hold them for the Buyback & Burn mechanism. You will be guided through every step via email and our Telegram community." },
+  { q: "When does Lot 01 open?", a: "Lot 01 opens soon. Waitlist members receive 48 hours of exclusive early access before the public sale begins on May 15th. Join the waitlist now to secure priority access at the lowest price ($0.002)." },
+  { q: "How do I buy? What do I need?", a: "You need a Web3 wallet (such as MetaMask or Coinbase Wallet) connected to the BASE network, funded with USDC stablecoins. The purchase is fully automated: approve USDC, confirm the purchase, and tokens arrive in your wallet instantly." },
   { q: "What is the referral program?", a: "Every community member gets a unique referral link. When someone you refer purchases GRES.ALPHA, you receive an airdrop equal to 20% of their purchase amount. Example: your friend buys $500 worth of GRES.ALPHA (250,000 tokens), you receive 50,000 tokens ($100 value at Lot 01 price) \u2014 for free." },
   { q: "Is GRES.ALPHA a security?", a: "No. GRES.ALPHA is classified as a utility token. It does not represent equity, debt, dividends, or ownership in any entity. It provides access to ecosystem utilities (fee reductions via Platform Credits) and is subject to a Buyback & Burn mechanism. The protocol is designed for full alignment with MiCA (EU) regulations. Always consult your own legal and financial advisors." },
 ];
@@ -1506,7 +1501,7 @@ window.toggleFaq = function(el) {
 
 /* ── Countdown ── */
 function updateCountdown() {
-  const diff = CONFIG.saleStartDate - new Date();
+  const diff = CONFIG.publicSaleDate - new Date();
   if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '0'; }); return; }
   const el = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
   el('cd-days', Math.floor(diff / 86400000));
@@ -1522,6 +1517,7 @@ renderLots();
 renderRoadmap();
 renderFAQ();
 applySaleState();
+refreshSaleState();
 
 </script>
 </body>
