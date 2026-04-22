@@ -153,7 +153,7 @@ a:hover { color: var(--gold-light); }
 }
 .btn-airdrop:hover { background: var(--gold-glow); border-color: var(--gold); }
 
-/* Waitlist button (active in pre-launch) */
+/* Community action button */
 .btn-waitlist {
   background: linear-gradient(135deg, var(--gold), var(--gold-dim));
   color: var(--bg-primary); padding: 14px 28px; font-size: 14px;
@@ -472,7 +472,7 @@ a:hover { color: var(--gold-light); }
 .modal-success .modal-box { border-color: rgba(16,185,129,0.3); text-align: center; }
 .modal-success h3 { color: var(--green); font-size: 22px; }
 
-/* Waitlist modal */
+/* Incentives modal (moved to incentives-section styles) */
 .wl-form { margin-top: 20px; }
 .wl-form .input-group { margin-bottom: 14px; }
 .wl-community { margin: 16px 0; padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-elevated); }
@@ -504,6 +504,32 @@ a:hover { color: var(--gold-light); }
   .hero-ctas { flex-direction: column; align-items: center; }
   .community-btns { flex-direction: column; }
 }
+
+
+/* ── INCENTIVES MODAL ── */
+.incentives-section { padding: 20px 0; border-bottom: 1px solid var(--border); }
+.incentives-section:last-child { border-bottom: none; }
+.incentives-section h4 { font-family: var(--font-heading); font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--gold); margin-bottom: 6px; }
+.incentives-section p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; }
+.incentives-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-glow); border: 1px solid rgba(201,169,110,0.2); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.incentives-reward { display: flex; align-items: center; gap: 8px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 10px; font-size: 12px; color: var(--text-secondary); }
+.incentives-reward .reward-amount { color: var(--gold); font-family: var(--font-heading); font-weight: 700; font-size: 14px; white-space: nowrap; }
+.social-boost-btns { display: flex; gap: 8px; margin-bottom: 10px; }
+.social-boost-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: var(--transition); font-family: var(--font-heading); text-decoration: none; }
+.social-boost-btn.tg { background: #229ED9; color: white; }
+.social-boost-btn.tw { background: #111; color: white; border: 1px solid #333; }
+.social-boost-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.social-boost-btn svg { width: 16px; height: 16px; }
+.share-card { background: linear-gradient(135deg, #0C0F16 0%, #111520 100%); border: 1px solid var(--gold-dim); border-radius: var(--radius); padding: 20px; margin-top: 14px; display: none; }
+.share-card-text { font-size: 13px; color: var(--text); line-height: 1.7; margin-bottom: 14px; font-style: italic; border-left: 2px solid var(--gold-dim); padding-left: 14px; }
+.share-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-secondary); cursor: pointer; transition: var(--transition); font-family: var(--font-heading); text-decoration: none; }
+.share-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+.resend-link { text-align: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.resend-link p { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.incentives-sold-out { text-align: center; padding: 16px; background: var(--bg-input); border: 1px solid rgba(16,185,129,0.2); border-radius: var(--radius); margin-bottom: 14px; }
+.incentives-sold-out h4 { color: var(--green); margin-bottom: 6px; }
+.incentives-sold-out p { color: var(--text-secondary); font-size: 12px; margin: 0; }
 
 /* FAQ */
 .faq-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;background:var(--bg-card);transition:var(--transition)}
@@ -539,7 +565,7 @@ a:hover { color: var(--gold-light); }
         <a href="https://x.com/gresprotocol" target="_blank" class="social-icon" title="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
         <a href="https://www.linkedin.com/company/gres-protocol" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
       </div>
-      <button class="btn-airdrop btn-coming-soon" id="btn-airdrop" disabled onclick="handleAirdropClick()">🎁 AIRDROP</button>
+      <button class="btn-airdrop" id="btn-incentives" onclick="openModal('incentives-modal')">🎁 Community Incentives</button>
       <button class="btn btn-outline btn-coming-soon" id="btn-connect" disabled onclick="connectWallet()">Connect Wallet</button>
     </div>
   </div>
@@ -553,8 +579,8 @@ a:hover { color: var(--gold-light); }
     <p class="hero-sub animate-up delay-2">The first perpetual, AI-managed real estate fund. Institutional-grade governance, real-time NAV, and global liquidity — powered by blockchain.</p>
     <div class="hero-ctas animate-up delay-3">
       <button class="btn btn-primary btn-coming-soon" id="btn-hero-acquire" disabled onclick="document.getElementById('sale').scrollIntoView({behavior:'smooth'})">Acquire GRES.ALPHA</button>
-      <!-- WAITLIST — active in pre-launch -->
-      <button class="btn-waitlist" id="btn-hero-waitlist" onclick="openModal('waitlist-modal')">✉ Join the Waitlist</button>
+      <!-- COMMUNITY INCENTIVES — active in all states -->
+      <button class="btn-waitlist" id="btn-hero-incentives" onclick="openModal('incentives-modal')">🎁 Community Incentives</button>
     </div>
 
     <div class="docs-row animate-up delay-4">
@@ -621,16 +647,16 @@ a:hover { color: var(--gold-light); }
             <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-mins">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Min</div></div>
             <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:64px;text-align:center"><div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--gold);line-height:1" id="cd-secs">--</div><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Sec</div></div>
           </div>
-          <div id="cd-waitlist-cta" style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Waitlist members get 48h exclusive early access. <a onclick="openModal('waitlist-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
+          <div id="cd-waitlist-cta" style="margin-top:14px;font-size:12px;color:var(--text-secondary)">Community members get priority access + free GRES.ALPHA airdrop. <a onclick="openModal('incentives-modal')" style="color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline">Join now.</a></div>
         </div>
-        <div class="pre-launch-badge"><span class="dot"></span> Sale opens May 13th (waitlist) / May 15th (public)</div>
+        <div class="pre-launch-badge"><span class="dot"></span> Early access May 13th (community) / Public May 15th</div>
         <div class="invest-lot-bar">
           <div><div class="label">Starting Price</div><div class="value" id="card-price">$0.002</div></div>
           <div><div class="label">Next Lot</div><div class="value" id="card-next">$0.004</div></div>
           <div><div class="label">Status</div><div class="value" id="card-lot">Pre-Launch</div></div>
         </div>
         <div id="waitlist-gate-msg" style="display:none;text-align:center;padding:16px;margin-bottom:16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated)"><p id="waitlist-gate-text" style="font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5"></p></div>
-        <div class="invest-urgency" id="invest-urgency" style="color:var(--gold-dim)">⏳ Lot 01 opens soon — Waitlist members get 48h early access</div>
+        <div class="invest-urgency" id="invest-urgency" style="color:var(--gold-dim)">⏳ Lot 01 opens soon — Community members get early access + GRES.ALPHA airdrop</div>
 
         <div class="input-group"><label>Email Address</label><input type="email" class="input-field" id="user-email" placeholder="you@email.com" disabled style="opacity:0.4"></div>
         <div class="input-group"><label>Investment Amount (USDC)</label><input type="number" class="input-field" id="invest-amount" placeholder="100" min="1" disabled style="opacity:0.4"></div>
@@ -638,18 +664,9 @@ a:hover { color: var(--gold-light); }
         <div class="terms-check"><input type="checkbox" id="agree-terms" disabled><label for="agree-terms">I confirm I am not a US Citizen and I agree to the <a onclick="openModal('tc-modal')">Terms & Conditions</a>.</label></div>
 
         <button class="btn btn-primary btn-lg btn-disabled" id="btn-purchase" disabled onclick="investNow()">Coming Soon</button>
-        <div class="wallet-status" id="wallet-status" style="margin-top:10px; font-size:11px; text-align:center; color:var(--text-muted);">Join the <a onclick="openModal('waitlist-modal')" style="cursor:pointer; text-decoration:underline;">Waitlist</a> to be notified when Lot 01 opens.</div>
+        <div class="wallet-status" id="wallet-status" style="margin-top:10px; font-size:11px; text-align:center; color:var(--text-muted);">Join <a onclick="openModal('incentives-modal')" style="cursor:pointer; text-decoration:underline;">Community Incentives</a> for early access + free GRES.ALPHA.</div>
 
-        <!-- REFERRAL GATE (hidden in pre-launch) -->
-        <div class="referral-gate" id="referral-gate">
-          <h4>🎁 Earn 20% Airdrop</h4>
-          <p>Refer investors and earn 20% of their allocation in GRES.ALPHA. Join our community first to unlock your referral link.</p>
-          <div class="community-btns">
-            <a href="https://t.me/gres_protocol" target="_blank" class="community-btn tg" id="tg-btn"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Join Telegram</a>
-          </div>
-          <div class="community-confirm"><input type="checkbox" id="community-joined" onchange="checkCommunityGate()"><label for="community-joined">I've joined the GRES community</label></div>
-          <div class="ref-link-area" id="ref-link-area"><div class="ref-input-row"><input type="text" id="ref-link" readonly><button class="btn-copy" onclick="copyRef()">Copy</button></div></div>
-        </div>
+</div>
       </div>
     </div>
   </div>
@@ -748,15 +765,15 @@ a:hover { color: var(--gold-light); }
     <button class="modal-close" onclick="closeModal('wp-modal')">&times;</button>
     <h3 style="color:var(--gold);margin-bottom:20px;">Whitepaper</h3>
     
-    <!-- PRE-LAUNCH: join waitlist to get early access -->
+    <!-- PRE-LAUNCH: join community to get early access -->
     <div id="wp-prelaunch">
-      <p style="margin:0 0 8px;font-size:14px;color:var(--text);line-height:1.7;">The full GRES Protocol Whitepaper will be available to <strong style="color:var(--gold)">waitlist members</strong> before the public launch.</p>
-      <p style="margin:0 0 20px;font-size:13px;color:var(--text-secondary);line-height:1.7;">Join the waitlist now to receive early access to the Whitepaper and the token pre-sale.</p>
-      <button class="btn-waitlist" onclick="closeModal('wp-modal'); openModal('waitlist-modal');" style="width:100%;">✉ Join the Waitlist</button>
+      <p style="margin:0 0 8px;font-size:14px;color:var(--text);line-height:1.7;">The full GRES Protocol Whitepaper is available to <strong style="color:var(--gold)">community members</strong>.</p>
+      <p style="margin:0 0 20px;font-size:13px;color:var(--text-secondary);line-height:1.7;">Join the community to receive your access link and unlock all documents.</p>
+      <button class="btn-waitlist" onclick="closeModal('wp-modal'); openModal('incentives-modal');" style="width:100%;">🎁 Join the Community</button>
       <p style="margin-top:16px;font-size:12px;color:var(--text-muted);">In the meantime, read our <a href="Lightpaper.pdf" target="_blank">Lightpaper</a> and <a href="Tokenomics.pdf" target="_blank">Token Paper</a>.</p>
     </div>
     
-    <!-- WAITLIST & LIVE: community gate then docs -->
+    <!-- ACTIVE: community gate then docs -->
     <div id="wp-active" style="display:none">
       <!-- Step 1: community gate -->
       <div id="wp-step1">
@@ -780,64 +797,90 @@ a:hover { color: var(--gold-light); }
   </div>
 </div>
 
-<!-- Waitlist Modal -->
-<div class="modal-overlay" id="waitlist-modal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('waitlist-modal')">&times;</button>
+<!-- Community Incentives Modal -->
+<div class="modal-overlay" id="incentives-modal">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" onclick="closeModal('incentives-modal')">&times;</button>
     
     <!-- FORM -->
-    <div id="wl-form-area">
-      <h3 style="color:var(--gold)">Join the Waitlist</h3>
-      <p>Be the first to know when Lot 01 opens. Waitlist members get <strong style="color:var(--gold)">48 hours of exclusive early access</strong> before the public sale.</p>
-      
-      <div class="wl-form">
-        <div class="input-group">
-          <label>Your Name</label>
-          <input type="text" class="input-field" id="wl-name" placeholder="Full name">
-        </div>
-        <div class="input-group">
-          <label>Email Address</label>
-          <input type="email" class="input-field" id="wl-email" placeholder="you@email.com">
-        </div>
+    <div id="inc-form-area">
+      <h3 style="color:var(--gold);margin-bottom:4px;">Community Incentives</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:0;">Join early. Earn GRES.ALPHA. Shape the future of real estate.</p>
 
-        <!-- WALLET CONNECTION -->
-        <div style="margin:16px 0;padding:20px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated)">
-          <p style="font-weight:600;color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Connect Your Wallet</p>
-          <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">Your wallet address is needed for early access and token delivery.</p>
-          <div id="wl-wallet-disconnected">
-            <button onclick="connectWalletForWaitlist()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
-            <p style="font-size:10px;color:var(--text-muted);margin-top:8px;text-align:center;line-height:1.5">Don’t have a wallet? No problem — clicking above will guide you to create one with <strong>Coinbase Wallet</strong>, <strong>MetaMask</strong>, or other providers. It takes less than 2 minutes.</p>
-          </div>
-          <div id="wl-wallet-connected" style="display:none">
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
-              <span style="color:var(--green);font-size:14px">●</span>
-              <span id="wl-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
-              <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
-            </div>
-          </div>
-        </div>
+      <!-- SOLD OUT BANNER (hidden by default) -->
+      <div id="inc-sold-out" class="incentives-sold-out" style="display:none;">
+        <h4>GRES.ALPHA Airdrop — Sold Out</h4>
+        <p>All incentive tokens have been distributed. Join the community to stay updated for future incentive rounds.</p>
+      </div>
 
-        <div class="wl-community">
-          <p style="font-weight:600; color:var(--gold); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">Join our community for priority updates</p>
-          <div class="community-btns">
-            <a href="https://t.me/gres_protocol" target="_blank" class="community-btn tg"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Telegram</a>
+      <!-- SECTION A: Join Community -->
+      <div class="incentives-section">
+        <div class="incentives-badge">🎁 Step 1</div>
+        <h4>Join our Community for Early Access and GRES.ALPHA Airdrop</h4>
+        <div class="incentives-reward"><span>Reward:</span><span class="reward-amount" id="inc-join-reward">1,000 GRES.ALPHA</span></div>
+        <div class="input-group" style="margin-bottom:10px"><label>Your Email</label><input type="email" class="input-field" id="inc-email" placeholder="you@email.com"></div>
+        <button class="btn-waitlist" style="width:100%;" id="btn-send-access" onclick="submitCommunity()">Send My Access Link</button>
+      </div>
+
+      <!-- SECTION B: Social Boost -->
+      <div class="incentives-section">
+        <div class="incentives-badge">⚡ Step 2</div>
+        <h4>Boost Your Airdrop by 100%</h4>
+        <p>Follow us on both channels to double your GRES.ALPHA airdrop.</p>
+        <div class="incentives-reward"><span>Extra Reward:</span><span class="reward-amount" id="inc-boost-reward">+1,000 GRES.ALPHA</span></div>
+        <div class="social-boost-btns">
+          <a href="https://t.me/gres_protocol" target="_blank" class="social-boost-btn tg" onclick="markSocialAction('telegram')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Join Telegram</a>
+          <a href="https://x.com/gresprotocol" target="_blank" class="social-boost-btn tw" onclick="markSocialAction('x')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Follow on X</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><input type="checkbox" id="inc-social-confirm" style="accent-color:var(--gold)" onchange="confirmSocialBoost()"><label for="inc-social-confirm" style="font-size:12px;color:var(--text-secondary)">I've joined Telegram and followed on X</label></div>
+        <div id="inc-boost-status" style="display:none;text-align:center;padding:8px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ Social Boost activated — your airdrop is now 2,000 GRES.ALPHA</div>
+      </div>
+
+      <!-- SECTION C: Referral -->
+      <div class="incentives-section">
+        <div class="incentives-badge">🔗 Step 3</div>
+        <h4>Get 10% USDC Commission + 10% Extra GRES.ALPHA Airdrop on Every Referral</h4>
+        <p>Share your unique link. When someone you refer purchases GRES.ALPHA, you earn 10% of their purchase in USDC and an extra 10% in GRES.ALPHA tokens.</p>
+        <button class="btn-waitlist" style="width:100%;background:rgba(201,169,110,0.1);border:1px dashed var(--gold-dim);color:var(--gold);" id="btn-gen-referral" onclick="generateReferralLink()">Generate My Referral Link</button>
+        
+        <!-- Referral Link + Share Card (hidden until generated) -->
+        <div id="inc-referral-area" class="share-card" style="display:none;">
+          <div style="margin-bottom:14px">
+            <label style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px">Your Referral Link</label>
+            <div class="ref-input-row"><input type="text" id="inc-ref-link" readonly style="flex:1;padding:10px 12px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--gold);font-size:11px;font-family:monospace;"><button class="btn-copy" onclick="copyRefLink()">Copy</button></div>
+          </div>
+          <div style="margin-bottom:14px">
+            <label style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px">Ready-to-Share Post</label>
+            <div class="share-card-text" id="inc-share-text">I just joined The GRES Protocol — the first perpetual, asset-backed, AI-managed global real estate fund. Early community members earn free GRES.ALPHA tokens + referral rewards. Don't miss the early access window. Join here:</div>
+          </div>
+          <div class="share-btns">
+            <a id="share-x" class="share-btn" target="_blank">𝕏 Share on X</a>
+            <a id="share-tg" class="share-btn" target="_blank">📨 Share on Telegram</a>
+            <a id="share-wa" class="share-btn" target="_blank">📱 WhatsApp</a>
+            <button class="share-btn" onclick="copySharePost()">📋 Copy Post</button>
           </div>
         </div>
-        
-        <button class="btn-waitlist" style="width:100%;" onclick="submitWaitlist()">✉ Join Waitlist</button>
-        
+      </div>
+
+      <!-- Resend Access Link -->
+      <div class="resend-link">
+        <p>Already a member? Enter your email to resend your access link.</p>
+        <div style="display:flex;gap:8px"><input type="email" class="input-field" id="inc-resend-email" placeholder="you@email.com" style="flex:1;padding:10px;font-size:12px;"><button class="btn-ghost" style="padding:10px 16px;font-size:11px;" onclick="resendAccessLink()">Resend</button></div>
       </div>
     </div>
-    
+
     <!-- SUCCESS -->
-    <div class="wl-success" id="wl-success">
+    <div id="inc-success" style="display:none;text-align:center;padding:20px 0;">
       <div style="font-size:48px; margin-bottom:16px;">✓</div>
-      <h3>You're on the list!</h3>
-      <p>A confirmation email will be sent to <strong id="wl-confirm-email" style="color:var(--text)"></strong>.</p>
-      <div id="wl-success-wallet" style="display:none;margin-top:10px;font-size:12px;padding:10px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;text-align:left"><span style="color:var(--green)">●</span> Wallet registered: <strong id="wl-confirm-wallet" style="color:var(--gold);font-family:monospace;font-size:11px"></strong></div>
-      <p style="margin-top:12px;"><strong style="color:var(--gold)">Please check your spam folder</strong> and mark us as safe. We'll notify you via email and community channels when the GRES.ALPHA sale begins.</p>
-      <p style="margin-top:16px; font-size:12px;">Stay connected — follow us on our socials for real-time updates.</p>
-      <button class="btn-waitlist" style="width:100%; margin-top:16px;" onclick="closeModal('waitlist-modal')">Got It</button>
+      <h3 style="color:var(--green);margin-bottom:12px;">Welcome to the Community!</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">Your access link and confirmation have been sent to <strong id="inc-confirm-email" style="color:var(--text)"></strong>.</p>
+      <p style="margin-top:8px;font-size:12px;color:var(--text-muted);">Check your <strong style="color:var(--gold)">spam folder</strong> and mark us as safe.</p>
+      <div style="margin-top:16px;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;text-align:left;">
+        <p style="font-size:11px;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;letter-spacing:0.5px;">Your rewards</p>
+        <p style="font-size:13px;color:var(--text);margin:0;">🎁 <strong style="color:var(--gold);" id="inc-total-reward">1,000 GRES.ALPHA</strong> will be airdropped to your wallet when you connect it.</p>
+        <p style="font-size:11px;color:var(--text-muted);margin:6px 0 0;">Complete Step 2 (social boost) to double this to 2,000 GRES.ALPHA.</p>
+      </div>
+      <button class="btn-waitlist" style="width:100%; margin-top:16px;" onclick="closeModal('incentives-modal')">Got It</button>
     </div>
   </div>
 </div>
@@ -886,6 +929,13 @@ const CONFIG = {
   n8nWebhook: "https://gres.app.n8n.cloud/webhook",
   sheetsAPI: "https://script.google.com/macros/s/AKfycbxpjSIU-2dizOPZutLHbpoVkFIlr8ALTA1KSROB2e4qIkUpr6lBOru_QcUPlceNb9Z_cw/exec",
   walletConnectId: "fbc5f569abebf58f9c260075a2882c1a",
+  // Community Incentives
+  incentivesPerJoin: 1000,    // GRES.ALPHA tokens for joining community
+  incentivesPerBoost: 1000,   // Extra tokens for social boost (TG + X)
+  referralTokenPct: 10,       // % of purchase amount as GRES.ALPHA airdrop
+  referralUsdcPct: 10,        // % of USDC received as commission
+  incentivesPool: 20000000,   // 20M tokens allocated for join + boost
+  referralPool: 20000000,     // 20M tokens for referral airdrops
   telegram: "https://t.me/gres_protocol",
   x: "https://x.com/gresprotocol",
   linkedin: "https://www.linkedin.com/company/gres-protocol",
@@ -1084,13 +1134,7 @@ function calcPhaseStatus(phases) {
 
 // ── Airdrop Button Handler ──
 window.handleAirdropClick = function() {
-  if (!connectedAddress) {
-    modal.open();
-    return;
-  }
-// Scroll to referral section
-  const rg = document.getElementById('referral-gate');
-  if (rg) rg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  openModal('incentives-modal');
 };
 
 // ── Whitelist Check (on-chain with local fallback) ──
@@ -1126,13 +1170,12 @@ function applySaleState() {
   const conn = !!connectedAddress;
   const wl = conn && isWhitelistedLocal(connectedAddress);
   const bc = document.getElementById('btn-connect');
-  const ba = document.getElementById('btn-airdrop');
+  const bi = document.getElementById('btn-incentives');
   const bp = document.getElementById('btn-purchase');
   const ha = document.getElementById('btn-hero-acquire');
-  const rg = document.getElementById('referral-gate');
   const cdBlock = document.getElementById('countdown-block');
   const heroEye = document.getElementById('hero-eyebrow');
-  const heroWL = document.getElementById('btn-hero-waitlist');
+  const heroInc = document.getElementById('btn-hero-incentives');
   const ei = document.getElementById('user-email');
   const ai = document.getElementById('invest-amount');
   const tc = document.getElementById('agree-terms');
@@ -1157,64 +1200,57 @@ function applySaleState() {
 
   if (s === 'pre-launch') {
     if (bc) { bc.disabled = true; bc.classList.add('btn-coming-soon'); }
-    if (ba) { ba.disabled = true; ba.classList.add('btn-coming-soon'); }
-    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Sale opens May 13th (waitlist) / May 15th (public)'; }
+    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early access May 13th (community) / Public May 15th'; }
     if (ha) { ha.disabled = true; ha.classList.add('btn-coming-soon'); }
     if (gm) gm.style.display = 'none';
-    if (rg) rg.style.display = 'none';
     if (cl) cl.textContent = 'Pre-Launch';
     enableForm(false);
     setBtnPurchase(false, 'Coming Soon');
-    if (ws) ws.innerHTML = 'Join the <a onclick="openModal(\'waitlist-modal\')" style="cursor:pointer;text-decoration:underline">Waitlist</a> to be notified when Lot 01 opens.';
+    if (ws) ws.innerHTML = 'Join <a onclick="openModal(\'incentives-modal\')" style="cursor:pointer;text-decoration:underline">Community Incentives</a> for early access + free GRES.ALPHA.';
     if (cdBlock) cdBlock.style.display = 'block';
-    var wpPL = document.getElementById('wp-prelaunch');
+    var wpPL = document.getElementById('wp-prelaunch'); // community gate
     var wpAC = document.getElementById('wp-active');
     if (wpPL) wpPL.style.display = 'block';
     if (wpAC) wpAC.style.display = 'none';
     if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Lot 01 Opening Soon';
-    if (heroWL) heroWL.style.display = 'inline-flex';
+    if (heroInc) heroInc.style.display = 'inline-flex';
 
   } else if (s === 'waitlist') {
     if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
-    if (ba) { ba.disabled = false; ba.classList.remove('btn-coming-soon'); }
-        if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); } if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early Access &mdash; Waitlist Only'; }
+        if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); } if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early Access &mdash; Community Members'; }
     if (cl) cl.textContent = 'Early Access';
-    if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '&#128274; Early access active &mdash; waitlist members only'; }
+    if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '&#128274; Early access active &mdash; community members'; }
     if (cdBlock) cdBlock.style.display = 'block';
     var wpPL2 = document.getElementById('wp-prelaunch');
     var wpAC2 = document.getElementById('wp-active');
     if (wpPL2) wpPL2.style.display = 'none';
     if (wpAC2) wpAC2.style.display = 'block';
-    if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Early Access Active';
-    if (heroWL) heroWL.style.display = 'none';
+    if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Community Early Access';
+    if (heroInc) heroInc.style.display = 'inline-flex';
     var cdCta = document.getElementById('cd-waitlist-cta');
-    if (cdCta) cdCta.innerHTML = 'Early access is active for waitlist members.';  if (!conn) {
+    if (cdCta) cdCta.innerHTML = 'Early access is active for community members.';  if (!conn) {
       enableForm(false);
       setBtnPurchase(false, 'Connect Wallet to Continue');
       if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Continue'; bp.onclick = function(){ modal.open(); }; }
       if (gm) gm.style.display = 'none';
-      if (rg) rg.style.display = 'none';
-      if (ws) ws.innerHTML = 'Connect your wallet to check early access eligibility.';
+        if (ws) ws.innerHTML = 'Connect your wallet to purchase GRES.ALPHA.';
     } else if (wl) {
       enableForm(true);
       setBtnPurchase(true, 'Purchase GRES.ALPHA');
       if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'rgba(16,185,129,0.3)'; }
-      if (gt) gt.innerHTML = '<span style="color:var(--green)">&#10003;</span> <strong style="color:var(--green)">Early access granted.</strong> You are on the waitlist. Purchase your allocation below.';
+      if (gt) gt.innerHTML = '<span style="color:var(--green)">&#10003;</span> <strong style="color:var(--green)">Early access granted.</strong> Welcome, community member. Purchase your allocation below.';
       if (bp) bp.onclick = function(){ investNow(); };
-      if (rg) rg.style.display = 'block';
-      if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
+        if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
     } else {
       enableForm(false);
       setBtnPurchase(false, 'Public Sale Opens May 15th');
       if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'var(--border)'; }
-      if (gt) gt.innerHTML = '&#9203; Your wallet is not on the waitlist. The public sale opens on <strong style="color:var(--gold)">May 15th, 2026</strong>.';
-      if (rg) rg.style.display = 'none';
-      if (ws) ws.innerHTML = '<span style="color:var(--text-muted)">&bull; Connected</span>';
+      if (gt) gt.innerHTML = '&#9203; Join <a onclick="openModal(\'incentives-modal\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">Community Incentives</a> to get early access. Public sale opens <strong style="color:var(--gold)">May 15th</strong>.';
+        if (ws) ws.innerHTML = '<span style="color:var(--text-muted)">&bull; Connected</span>';
     }
 
   } else if (s === 'live') {
     if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
-    if (ba) { ba.disabled = false; ba.classList.remove('btn-coming-soon'); }
     if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); }
     if (plb) plb.style.display = 'none';
     if (gm) gm.style.display = 'none';
@@ -1225,7 +1261,7 @@ function applySaleState() {
     var wpAC3 = document.getElementById('wp-active');
     if (wpPL3) wpPL3.style.display = 'none';
     if (wpAC3) wpAC3.style.display = 'block';
-    if (heroWL) heroWL.style.display = 'none';
+    if (heroInc) heroInc.style.display = 'inline-flex';
     if (heroEye) {
       heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Live';
     }
@@ -1234,15 +1270,13 @@ function applySaleState() {
       enableForm(true);
       setBtnPurchase(true, 'Purchase GRES.ALPHA');
       if (bp) bp.onclick = function(){ investNow(); };
-      if (rg) rg.style.display = 'block';
-      if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
+        if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
     } else {
       enableForm(false);
       // Button is ENABLED and opens wallet modal
       if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Purchase'; bp.onclick = function(){ modal.open(); }; }
       if (ws) ws.innerHTML = 'Connect your wallet to purchase GRES.ALPHA.';
-      if (rg) rg.style.display = 'none';
-    }
+      }
   }
 }
 
@@ -1301,89 +1335,135 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
   m.addEventListener('click', e => { if(e.target === m) m.classList.remove('active'); });
 });
 
-// ── Connect Wallet from Waitlist Modal ──
-window.connectWalletForWaitlist = function() {
-  modal.open();
-};
+// ── Connect Wallet (for purchase) ──
 
-// Update wallet UI inside waitlist modal
-function updateWaitlistWalletUI() {
-  const disc = document.getElementById('wl-wallet-disconnected');
-  const conn = document.getElementById('wl-wallet-connected');
-  const addr = document.getElementById('wl-wallet-addr');
-  if (!disc || !conn) return;
-  if (connectedAddress) {
-    disc.style.display = 'none';
-    conn.style.display = 'block';
-    if (addr) addr.textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
-  } else {
-    disc.style.display = 'block';
-    conn.style.display = 'none';
+// ── Waitlist Submission ──
+// ── Community Incentives Functions ──
+let communityMember = null; // { email, access_token, referral_code, social_boost }
+
+// Check URL for access token on page load
+function checkAccessToken() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('access');
+  const ref = params.get('ref');
+  if (ref) { localStorage.setItem('gres_ref', ref); }
+  if (token) {
+    fetch(CONFIG.n8nWebhook + '/community/verify?token=' + token)
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.email) {
+          communityMember = data;
+          applySaleState();
+        }
+      }).catch(e => console.error('Token verify error', e));
   }
 }
 
-// ── Waitlist Submission ──
-window.submitWaitlist = async function() {
-  const name = document.getElementById('wl-name').value.trim();
-  const email = document.getElementById('wl-email').value.trim();
-  if (!name) { alert('Please enter your name.'); return; }
+window.submitCommunity = async function() {
+  const email = document.getElementById('inc-email').value.trim();
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-  if (!connectedAddress) { alert('Please connect your wallet before joining the waitlist.'); return; }
+  const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+  
+  document.getElementById('btn-send-access').textContent = 'Sending...';
+  document.getElementById('btn-send-access').disabled = true;
 
-  const wallet = connectedAddress;
-
-  const ref = new URLSearchParams(window.location.search).get('ref') || '';
-  // n8n webhook: sends welcome email + saves to Google Sheets
   try {
-    fetch(CONFIG.n8nWebhook + '/waitlist', {
+    const resp = await fetch(CONFIG.n8nWebhook + '/community/join', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, wallet, source: 'landing_page', referral_code: ref }),
-    }).catch(err => {
-      console.error('n8n error, fallback to Sheets:', err);
-      fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ sheet: 'Waitlist', name, email, date: new Date().toISOString(), wallet })
-      }).catch(e => console.error('Sheets fallback error', e));
+      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', joined_at: new Date().toISOString() }),
     });
-  } catch(e) { console.error('Waitlist save error', e); }
+    const data = await resp.json();
+    if (data && data.access_token) {
+      communityMember = { email, access_token: data.access_token, referral_code: data.referral_code, social_boost: false };
+    }
+  } catch(err) {
+    console.error('Community join error:', err);
+    // Fallback to sheets
+    fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ sheet: 'Community', email, date: new Date().toISOString(), referred_by: ref })
+    }).catch(e => console.error('Sheets fallback error', e));
+  }
 
   // Show success
-  document.getElementById('wl-form-area').style.display = 'none';
-  document.getElementById('wl-success').style.display = 'block';
-  document.getElementById('wl-confirm-email').textContent = email;
-  
-  // Disconnect wallet after submission (pre-launch has no way to disconnect via header)
-  if (connectedAddress) {
-    try { modal.disconnect(); } catch(e) {}
-  }
-  
-  // Show wallet confirmation if connected
-  if (wallet) {
-    const wlw = document.getElementById('wl-success-wallet');
-    const wlwa = document.getElementById('wl-confirm-wallet');
-    if (wlw) wlw.style.display = 'block';
-    if (wlwa) wlwa.textContent = wallet.substring(0,6) + '...' + wallet.slice(-4);
+  document.getElementById('inc-form-area').style.display = 'none';
+  document.getElementById('inc-success').style.display = 'block';
+  document.getElementById('inc-confirm-email').textContent = email;
+};
+
+window.markSocialAction = function(platform) {
+  // Track which social action was taken (for analytics)
+  console.log('Social action:', platform);
+};
+
+window.confirmSocialBoost = function() {
+  const checked = document.getElementById('inc-social-confirm').checked;
+  const status = document.getElementById('inc-boost-status');
+  if (checked) {
+    status.style.display = 'block';
+    if (communityMember) {
+      communityMember.social_boost = true;
+      // Notify backend
+      fetch(CONFIG.n8nWebhook + '/community/boost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: communityMember.email, access_token: communityMember.access_token }),
+      }).catch(e => console.error('Boost error:', e));
+    }
+  } else {
+    status.style.display = 'none';
   }
 };
 
-// ── Community Gate for Referral (future use) ──
-window.checkCommunityGate = function() {
-  const joined = document.getElementById('community-joined').checked;
-  const area = document.getElementById('ref-link-area');
-  if (joined && connectedAddress) {
-    area.style.display = 'block';
-    document.getElementById('ref-link').value = window.location.origin + window.location.pathname + '?ref=' + connectedAddress;
-  } else { area.style.display = 'none'; }
+window.generateReferralLink = function() {
+  const area = document.getElementById('inc-referral-area');
+  const linkInput = document.getElementById('inc-ref-link');
+  let refCode = '';
+  if (communityMember && communityMember.referral_code) {
+    refCode = communityMember.referral_code;
+  } else {
+    // Generate a temporary code from email or random
+    const email = document.getElementById('inc-email')?.value || '';
+    refCode = email ? btoa(email).substring(0,8).replace(/[^a-zA-Z0-9]/g,'') : Math.random().toString(36).substring(2,10);
+  }
+  const refUrl = window.location.origin + window.location.pathname + '?ref=' + refCode;
+  linkInput.value = refUrl;
+  area.style.display = 'block';
+
+  // Set share links
+  const shareText = encodeURIComponent("I just joined The GRES Protocol \u2014 the first perpetual, asset-backed, AI-managed global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl);
+  document.getElementById('share-x').href = 'https://x.com/intent/tweet?text=' + shareText;
+  document.getElementById('share-tg').href = 'https://t.me/share/url?url=' + encodeURIComponent(refUrl) + '&text=' + shareText;
+  document.getElementById('share-wa').href = 'https://wa.me/?text=' + shareText;
 };
 
-window.copyRef = function() {
-  const input = document.getElementById('ref-link');
-  input.select();
+window.copyRefLink = function() {
+  const input = document.getElementById('inc-ref-link');
   navigator.clipboard.writeText(input.value);
   const btn = input.nextElementSibling;
   btn.textContent = 'Copied!';
   setTimeout(() => btn.textContent = 'Copy', 2000);
 };
+
+window.copySharePost = function() {
+  const refUrl = document.getElementById('inc-ref-link').value;
+  const text = "I just joined The GRES Protocol \u2014 the first perpetual, asset-backed, AI-managed global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl;
+  navigator.clipboard.writeText(text);
+  alert('Post copied to clipboard!');
+};
+
+window.resendAccessLink = function() {
+  const email = document.getElementById('inc-resend-email').value.trim();
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  fetch(CONFIG.n8nWebhook + '/community/resend', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  }).then(() => alert('If this email is in our system, your access link has been resent. Check your inbox.'))
+    .catch(e => { console.error(e); alert('Error. Please try again.'); });
+};
+
+// Community gate moved to incentives modal
 
 // ── Calculate Tokens ──
 window.calculateTokens = async function() {
@@ -1411,12 +1491,10 @@ modal.subscribeAccount(account => {
   if (account.isConnected) {
     connectedAddress = account.address;
     document.getElementById('btn-connect').textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
-    updateWaitlistWalletUI();
     applySaleState();
   } else {
     connectedAddress = null;
     document.getElementById('btn-connect').textContent = 'Connect Wallet';
-    updateWaitlistWalletUI();
     applySaleState();
   }
 });
@@ -1446,7 +1524,7 @@ window.investNow = async function() {
     const finished = await sale.saleFinished();
     if (finished) { alert('The sale is finished.'); return; }
     const isWLOnly = await sale.whitelistOnly();
-    if (isWLOnly) { const isWL = await sale.whitelist(connectedAddress); if (!isWL) { alert('Your wallet is not on the whitelist. Public sale opens May 15th.'); return; } }
+    if (isWLOnly) { const isWL = await sale.whitelist(connectedAddress); if (!isWL) { alert('Join Community Incentives for early access. Public sale opens May 15th.'); return; } }
     const [tokenAmount, usdcUsed] = await sale.getQuote(usdcAmount);
     const tokenFormatted = parseFloat(ethers.utils.formatUnits(tokenAmount, 18)).toLocaleString();
     const usdcFormatted = parseFloat(ethers.utils.formatUnits(usdcUsed, 6)).toFixed(2);
@@ -1475,13 +1553,15 @@ window.investNow = async function() {
 const FAQ = [
   { q: "What is GRES.ALPHA?", a: "GRES.ALPHA is a utility token designed to fund the development of the GRES Protocol. It is NOT a security, equity, or ownership stake. Holders gain access to a Buyback & Burn mechanism and significant fee reductions within the future ecosystem through Platform Credits." },
   { q: "What is the GRES Protocol?", a: "GRES is the first perpetual, AI-managed real estate fund built on blockchain. It tokenizes a diversified global portfolio of real estate assets, providing investors with a liquid, asset-backed token ($GRES) whose value is driven by real-time Net Asset Value calculated by an AI Oracle." },
+  { q: "What is the Community Incentives program?", a: "The Community Incentives program rewards early supporters with free GRES.ALPHA tokens. Step 1: Join with your email to receive 1,000 GRES.ALPHA + an exclusive access link for early purchase. Step 2: Follow us on Telegram and X to double your airdrop to 2,000 GRES.ALPHA. Step 3: Share your referral link \u2014 earn 10% of every referred purchase in USDC + an extra 10% in GRES.ALPHA tokens." },
+  { q: "How do I get early access to the token sale?", a: "Join the Community Incentives program. You\u2019ll receive an exclusive access link via email. Community members get priority access starting May 13th, two days before the public sale on May 15th. No wallet needed to join \u2014 just your email." },
+  { q: "How does the referral program work?", a: "Every community member gets a unique referral link. When someone you refer purchases GRES.ALPHA, you earn two rewards: 10% of their purchase amount in USDC (commission) + 10% in GRES.ALPHA tokens (airdrop). Example: your friend buys $500 of GRES.ALPHA \u2014 you receive $50 USDC + 25,000 GRES.ALPHA tokens." },
   { q: "How does the 50x return potential work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The protocol\u2019s Buyback & Burn mechanism purchases tokens back at a floor price of $0.05 and a cap of $0.10 \u2014 representing a 25x to 50x multiple from the Lot 01 entry price. This buyback is funded by 0.5% of all transactional volume within the ecosystem." },
   { q: "What is the Buyback & Burn mechanism?", a: "The protocol allocates 0.5% of all transactional volume to buy GRES.ALPHA from liquidity pools and permanently burn them. This creates mathematically enforced deflation: supply decreases over time while buyback demand is constant. The burn floor is $0.05 and the burn cap is $0.10, engineered for total supply absorption within 60 months." },
-  { q: "How are my assets protected?", a: "The GRES Protocol uses the \u201CRolex Governance Model\u201D \u2014 a non-profit Foundation holds 100% of all property deeds and titles, legally ring-fenced from the for-profit Operator. This means your real estate backing is protected even if the technology company faces issues. Think of it as a Vanguard-like structure for digital real estate." },
+  { q: "How are my assets protected?", a: "The GRES Protocol uses the \u201CRolex Governance Model\u201D \u2014 a non-profit Foundation holds 100% of all property deeds and titles, legally ring-fenced from the for-profit Operator. This means your real estate backing is protected even if the technology company faces issues." },
   { q: "What happens after I buy GRES.ALPHA?", a: "Your tokens are sent directly to your wallet on the BASE network (Ethereum L2). During the development phase, you hold them. When the mainnet launches, you can burn your GRES.ALPHA to receive Platform Credits (fee discounts) or hold them for the Buyback & Burn mechanism. You will be guided through every step via email and our Telegram community." },
-  { q: "When does Lot 01 open?", a: "Lot 01 opens soon. Waitlist members receive 48 hours of exclusive early access before the public sale begins on May 15th. Join the waitlist now to secure priority access at the lowest price ($0.002)." },
-  { q: "How do I buy? What do I need?", a: "You need a Web3 wallet (such as MetaMask or Coinbase Wallet) connected to the BASE network, funded with USDC stablecoins. The purchase is fully automated: approve USDC, confirm the purchase, and tokens arrive in your wallet instantly." },
-  { q: "What is the referral program?", a: "Every community member gets a unique referral link. When someone you refer purchases GRES.ALPHA, you receive an airdrop equal to 20% of their purchase amount. Example: your friend buys $500 worth of GRES.ALPHA (250,000 tokens), you receive 50,000 tokens ($100 value at Lot 01 price) \u2014 for free." },
+  { q: "How do I buy? What do I need?", a: "You need a Web3 wallet (such as MetaMask or Coinbase Wallet) connected to the BASE network, funded with USDC stablecoins. The purchase is fully automated: approve USDC, confirm the purchase, and tokens arrive in your wallet instantly. Community members get early access via their exclusive link starting May 13th." },
+  { q: "When does the incentive airdrop get distributed?", a: "Airdrop tokens (join bonus, social boost, referral rewards) are distributed weekly in batches to the wallets connected by community members. You\u2019ll receive a notification when your tokens are sent. If you haven\u2019t connected a wallet yet, your rewards are reserved and will be sent when you do." },
   { q: "Is GRES.ALPHA a security?", a: "No. GRES.ALPHA is classified as a utility token. It does not represent equity, debt, dividends, or ownership in any entity. It provides access to ecosystem utilities (fee reductions via Platform Credits) and is subject to a Buyback & Burn mechanism. The protocol is designed for full alignment with MiCA (EU) regulations. Always consult your own legal and financial advisors." },
 ];
 
@@ -1513,6 +1593,7 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // ── Init ──
+checkAccessToken();
 renderLots();
 renderRoadmap();
 renderFAQ();
