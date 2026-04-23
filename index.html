@@ -833,7 +833,7 @@ a:hover { color: var(--gold-light); }
           <a href="https://x.com/gresprotocol" target="_blank" class="social-boost-btn tw" onclick="markSocialAction('x')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Follow on X</a>
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><input type="checkbox" id="inc-social-confirm" style="accent-color:var(--gold)" onchange="confirmSocialBoost()"><label for="inc-social-confirm" style="font-size:12px;color:var(--text-secondary)">I've joined Telegram and followed on X</label></div>
-        <div id="inc-boost-status" style="display:none;text-align:center;padding:8px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ Social Boost activated — your airdrop is now 2,000 GRES.ALPHA</div>
+        <div id="inc-boost-status" style="display:none;text-align:center;padding:8px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ Thank you for joining — we see you there!</div>
       </div>
 
       <!-- SECTION C: Referral -->
@@ -859,6 +859,24 @@ a:hover { color: var(--gold-light); }
             <a id="share-wa" class="share-btn" target="_blank">📱 WhatsApp</a>
             <button class="share-btn" onclick="copySharePost()">📋 Copy Post</button>
           </div>
+        </div>
+      </div>
+
+      <!-- SECTION D: Connect Wallet (Optional) -->
+      <div class="incentives-section">
+        <div class="incentives-badge">👛 Step 4 — Optional</div>
+        <h4>Connect Your Wallet to Receive Tokens</h4>
+        <p>Connect now or later via the access link in your email. Your airdrop tokens will be sent to this wallet.</p>
+        <div id="inc-wallet-disconnected">
+          <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
+        </div>
+        <div id="inc-wallet-connected" style="display:none">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
+            <span style="color:var(--green);font-size:14px">●</span>
+            <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
+            <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
         </div>
       </div>
 
@@ -1341,6 +1359,27 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
 // ── Community Incentives Functions ──
 let communityMember = null; // { email, access_token, referral_code, social_boost }
 
+
+// ── Connect Wallet from Incentives Modal ──
+window.connectWalletForIncentives = function() {
+  modal.open();
+};
+
+function updateIncentivesWalletUI() {
+  const disc = document.getElementById('inc-wallet-disconnected');
+  const conn = document.getElementById('inc-wallet-connected');
+  const addr = document.getElementById('inc-wallet-addr');
+  if (!disc || !conn) return;
+  if (connectedAddress) {
+    disc.style.display = 'none';
+    conn.style.display = 'block';
+    if (addr) addr.textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
+  } else {
+    disc.style.display = 'block';
+    conn.style.display = 'none';
+  }
+}
+
 // Check URL for access token on page load
 function checkAccessToken() {
   const params = new URLSearchParams(window.location.search);
@@ -1482,12 +1521,25 @@ window.copySharePost = function() {
 window.resendAccessLink = function() {
   const email = document.getElementById('inc-resend-email').value.trim();
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  const btn = document.querySelector('.resend-link .btn-ghost');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
   fetch(CONFIG.n8nWebhook + '/community/resend', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
-  }).then(() => alert('If this email is in our system, your access link has been resent. Check your inbox.'))
-    .catch(e => { console.error(e); alert('Error. Please try again.'); });
+  }).then(() => {
+    btn.textContent = '\u2713 Sent!';
+    btn.style.background = 'var(--green)';
+    btn.style.borderColor = 'rgba(16,185,129,0.3)';
+    btn.style.color = 'white';
+    document.getElementById('inc-resend-email').disabled = true;
+    document.getElementById('inc-resend-email').style.opacity = '0.5';
+    const msg = document.createElement('div');
+    msg.style.cssText = 'margin-top:8px;font-size:11px;color:var(--green);text-align:center;';
+    msg.textContent = 'If this email is in our records, your access links have been resent. Check your inbox.';
+    btn.parentElement.parentElement.appendChild(msg);
+  }).catch(e => { console.error(e); btn.textContent = 'Resend'; btn.disabled = false; alert('Error. Please try again.'); });
 };
 
 // Community gate moved to incentives modal
@@ -1518,10 +1570,12 @@ modal.subscribeAccount(account => {
   if (account.isConnected) {
     connectedAddress = account.address;
     document.getElementById('btn-connect').textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
+    updateIncentivesWalletUI();
     applySaleState();
   } else {
     connectedAddress = null;
     document.getElementById('btn-connect').textContent = 'Connect Wallet';
+    updateIncentivesWalletUI();
     applySaleState();
   }
 });
