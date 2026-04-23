@@ -1364,8 +1364,9 @@ window.submitCommunity = async function() {
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
   const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
   
-  document.getElementById('btn-send-access').textContent = 'Sending...';
-  document.getElementById('btn-send-access').disabled = true;
+  const btn = document.getElementById('btn-send-access');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
 
   try {
     const resp = await fetch(CONFIG.n8nWebhook + '/community/join', {
@@ -1373,22 +1374,41 @@ window.submitCommunity = async function() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', joined_at: new Date().toISOString() }),
     });
-    const data = await resp.json();
-    if (data && data.access_token) {
-      communityMember = { email, access_token: data.access_token, referral_code: data.referral_code, social_boost: false };
+    if (resp.ok) {
+      try {
+        const data = await resp.json();
+        if (data && data.access_token) {
+          communityMember = { email, access_token: data.access_token, referral_code: data.referral_code, social_boost: false };
+        }
+      } catch(parseErr) {
+        console.warn('Response not JSON, but request succeeded:', parseErr);
+        communityMember = { email, access_token: '', referral_code: '', social_boost: false };
+      }
+    } else {
+      throw new Error('HTTP ' + resp.status);
     }
   } catch(err) {
     console.error('Community join error:', err);
+    communityMember = { email, access_token: '', referral_code: '', social_boost: false };
     // Fallback to sheets
     fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ sheet: 'Community', email, date: new Date().toISOString(), referred_by: ref })
     }).catch(e => console.error('Sheets fallback error', e));
   }
 
-  // Show success
-  document.getElementById('inc-form-area').style.display = 'none';
-  document.getElementById('inc-success').style.display = 'block';
-  document.getElementById('inc-confirm-email').textContent = email;
+  // Mark Step 1 as completed (DON'T hide the modal)
+  btn.textContent = '\u2713 Access Link Sent!';
+  btn.style.background = 'var(--green)';
+  btn.style.borderColor = 'var(--green)';
+  btn.style.cursor = 'default';
+  document.getElementById('inc-email').disabled = true;
+  document.getElementById('inc-email').style.opacity = '0.5';
+
+  // Show inline confirmation under Step 1
+  const confirmDiv = document.createElement('div');
+  confirmDiv.style.cssText = 'margin-top:10px;padding:10px 14px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);text-align:center;';
+  confirmDiv.innerHTML = '\u2713 Check your email at <strong>' + email + '</strong> for your access link and referral code. <br><span style="color:var(--text-muted);font-size:11px;">Check spam and mark us as safe.</span>';
+  btn.parentElement.appendChild(confirmDiv);
 };
 
 window.markSocialAction = function(platform) {
@@ -1397,33 +1417,40 @@ window.markSocialAction = function(platform) {
 };
 
 window.confirmSocialBoost = function() {
+  if (!communityMember) {
+    alert('Please complete Step 1 first (enter your email).');
+    document.getElementById('inc-social-confirm').checked = false;
+    return;
+  }
   const checked = document.getElementById('inc-social-confirm').checked;
   const status = document.getElementById('inc-boost-status');
   if (checked) {
     status.style.display = 'block';
-    if (communityMember) {
-      communityMember.social_boost = true;
-      // Notify backend
-      fetch(CONFIG.n8nWebhook + '/community/boost', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: communityMember.email, access_token: communityMember.access_token }),
-      }).catch(e => console.error('Boost error:', e));
-    }
+    communityMember.social_boost = true;
+    // Notify backend (fire and forget — don't block UI)
+    fetch(CONFIG.n8nWebhook + '/community/boost', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: communityMember.email, access_token: communityMember.access_token || '' }),
+    }).catch(e => console.error('Boost error:', e));
   } else {
     status.style.display = 'none';
   }
 };
 
 window.generateReferralLink = function() {
+  if (!communityMember) {
+    alert('Please complete Step 1 first (enter your email).');
+    return;
+  }
   const area = document.getElementById('inc-referral-area');
   const linkInput = document.getElementById('inc-ref-link');
   let refCode = '';
-  if (communityMember && communityMember.referral_code) {
+  if (communityMember.referral_code) {
     refCode = communityMember.referral_code;
   } else {
-    // Generate a temporary code from email or random
-    const email = document.getElementById('inc-email')?.value || '';
+    // Generate client-side fallback code
+    const email = communityMember.email || '';
     refCode = email ? btoa(email).substring(0,8).replace(/[^a-zA-Z0-9]/g,'') : Math.random().toString(36).substring(2,10);
   }
   const refUrl = window.location.origin + window.location.pathname + '?ref=' + refCode;
