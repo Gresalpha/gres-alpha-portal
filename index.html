@@ -1572,6 +1572,14 @@ modal.subscribeAccount(account => {
     document.getElementById('btn-connect').textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
     updateIncentivesWalletUI();
     applySaleState();
+    // Notify backend of wallet connection
+    if (communityMember && communityMember.email) {
+      fetch(CONFIG.n8nWebhook + '/community/wallet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: communityMember.email, wallet: connectedAddress }),
+      }).catch(e => console.error('Wallet webhook error:', e));
+    }
   } else {
     connectedAddress = null;
     document.getElementById('btn-connect').textContent = 'Connect Wallet';
