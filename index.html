@@ -1217,7 +1217,7 @@ function applySaleState() {
   }
 
   if (s === 'pre-launch') {
-    if (bc) { bc.disabled = true; bc.classList.add('btn-coming-soon'); }
+    if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
     if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early access May 13th (community) / Public May 15th'; }
     if (ha) { ha.disabled = true; ha.classList.add('btn-coming-soon'); }
     if (gm) gm.style.display = 'none';
@@ -1380,6 +1380,12 @@ function updateIncentivesWalletUI() {
   }
 }
 
+// Restore community member from session
+try {
+  const saved = sessionStorage.getItem('gres_member');
+  if (saved) communityMember = JSON.parse(saved);
+} catch(e) {}
+
 // Check URL for access token on page load
 function checkAccessToken() {
   const params = new URLSearchParams(window.location.search);
@@ -1434,6 +1440,9 @@ window.submitCommunity = async function() {
       body: JSON.stringify({ sheet: 'Community', email, date: new Date().toISOString(), referred_by: ref })
     }).catch(e => console.error('Sheets fallback error', e));
   }
+
+  // Persist community member for wallet webhook
+  try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
 
   // Mark Step 1 as completed (DON'T hide the modal)
   btn.textContent = '\u2713 Access Link Sent!';
@@ -1573,11 +1582,13 @@ modal.subscribeAccount(account => {
     updateIncentivesWalletUI();
     applySaleState();
     // Notify backend of wallet connection
-    if (communityMember && communityMember.email) {
+    let member = communityMember;
+    if (!member) { try { const s = sessionStorage.getItem('gres_member'); if (s) member = JSON.parse(s); } catch(e) {} }
+    if (member && member.email) {
       fetch(CONFIG.n8nWebhook + '/community/wallet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: communityMember.email, wallet: connectedAddress }),
+        body: JSON.stringify({ email: member.email, wallet: connectedAddress }),
       }).catch(e => console.error('Wallet webhook error:', e));
     }
   } else {
@@ -1691,4 +1702,4 @@ refreshSaleState();
 
 </script>
 </body>
-</html>
+</html>																	
