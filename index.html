@@ -514,12 +514,15 @@ a:hover { color: var(--gold-light); }
 .incentives-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-glow); border: 1px solid rgba(201,169,110,0.2); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
 .incentives-reward { display: flex; align-items: center; gap: 8px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 10px; font-size: 12px; color: var(--text-secondary); }
 .incentives-reward .reward-amount { color: var(--gold); font-family: var(--font-heading); font-weight: 700; font-size: 14px; white-space: nowrap; }
-.social-boost-btns { display: flex; gap: 8px; margin-bottom: 10px; }
-.social-boost-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: var(--transition); font-family: var(--font-heading); text-decoration: none; }
+.social-boost-btns { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.social-boost-btn { flex: 1 1 calc(33.333% - 8px); min-width: 130px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: var(--transition); font-family: var(--font-heading); text-decoration: none; position: relative; }
 .social-boost-btn.tg { background: #229ED9; color: white; }
 .social-boost-btn.tw { background: #111; color: white; border: 1px solid #333; }
+.social-boost-btn.li { background: #0A66C2; color: white; }
 .social-boost-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
-.social-boost-btn svg { width: 16px; height: 16px; }
+.social-boost-btn svg { width: 18px; height: 18px; }
+.social-boost-btn .sb-tag { font-size: 9px; opacity: 0.85; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+.social-boost-btn .sb-row { display: flex; align-items: center; gap: 6px; }
 .share-card { background: linear-gradient(135deg, #0C0F16 0%, #111520 100%); border: 1px solid var(--gold-dim); border-radius: var(--radius); padding: 20px; margin-top: 14px; display: none; }
 .share-card-text { font-size: 13px; color: var(--text); line-height: 1.7; margin-bottom: 14px; font-style: italic; border-left: 2px solid var(--gold-dim); padding-left: 14px; }
 .share-btns { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -576,7 +579,7 @@ a:hover { color: var(--gold-light); }
   <div class="container">
     <div class="hero-eyebrow animate-up" id="hero-eyebrow"><span class="dot"></span> Seed Round — Lot 01 Opening Soon</div>
     <h1 class="animate-up delay-1">The Future of Real Estate<br>Is <em>On-Chain</em></h1>
-    <p class="hero-sub animate-up delay-2">The first perpetual, AI-managed real estate fund. Institutional-grade governance, real-time NAV, and global liquidity — powered by blockchain.</p>
+    <p class="hero-sub animate-up delay-2">The first perpetual real estate fund with AI-driven valuation and Foundation-secured custody. Institutional-grade governance, real-time NAV, and global liquidity — built on BASE.</p>
     <div class="hero-ctas animate-up delay-3">
       <button class="btn btn-primary btn-coming-soon" id="btn-hero-acquire" disabled onclick="document.getElementById('sale').scrollIntoView({behavior:'smooth'})">Acquire GRES.ALPHA</button>
       <!-- COMMUNITY INCENTIVES — active in all states -->
@@ -813,33 +816,63 @@ a:hover { color: var(--gold-light); }
         <p>All incentive tokens have been distributed. Join the community to stay updated for future incentive rounds.</p>
       </div>
 
-      <!-- SECTION A: Join Community -->
+      <!-- SECTION 1: Join the Community (PRIMARY — required) -->
       <div class="incentives-section">
-        <div class="incentives-badge">🎁 Step 1</div>
-        <h4>Join our Community for Early Access and GRES.ALPHA Airdrop</h4>
-        <div class="incentives-reward"><span>Reward:</span><span class="reward-amount" id="inc-join-reward">1,000 GRES.ALPHA</span></div>
-        <div class="input-group" style="margin-bottom:10px"><label>Your Email</label><input type="email" class="input-field" id="inc-email" placeholder="you@email.com"></div>
-        <button class="btn-waitlist" style="width:100%;" id="btn-send-access" onclick="submitCommunity()">Send My Access Link</button>
-      </div>
-
-      <!-- SECTION B: Social Boost -->
-      <div class="incentives-section">
-        <div class="incentives-badge">⚡ Step 2</div>
-        <h4>Boost Your Airdrop by 100%</h4>
-        <p>Follow us on both channels to double your GRES.ALPHA airdrop.</p>
-        <div class="incentives-reward"><span>Extra Reward:</span><span class="reward-amount" id="inc-boost-reward">+1,000 GRES.ALPHA</span></div>
+        <div class="incentives-badge">🤝 Join the Community</div>
+        <h4>Pick where you want to follow GRES</h4>
+        <p style="margin-bottom:8px;">Be first to know when GRES.ALPHA goes live. Free <strong style="color:var(--gold);">1,000 GRES.ALPHA airdrop</strong> for community members at launch.</p>
+        <p style="margin-bottom:12px;font-size:11px;color:var(--text-muted);font-style:italic;">Community members get the sale link first — public announcement only after.</p>
         <div class="social-boost-btns">
-          <a href="https://t.me/gres_protocol" target="_blank" class="social-boost-btn tg" onclick="markSocialAction('telegram')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Join Telegram</a>
-          <a href="https://x.com/gresprotocol" target="_blank" class="social-boost-btn tw" onclick="markSocialAction('x')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Follow on X</a>
+          <a href="https://t.me/gres_protocol" target="_blank" class="social-boost-btn tg" onclick="markCommunityJoined('telegram')">
+            <div class="sb-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Telegram</div>
+            <span class="sb-tag">Most active</span>
+          </a>
+          <a href="https://x.com/gresprotocol" target="_blank" class="social-boost-btn tw" id="x-community-link" onclick="markCommunityJoined('x')">
+            <div class="sb-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Follow on X</div>
+            <span class="sb-tag">Daily updates</span>
+          </a>
+          <a href="https://www.linkedin.com/company/gres-protocol" target="_blank" class="social-boost-btn li" id="li-community-link" onclick="markCommunityJoined('linkedin')">
+            <div class="sb-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> Follow on LinkedIn</div>
+            <span class="sb-tag">For Investors</span>
+          </a>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><input type="checkbox" id="inc-social-confirm" style="accent-color:var(--gold)" onchange="confirmSocialBoost()"><label for="inc-social-confirm" style="font-size:12px;color:var(--text-secondary)">I've joined Telegram and followed on X</label></div>
-        <div id="inc-boost-status" style="display:none;text-align:center;padding:8px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ Thank you for joining — we see you there!</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;"><input type="checkbox" id="inc-communities-confirm" style="accent-color:var(--gold)" onchange="confirmCommunitiesJoined()"><label for="inc-communities-confirm" style="font-size:12px;color:var(--text-secondary)">I'm following at least one channel above</label></div>
+        <div id="inc-communities-status" style="display:none;margin-top:10px;text-align:center;padding:10px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ You're in — we'll notify you first.</div>
       </div>
 
-      <!-- SECTION C: Referral -->
+      <!-- SECTION 2: Claim Your Airdrop (OPTIONAL — recommended) -->
+      <div class="incentives-section" id="inc-claim-section">
+        <div class="incentives-badge">🎁 Claim Your Airdrop</div>
+        <h4>Connect a wallet OR leave your email to receive 1,000 GRES.ALPHA at launch</h4>
+        <p style="margin-bottom:12px;">Either method works. Wallet is fastest at launch — email is good if you're not crypto-set-up yet.</p>
+
+        <!-- WALLET option -->
+        <div id="inc-wallet-disconnected" style="margin-bottom:10px;">
+          <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
+        </div>
+        <div id="inc-wallet-connected" style="display:none;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
+            <span style="color:var(--green);font-size:14px">●</span>
+            <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
+            <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
+        </div>
+
+        <!-- Divider -->
+        <div style="display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;"><div style="flex:1;height:1px;background:var(--border);"></div>or<div style="flex:1;height:1px;background:var(--border);"></div></div>
+
+        <!-- EMAIL option -->
+        <div id="inc-email-area">
+          <div class="input-group" style="margin-bottom:10px"><label>Your Email <span style="color:var(--text-muted);font-weight:400;">(get a personal note from Thiago)</span></label><input type="email" class="input-field" id="inc-email" placeholder="you@email.com"></div>
+          <button class="btn-waitlist" style="width:100%;" id="btn-send-access" onclick="submitCommunity()">Subscribe</button>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Boost — Referral (OPTIONAL) -->
       <div class="incentives-section">
-        <div class="incentives-badge">🔗 Step 3</div>
-        <h4>Get 10% USDC Commission + 10% Extra GRES.ALPHA Airdrop on Every Referral</h4>
+        <div class="incentives-badge">🔗 Boost Your Rewards</div>
+        <h4>Earn 10% USDC + 10% extra GRES.ALPHA on every referral</h4>
         <p>Share your unique link. When someone you refer purchases GRES.ALPHA, you earn 10% of their purchase in USDC and an extra 10% in GRES.ALPHA tokens.</p>
         <button class="btn-waitlist" style="width:100%;background:rgba(201,169,110,0.1);border:1px dashed var(--gold-dim);color:var(--gold);" id="btn-gen-referral" onclick="generateReferralLink()">Generate My Referral Link</button>
         
@@ -851,7 +884,7 @@ a:hover { color: var(--gold-light); }
           </div>
           <div style="margin-bottom:14px">
             <label style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px">Ready-to-Share Post</label>
-            <div class="share-card-text" id="inc-share-text">I just joined The GRES Protocol — the first perpetual, asset-backed, AI-managed global real estate fund. Early community members earn free GRES.ALPHA tokens + referral rewards. Don't miss the early access window. Join here:</div>
+            <div class="share-card-text" id="inc-share-text">I just joined GRES Protocol — the first perpetual real estate fund with AI-driven valuation and Foundation-secured custody. Early community members earn free GRES.ALPHA tokens + referral rewards. Don't miss the early access window. Join here:</div>
           </div>
           <div class="share-btns">
             <a id="share-x" class="share-btn" target="_blank">𝕏 Share on X</a>
@@ -859,24 +892,6 @@ a:hover { color: var(--gold-light); }
             <a id="share-wa" class="share-btn" target="_blank">📱 WhatsApp</a>
             <button class="share-btn" onclick="copySharePost()">📋 Copy Post</button>
           </div>
-        </div>
-      </div>
-
-      <!-- SECTION D: Connect Wallet (Optional) -->
-      <div class="incentives-section">
-        <div class="incentives-badge">👛 Step 4 — Optional</div>
-        <h4>Connect Your Wallet to Receive Tokens</h4>
-        <p>Connect now or later via the access link in your email. Your airdrop tokens will be sent to this wallet.</p>
-        <div id="inc-wallet-disconnected">
-          <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
-        </div>
-        <div id="inc-wallet-connected" style="display:none">
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
-            <span style="color:var(--green);font-size:14px">●</span>
-            <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
-            <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
-          </div>
-          <p style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
         </div>
       </div>
 
@@ -1357,7 +1372,9 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
 
 // ── Waitlist Submission ──
 // ── Community Incentives Functions ──
-let communityMember = null; // { email, access_token, referral_code, social_boost }
+// communityMember tracks: { email, access_token, referral_code, social_boost, communities_joined: [], confirmed_at }
+// User can be a member via EITHER: confirming community join (TG/X/LinkedIn) OR submitting email OR connecting wallet
+let communityMember = null;
 
 
 // ── Connect Wallet from Incentives Modal ──
@@ -1413,83 +1430,122 @@ window.submitCommunity = async function() {
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
+  // Preserve existing communities_joined if user already confirmed
+  const existingCommunities = (communityMember && communityMember.communities_joined) || [];
+
   try {
     const resp = await fetch(CONFIG.n8nWebhook + '/community/join', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', joined_at: new Date().toISOString() }),
+      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', communities_joined: existingCommunities, joined_at: new Date().toISOString() }),
     });
     if (resp.ok) {
       try {
         const data = await resp.json();
         if (data && data.access_token) {
-          communityMember = { email, access_token: data.access_token, referral_code: data.referral_code, social_boost: false };
+          communityMember = { email, access_token: data.access_token, referral_code: data.referral_code, social_boost: false, communities_joined: existingCommunities };
         }
       } catch(parseErr) {
         console.warn('Response not JSON, but request succeeded:', parseErr);
-        communityMember = { email, access_token: '', referral_code: '', social_boost: false };
+        communityMember = { email, access_token: '', referral_code: '', social_boost: false, communities_joined: existingCommunities };
       }
     } else {
       throw new Error('HTTP ' + resp.status);
     }
   } catch(err) {
     console.error('Community join error:', err);
-    communityMember = { email, access_token: '', referral_code: '', social_boost: false };
+    communityMember = { email, access_token: '', referral_code: '', social_boost: false, communities_joined: existingCommunities };
     // Fallback to sheets
     fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ sheet: 'Community', email, date: new Date().toISOString(), referred_by: ref })
+      body: JSON.stringify({ sheet: 'Community', email, date: new Date().toISOString(), referred_by: ref, communities_joined: existingCommunities.join(',') })
     }).catch(e => console.error('Sheets fallback error', e));
   }
 
   // Persist community member for wallet webhook
   try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
 
-  // Mark Step 1 as completed (DON'T hide the modal)
-  btn.textContent = '\u2713 Access Link Sent!';
+  // Mark email submission completed
+  btn.textContent = '\u2713 Subscribed!';
   btn.style.background = 'var(--green)';
   btn.style.borderColor = 'var(--green)';
   btn.style.cursor = 'default';
   document.getElementById('inc-email').disabled = true;
   document.getElementById('inc-email').style.opacity = '0.5';
 
-  // Show inline confirmation under Step 1
+  // Show inline confirmation
   const confirmDiv = document.createElement('div');
   confirmDiv.style.cssText = 'margin-top:10px;padding:10px 14px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);text-align:center;';
-  confirmDiv.innerHTML = '\u2713 Check your email at <strong>' + email + '</strong> for your access link and referral code. <br><span style="color:var(--text-muted);font-size:11px;">Check spam and mark us as safe.</span>';
+  confirmDiv.innerHTML = '\u2713 Personal note will arrive at <strong>' + email + '</strong>. <br><span style="color:var(--text-muted);font-size:11px;">Check spam and mark us as safe.</span>';
   btn.parentElement.appendChild(confirmDiv);
 };
 
-window.markSocialAction = function(platform) {
-  // Track which social action was taken (for analytics)
-  console.log('Social action:', platform);
+// ── Track community joins (TG / X / LinkedIn click-through) ──
+// User clicks the platform button -> we record the platform locally.
+// Becomes "confirmed" only after they tick the confirmation checkbox.
+window.markCommunityJoined = function(platform) {
+  if (!communityMember) {
+    communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
+  }
+  if (!Array.isArray(communityMember.communities_joined)) {
+    communityMember.communities_joined = [];
+  }
+  if (communityMember.communities_joined.indexOf(platform) === -1) {
+    communityMember.communities_joined.push(platform);
+  }
+  try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
+  console.log('Community joined:', platform, communityMember.communities_joined);
 };
 
-window.confirmSocialBoost = function() {
-  if (!communityMember) {
-    alert('Please complete Step 1 first (enter your email).');
-    document.getElementById('inc-social-confirm').checked = false;
+// ── Confirm community joined ── (replaces old confirmSocialBoost)
+// Fires the webhook so the backend records this as a community member,
+// even if the user never enters an email or connects a wallet.
+window.confirmCommunitiesJoined = function() {
+  const checkbox = document.getElementById('inc-communities-confirm');
+  const status = document.getElementById('inc-communities-status');
+  if (!checkbox.checked) {
+    if (status) status.style.display = 'none';
     return;
   }
-  const checked = document.getElementById('inc-social-confirm').checked;
-  const status = document.getElementById('inc-boost-status');
-  if (checked) {
-    status.style.display = 'block';
-    communityMember.social_boost = true;
-    // Notify backend (fire and forget — don't block UI)
-    fetch(CONFIG.n8nWebhook + '/community/boost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: communityMember.email, access_token: communityMember.access_token || '' }),
-    }).catch(e => console.error('Boost error:', e));
-  } else {
-    status.style.display = 'none';
+  if (!communityMember) {
+    communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
   }
+  if (!Array.isArray(communityMember.communities_joined) || communityMember.communities_joined.length === 0) {
+    alert('Please click to follow at least one channel above before confirming.');
+    checkbox.checked = false;
+    return;
+  }
+  communityMember.confirmed_at = new Date().toISOString();
+  // Treat any community confirmation as "social_boost = true" so the airdrop bonus rule keeps working.
+  communityMember.social_boost = true;
+  try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
+  if (status) status.style.display = 'block';
+  // Fire and forget — backend records community membership without email
+  const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+  fetch(CONFIG.n8nWebhook + '/community/confirm', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      communities_joined: communityMember.communities_joined,
+      email: communityMember.email || '',
+      wallet: connectedAddress || '',
+      referred_by: ref,
+      confirmed_at: communityMember.confirmed_at
+    }),
+  }).catch(e => console.error('Confirm communities error:', e));
 };
 
 window.generateReferralLink = function() {
-  if (!communityMember) {
-    alert('Please complete Step 1 first (enter your email).');
+  // Allow referral generation if the user has done ANY of: confirmed communities, submitted email, connected wallet
+  const hasCommunities = communityMember && Array.isArray(communityMember.communities_joined) && communityMember.communities_joined.length > 0 && communityMember.confirmed_at;
+  const hasEmail = communityMember && communityMember.email;
+  const hasWallet = !!connectedAddress;
+  if (!hasCommunities && !hasEmail && !hasWallet) {
+    alert('Join a community, leave your email, or connect your wallet first to generate your referral link.');
     return;
+  }
+  // Ensure communityMember exists
+  if (!communityMember) {
+    communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
   }
   const area = document.getElementById('inc-referral-area');
   const linkInput = document.getElementById('inc-ref-link');
@@ -1497,9 +1553,9 @@ window.generateReferralLink = function() {
   if (communityMember.referral_code) {
     refCode = communityMember.referral_code;
   } else {
-    // Generate client-side fallback code
-    const email = communityMember.email || '';
-    refCode = email ? btoa(email).substring(0,8).replace(/[^a-zA-Z0-9]/g,'') : Math.random().toString(36).substring(2,10);
+    // Generate client-side fallback code from email, wallet, or random
+    const seed = communityMember.email || connectedAddress || (Math.random().toString(36).substring(2,10));
+    refCode = btoa(seed).substring(0,8).replace(/[^a-zA-Z0-9]/g,'') || Math.random().toString(36).substring(2,10);
   }
   const refUrl = window.location.origin + window.location.pathname + '?ref=' + refCode;
   linkInput.value = refUrl;
@@ -1581,16 +1637,26 @@ modal.subscribeAccount(account => {
     document.getElementById('btn-connect').textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
     updateIncentivesWalletUI();
     applySaleState();
-    // Notify backend of wallet connection
+    // Notify backend of wallet connection (always — wallet is sufficient for airdrop attribution)
     let member = communityMember;
     if (!member) { try { const s = sessionStorage.getItem('gres_member'); if (s) member = JSON.parse(s); } catch(e) {} }
-    if (member && member.email) {
-      fetch(CONFIG.n8nWebhook + '/community/wallet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: member.email, wallet: connectedAddress }),
-      }).catch(e => console.error('Wallet webhook error:', e));
-    }
+    const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+    fetch(CONFIG.n8nWebhook + '/community/wallet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: (member && member.email) || '',
+        wallet: connectedAddress,
+        communities_joined: (member && member.communities_joined) || [],
+        referred_by: ref,
+        connected_at: new Date().toISOString()
+      }),
+    }).catch(e => console.error('Wallet webhook error:', e));
+    // Persist updated member state
+    if (!member) member = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
+    member.wallet = connectedAddress;
+    communityMember = member;
+    try { sessionStorage.setItem('gres_member', JSON.stringify(member)); } catch(e) {}
   } else {
     connectedAddress = null;
     document.getElementById('btn-connect').textContent = 'Connect Wallet';
@@ -1702,4 +1768,4 @@ refreshSaleState();
 
 </script>
 </body>
-</html>																	
+</html>
