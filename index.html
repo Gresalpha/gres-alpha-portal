@@ -1437,7 +1437,7 @@ window.submitCommunity = async function() {
     const resp = await fetch(CONFIG.n8nWebhook + '/community/join', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', communities_joined: existingCommunities, joined_at: new Date().toISOString() }),
+      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', communities_joined: existingCommunities, social_boost: (communityMember && communityMember.social_boost) || false, wallet: connectedAddress || '', joined_at: new Date().toISOString() }),
     });
     if (resp.ok) {
       try {
