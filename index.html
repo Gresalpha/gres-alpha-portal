@@ -1631,15 +1631,35 @@ const modal = createAppKit({
   projectId: CONFIG.walletConnectId,
 });
 
+// Track last notified wallet to prevent duplicate webhook fires.
+// AppKit's subscribeAccount fires multiple times during connection (chain check, account check, auto-reconnect).
+let lastNotifiedWallet = null;
+try { lastNotifiedWallet = sessionStorage.getItem('gres_last_notified_wallet'); } catch(e) {}
+
 modal.subscribeAccount(account => {
   if (account.isConnected) {
     connectedAddress = account.address;
     document.getElementById('btn-connect').textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
     updateIncentivesWalletUI();
     applySaleState();
-    // Notify backend of wallet connection (always — wallet is sufficient for airdrop attribution)
+
+    // Persist updated member state (always, regardless of dedup)
     let member = communityMember;
     if (!member) { try { const s = sessionStorage.getItem('gres_member'); if (s) member = JSON.parse(s); } catch(e) {} }
+    if (!member) member = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
+    member.wallet = connectedAddress;
+    communityMember = member;
+    try { sessionStorage.setItem('gres_member', JSON.stringify(member)); } catch(e) {}
+
+    // DEDUP: only notify backend if this wallet is new in this session
+    const walletLower = connectedAddress.toLowerCase();
+    if (lastNotifiedWallet === walletLower) {
+      // Already notified — skip
+      return;
+    }
+    lastNotifiedWallet = walletLower;
+    try { sessionStorage.setItem('gres_last_notified_wallet', walletLower); } catch(e) {}
+
     const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
     fetch(CONFIG.n8nWebhook + '/community/wallet', {
       method: 'POST',
@@ -1652,16 +1672,13 @@ modal.subscribeAccount(account => {
         connected_at: new Date().toISOString()
       }),
     }).catch(e => console.error('Wallet webhook error:', e));
-    // Persist updated member state
-    if (!member) member = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
-    member.wallet = connectedAddress;
-    communityMember = member;
-    try { sessionStorage.setItem('gres_member', JSON.stringify(member)); } catch(e) {}
   } else {
     connectedAddress = null;
     document.getElementById('btn-connect').textContent = 'Connect Wallet';
     updateIncentivesWalletUI();
     applySaleState();
+    // Note: we keep lastNotifiedWallet — disconnecting and reconnecting same wallet won't re-notify.
+    // Only changing to a different wallet triggers a new notification.
   }
 });
 
