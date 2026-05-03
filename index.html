@@ -1424,11 +1424,19 @@ function checkAccessToken() {
 }
 
 window.submitCommunity = async function() {
-  const email = document.getElementById('inc-email').value.trim();
-  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-  const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
-  
   const btn = document.getElementById('btn-send-access');
+  // GUARD: prevent re-entry during in-flight request (rage-click or quick re-renders)
+  if (btn.disabled || btn.dataset.submitting === '1') return;
+  btn.dataset.submitting = '1';
+
+  const email = document.getElementById('inc-email').value.trim();
+  if (!email || !email.includes('@')) {
+    btn.dataset.submitting = '0';
+    alert('Please enter a valid email.');
+    return;
+  }
+  const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
+
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
@@ -1457,10 +1465,7 @@ window.submitCommunity = async function() {
   } catch(err) {
     console.error('Community join error:', err);
     communityMember = { email, access_token: '', referral_code: '', social_boost: false, communities_joined: existingCommunities };
-    // Fallback to sheets
-    fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ sheet: 'Community', email, date: new Date().toISOString(), referred_by: ref, communities_joined: existingCommunities.join(',') })
-    }).catch(e => console.error('Sheets fallback error', e));
+    // No Apps Script fallback — would create duplicate row via parallel path. WF5 nightly handles backup.
   }
 
   // Persist community member for wallet webhook
