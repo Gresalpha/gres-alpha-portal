@@ -816,12 +816,41 @@ a:hover { color: var(--gold-light); }
         <p>All incentive tokens have been distributed. Join the community to stay updated for future incentive rounds.</p>
       </div>
 
-      <!-- SECTION 1: Join the Community (PRIMARY — required) -->
+      <!-- SECTION 1: Email (PRIMARY — first identifier) -->
       <div class="incentives-section">
-        <div class="incentives-badge">🤝 Join the Community</div>
-        <h4>Pick where you want to follow GRES</h4>
-        <p style="margin-bottom:8px;">Be first to know when GRES.ALPHA goes live. Free <strong style="color:var(--gold);">1,000 GRES.ALPHA airdrop</strong> for community members at launch.</p>
-        <p style="margin-bottom:12px;font-size:11px;color:var(--text-muted);font-style:italic;">Community members get the sale link first — public announcement only after.</p>
+        <div class="incentives-badge">📧 Step 1 — Your Email</div>
+        <h4>Leave your email to claim your spot</h4>
+        <p style="margin-bottom:12px;">Be first to know when GRES.ALPHA goes live. Free <strong style="color:var(--gold);">1,000 GRES.ALPHA airdrop</strong> at launch. We'll send you a personal note from Thiago.</p>
+        <div id="inc-email-area">
+          <div class="input-group" style="margin-bottom:10px"><label>Your Email</label><input type="email" class="input-field" id="inc-email" placeholder="you@email.com"></div>
+          <button class="btn-waitlist" style="width:100%;" id="btn-send-access" onclick="submitCommunity()">Subscribe</button>
+        </div>
+        <p style="margin-top:12px;font-size:11px;color:var(--text-muted);font-style:italic;text-align:center;">Or skip to Step 2 and connect your wallet instead.</p>
+      </div>
+
+      <!-- SECTION 2: Wallet (PRIMARY — alternative identifier) -->
+      <div class="incentives-section" id="inc-claim-section">
+        <div class="incentives-badge">👛 Step 2 — Connect Your Wallet</div>
+        <h4>Or connect your wallet now to receive GRES.ALPHA at launch</h4>
+        <p style="margin-bottom:12px;">Wallet connection is the fastest path on launch day. You can do this now or later.</p>
+        <div id="inc-wallet-disconnected" style="margin-bottom:10px;">
+          <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
+        </div>
+        <div id="inc-wallet-connected" style="display:none;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
+            <span style="color:var(--green);font-size:14px">●</span>
+            <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
+            <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Communities — Boost (requires identifier) -->
+      <div class="incentives-section">
+        <div class="incentives-badge">🤝 Step 3 — Boost Your Airdrop</div>
+        <h4>Follow the channels to double your airdrop to 2,000 GRES.ALPHA</h4>
+        <p style="margin-bottom:12px;">Community members get the sale link first — public announcement only after.</p>
         <div class="social-boost-btns">
           <a href="https://t.me/gres_protocol" target="_blank" class="social-boost-btn tg" onclick="markCommunityJoined('telegram')">
             <div class="sb-row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Telegram</div>
@@ -837,41 +866,12 @@ a:hover { color: var(--gold-light); }
           </a>
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:12px;"><input type="checkbox" id="inc-communities-confirm" style="accent-color:var(--gold)" onchange="confirmCommunitiesJoined()"><label for="inc-communities-confirm" style="font-size:12px;color:var(--text-secondary)">I'm following at least one channel above</label></div>
-        <div id="inc-communities-status" style="display:none;margin-top:10px;text-align:center;padding:10px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ You're in — we'll notify you first.</div>
+        <div id="inc-communities-status" style="display:none;margin-top:10px;text-align:center;padding:10px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ Boost activated — airdrop doubled to 2,000 GRES.ALPHA.</div>
       </div>
 
-      <!-- SECTION 2: Claim Your Airdrop (OPTIONAL — recommended) -->
-      <div class="incentives-section" id="inc-claim-section">
-        <div class="incentives-badge">🎁 Claim Your Airdrop</div>
-        <h4>Connect a wallet OR leave your email to receive 1,000 GRES.ALPHA at launch</h4>
-        <p style="margin-bottom:12px;">Either method works. Wallet is fastest at launch — email is good if you're not crypto-set-up yet.</p>
-
-        <!-- WALLET option -->
-        <div id="inc-wallet-disconnected" style="margin-bottom:10px;">
-          <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
-        </div>
-        <div id="inc-wallet-connected" style="display:none;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
-            <span style="color:var(--green);font-size:14px">●</span>
-            <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
-            <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
-          </div>
-          <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
-        </div>
-
-        <!-- Divider -->
-        <div style="display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;"><div style="flex:1;height:1px;background:var(--border);"></div>or<div style="flex:1;height:1px;background:var(--border);"></div></div>
-
-        <!-- EMAIL option -->
-        <div id="inc-email-area">
-          <div class="input-group" style="margin-bottom:10px"><label>Your Email <span style="color:var(--text-muted);font-weight:400;">(get a personal note from Thiago)</span></label><input type="email" class="input-field" id="inc-email" placeholder="you@email.com"></div>
-          <button class="btn-waitlist" style="width:100%;" id="btn-send-access" onclick="submitCommunity()">Subscribe</button>
-        </div>
-      </div>
-
-      <!-- SECTION 3: Boost — Referral (OPTIONAL) -->
+      <!-- SECTION 4: Referral (OPTIONAL) -->
       <div class="incentives-section">
-        <div class="incentives-badge">🔗 Boost Your Rewards</div>
+        <div class="incentives-badge">🔗 Step 4 — Earn From Referrals</div>
         <h4>Earn 10% USDC + 10% extra GRES.ALPHA on every referral</h4>
         <p>Share your unique link. When someone you refer purchases GRES.ALPHA, you earn 10% of their purchase in USDC and an extra 10% in GRES.ALPHA tokens.</p>
         <button class="btn-waitlist" style="width:100%;background:rgba(201,169,110,0.1);border:1px dashed var(--gold-dim);color:var(--gold);" id="btn-gen-referral" onclick="generateReferralLink()">Generate My Referral Link</button>
@@ -1506,6 +1506,14 @@ window.confirmCommunitiesJoined = function() {
     if (status) status.style.display = 'none';
     return;
   }
+  // GUARD: boost requires at least email or wallet
+  const hasEmail = (communityMember && communityMember.email) || (document.getElementById('inc-email') && document.getElementById('inc-email').value.trim().includes('@'));
+  const hasWallet = !!connectedAddress;
+  if (!hasEmail && !hasWallet) {
+    alert('To activate your boost, please complete Step 1 (email) or Step 2 (wallet) first.');
+    checkbox.checked = false;
+    return;
+  }
   if (!communityMember) {
     communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
   }
@@ -1515,11 +1523,9 @@ window.confirmCommunitiesJoined = function() {
     return;
   }
   communityMember.confirmed_at = new Date().toISOString();
-  // Treat any community confirmation as "social_boost = true" so the airdrop bonus rule keeps working.
   communityMember.social_boost = true;
   try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
   if (status) status.style.display = 'block';
-  // Fire and forget — backend records community membership without email
   const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
   fetch(CONFIG.n8nWebhook + '/community/confirm', {
     method: 'POST',
