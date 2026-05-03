@@ -1437,6 +1437,16 @@ window.submitCommunity = async function() {
   }
   const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
 
+  // IDEMPOTENCY KEY: persist per email + browser session.
+  // Reused across retries so server-side dedup catches them.
+  // Generated once per email submission, not per click.
+  const idemStorageKey = 'gres_idem_' + email.toLowerCase();
+  let idempotencyKey = sessionStorage.getItem(idemStorageKey);
+  if (!idempotencyKey) {
+    idempotencyKey = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('idem_' + Date.now() + '_' + Math.random().toString(36).slice(2));
+    try { sessionStorage.setItem(idemStorageKey, idempotencyKey); } catch(e) {}
+  }
+
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
@@ -1447,7 +1457,7 @@ window.submitCommunity = async function() {
     const resp = await fetch(CONFIG.n8nWebhook + '/community/join', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', communities_joined: existingCommunities, social_boost: (communityMember && communityMember.social_boost) || false, wallet: connectedAddress || '', joined_at: new Date().toISOString() }),
+      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', communities_joined: existingCommunities, social_boost: (communityMember && communityMember.social_boost) || false, wallet: connectedAddress || '', idempotency_key: idempotencyKey, joined_at: new Date().toISOString() }),
     });
     if (resp.ok) {
       try {
@@ -1644,10 +1654,10 @@ const modal = createAppKit({
   projectId: CONFIG.walletConnectId,
 });
 
-// Track last notified wallet to prevent duplicate webhook fires.
-// AppKit's subscribeAccount fires multiple times during connection (chain check, account check, auto-reconnect).
+// Track last notified wallet IN MEMORY ONLY (not sessionStorage).
+// Goal: prevent 8 fires of subscribeAccount within ONE connection.
+// New tab / refresh / new connection attempt should always fire — to recover from prior errors.
 let lastNotifiedWallet = null;
-try { lastNotifiedWallet = sessionStorage.getItem('gres_last_notified_wallet'); } catch(e) {}
 
 modal.subscribeAccount(account => {
   if (account.isConnected) {
@@ -1671,7 +1681,6 @@ modal.subscribeAccount(account => {
       return;
     }
     lastNotifiedWallet = walletLower;
-    try { sessionStorage.setItem('gres_last_notified_wallet', walletLower); } catch(e) {}
 
     const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
     fetch(CONFIG.n8nWebhook + '/community/wallet', {
