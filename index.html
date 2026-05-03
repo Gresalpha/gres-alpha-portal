@@ -816,39 +816,41 @@ a:hover { color: var(--gold-light); }
         <p>All incentive tokens have been distributed. Join the community to stay updated for future incentive rounds.</p>
       </div>
 
-      <!-- SECTION 1: Email (PRIMARY — first identifier) -->
+      <!-- SECTION 1: Email + Wallet (unified — leave at least one) -->
       <div class="incentives-section">
-        <div class="incentives-badge">📧 Step 1 — Your Email</div>
-        <h4>Leave your email to claim your spot</h4>
-        <p style="margin-bottom:12px;">Be first to know when GRES.ALPHA goes live. Free <strong style="color:var(--gold);">1,000 GRES.ALPHA airdrop</strong> at launch. We'll send you a personal note from Thiago.</p>
-        <div id="inc-email-area">
+        <div class="incentives-badge">✨ Step 1 — Claim Your Spot</div>
+        <h4>Leave your email and/or connect your wallet</h4>
+        <p style="margin-bottom:14px;">Be first to know when GRES.ALPHA goes live. Free <strong style="color:var(--gold);">1,000 GRES.ALPHA airdrop</strong> at launch. You only need one — both is best.</p>
+
+        <!-- EMAIL block -->
+        <div id="inc-email-area" style="margin-bottom:14px;">
           <div class="input-group" style="margin-bottom:10px"><label>Your Email</label><input type="email" class="input-field" id="inc-email" placeholder="you@email.com"></div>
           <button class="btn-waitlist" style="width:100%;" id="btn-send-access" onclick="submitCommunity()">Subscribe</button>
         </div>
-        <p style="margin-top:12px;font-size:11px;color:var(--text-muted);font-style:italic;text-align:center;">Or skip to Step 2 and connect your wallet instead.</p>
-      </div>
 
-      <!-- SECTION 2: Wallet (PRIMARY — alternative identifier) -->
-      <div class="incentives-section" id="inc-claim-section">
-        <div class="incentives-badge">👛 Step 2 — Connect Your Wallet</div>
-        <h4>Or connect your wallet now to receive GRES.ALPHA at launch</h4>
-        <p style="margin-bottom:12px;">Wallet connection is the fastest path on launch day. You can do this now or later.</p>
-        <div id="inc-wallet-disconnected" style="margin-bottom:10px;">
-          <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
-        </div>
-        <div id="inc-wallet-connected" style="display:none;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
-            <span style="color:var(--green);font-size:14px">●</span>
-            <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
-            <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
+        <!-- AND / OR divider -->
+        <div style="display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;"><div style="flex:1;height:1px;background:var(--border);"></div>and / or<div style="flex:1;height:1px;background:var(--border);"></div></div>
+
+        <!-- WALLET block -->
+        <div id="inc-claim-section">
+          <div id="inc-wallet-disconnected">
+            <button onclick="connectWalletForIncentives()" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--gold-dim);background:var(--gold-glow);color:var(--gold);font-family:var(--font-heading);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/></svg> Connect Wallet</button>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center;font-style:italic;">Wallet connection is the fastest path on launch day.</p>
           </div>
-          <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
+          <div id="inc-wallet-connected" style="display:none;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-input);border:1px solid rgba(16,185,129,0.3);border-radius:8px">
+              <span style="color:var(--green);font-size:14px">●</span>
+              <span id="inc-wallet-addr" style="font-family:monospace;font-size:12px;color:var(--text);flex:1"></span>
+              <span style="font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Connected</span>
+            </div>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Your airdrop tokens will be sent to this address.</p>
+          </div>
         </div>
       </div>
 
-      <!-- SECTION 3: Communities — Boost (requires identifier) -->
+      <!-- SECTION 2: Communities — Boost (requires identifier from Step 1) -->
       <div class="incentives-section">
-        <div class="incentives-badge">🤝 Step 3 — Boost Your Airdrop</div>
+        <div class="incentives-badge">🤝 Step 2 — Boost Your Airdrop</div>
         <h4>Follow the channels to double your airdrop to 2,000 GRES.ALPHA</h4>
         <p style="margin-bottom:12px;">Community members get the sale link first — public announcement only after.</p>
         <div class="social-boost-btns">
@@ -869,9 +871,9 @@ a:hover { color: var(--gold-light); }
         <div id="inc-communities-status" style="display:none;margin-top:10px;text-align:center;padding:10px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);font-weight:600;">✓ Boost activated — airdrop doubled to 2,000 GRES.ALPHA.</div>
       </div>
 
-      <!-- SECTION 4: Referral (OPTIONAL) -->
+      <!-- SECTION 3: Referral (OPTIONAL) -->
       <div class="incentives-section">
-        <div class="incentives-badge">🔗 Step 4 — Earn From Referrals</div>
+        <div class="incentives-badge">🔗 Step 3 — Earn From Referrals</div>
         <h4>Earn 10% USDC + 10% extra GRES.ALPHA on every referral</h4>
         <p>Share your unique link. When someone you refer purchases GRES.ALPHA, you earn 10% of their purchase in USDC and an extra 10% in GRES.ALPHA tokens.</p>
         <button class="btn-waitlist" style="width:100%;background:rgba(201,169,110,0.1);border:1px dashed var(--gold-dim);color:var(--gold);" id="btn-gen-referral" onclick="generateReferralLink()">Generate My Referral Link</button>
@@ -1510,7 +1512,7 @@ window.confirmCommunitiesJoined = function() {
   const hasEmail = (communityMember && communityMember.email) || (document.getElementById('inc-email') && document.getElementById('inc-email').value.trim().includes('@'));
   const hasWallet = !!connectedAddress;
   if (!hasEmail && !hasWallet) {
-    alert('To activate your boost, please complete Step 1 (email) or Step 2 (wallet) first.');
+    alert('To activate your boost, please complete Step 1 first — leave your email or connect your wallet.');
     checkbox.checked = false;
     return;
   }
