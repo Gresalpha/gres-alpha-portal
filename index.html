@@ -661,10 +661,10 @@ a:hover { color: var(--gold-light); }
         <div id="waitlist-gate-msg" style="display:none;text-align:center;padding:16px;margin-bottom:16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-elevated)"><p id="waitlist-gate-text" style="font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5"></p></div>
         <div class="invest-urgency" id="invest-urgency" style="color:var(--gold-dim)">⏳ Lot 01 opens soon — Community members get early access + GRES.ALPHA airdrop</div>
 
-        <div class="input-group"><label>Email Address</label><input type="email" class="input-field" id="user-email" placeholder="you@email.com" disabled style="opacity:0.4"></div>
-        <div class="input-group"><label>Investment Amount (USDC)</label><input type="number" class="input-field" id="invest-amount" placeholder="100" min="1" disabled style="opacity:0.4"></div>
+        <div class="input-group"><label>Email Address</label><input type="email" class="input-field" id="user-email" placeholder="you@email.com"></div>
+        <div class="input-group"><label>Investment Amount (USDC)</label><input type="number" class="input-field" id="invest-amount" placeholder="100" min="1" oninput="calculateTokens()"></div>
         <div class="calc-row"><span>Estimated GRES.ALPHA</span><span class="tokens" id="token-calc">0</span></div>
-        <div class="terms-check"><input type="checkbox" id="agree-terms" disabled><label for="agree-terms">I confirm I am not a US Citizen and I agree to the <a onclick="openModal('tc-modal')">Terms & Conditions</a>.</label></div>
+        <div class="terms-check"><input type="checkbox" id="agree-terms"><label for="agree-terms">I confirm I am NOT a US Citizen, US resident, or US Person, and I agree to the <a onclick="openModal('tc-modal')">Terms &amp; Conditions</a>.</label></div>
 
         <button class="btn btn-primary btn-lg btn-disabled" id="btn-purchase" disabled onclick="investNow()">Coming Soon</button>
         <div class="wallet-status" id="wallet-status" style="margin-top:10px; font-size:11px; text-align:center; color:var(--text-muted);">Join <a onclick="openModal('incentives-modal')" style="cursor:pointer; text-decoration:underline;">Community Incentives</a> for early access + free GRES.ALPHA.</div>
@@ -1264,11 +1264,11 @@ function applySaleState() {
     if (heroInc) heroInc.style.display = 'inline-flex';
     var cdCta = document.getElementById('cd-waitlist-cta');
     if (cdCta) cdCta.innerHTML = 'Early access is active for community members.';  if (!conn) {
-      enableForm(false);
+      enableForm(true);
       setBtnPurchase(false, 'Connect Wallet to Continue');
       if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Continue'; bp.onclick = function(){ modal.open(); }; }
       if (gm) gm.style.display = 'none';
-        if (ws) ws.innerHTML = 'Connect your wallet to purchase GRES.ALPHA.';
+        if (ws) ws.innerHTML = 'Fill in your details and connect your wallet to purchase.';
     } else if (wl) {
       enableForm(true);
       setBtnPurchase(true, 'Purchase GRES.ALPHA');
@@ -1307,10 +1307,10 @@ function applySaleState() {
       if (bp) bp.onclick = function(){ investNow(); };
         if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
     } else {
-      enableForm(false);
-      // Button is ENABLED and opens wallet modal
+      enableForm(true);
+      // Button is ENABLED and opens wallet modal — form stays open so user can review
       if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Purchase'; bp.onclick = function(){ modal.open(); }; }
-      if (ws) ws.innerHTML = 'Connect your wallet to purchase GRES.ALPHA.';
+      if (ws) ws.innerHTML = 'Fill in your details and connect your wallet to purchase.';
       }
   }
 }
@@ -1714,12 +1714,12 @@ window.addTokenToWallet = async function() {
 // ── Purchase Flow (approve + buy via Sale Contract) ──
 window.investNow = async function() {
   if (CONFIG.saleStatus === 'pre-launch') { alert('The sale has not started yet.'); return; }
-  if (!connectedAddress) { modal.open(); return; }
-  if (!document.getElementById('agree-terms').checked) { alert('Please accept the Terms & Conditions.'); return; }
+  if (!document.getElementById('agree-terms').checked) { alert('You must confirm you are NOT a US Person and accept the Terms & Conditions.'); return; }
   const email = document.getElementById('user-email').value;
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
   const amount = parseFloat(document.getElementById('invest-amount').value);
   if (!amount || amount < 1) { alert('Minimum 1 USDC.'); return; }
+  if (!connectedAddress) { modal.open(); return; }
   const usdcAmount = ethers.utils.parseUnits(amount.toString(), 6);
   try {
     const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
