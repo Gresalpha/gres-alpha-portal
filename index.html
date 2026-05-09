@@ -1761,7 +1761,27 @@ window.connectWallet = () => modal.open();
 
 // ── Add Token to Wallet ──
 window.addTokenToWallet = async function() {
-  try { await window.ethereum.request({ method: 'wallet_watchAsset', params: { type: 'ERC20', options: { address: CONFIG.tokenContract, symbol: 'GRESALPHA', decimals: 18 } } }); } catch (e) { console.error(e); }
+  const btn = event && event.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Adding...'; }
+  try {
+    // Use the connected wallet provider (works for both injected MetaMask and WalletConnect)
+    let provider = null;
+    try { provider = modal.getWalletProvider(); } catch(e) {}
+    if (!provider) provider = window.ethereum;
+    if (!provider) throw new Error('No wallet provider available');
+    
+    const result = await provider.request({
+      method: 'wallet_watchAsset',
+      params: { type: 'ERC20', options: { address: CONFIG.tokenContract, symbol: 'GRESALPHA', decimals: 18 } }
+    });
+    
+    if (btn) { btn.textContent = result ? '✓ Added to Wallet' : 'Add GRES.ALPHA to MetaMask'; if (result) btn.style.background = 'var(--green)'; }
+  } catch (e) {
+    console.error('addTokenToWallet error:', e);
+    if (btn) { btn.disabled = false; btn.textContent = 'Add GRES.ALPHA to MetaMask'; }
+    // Mobile MetaMask via WalletConnect may not support wallet_watchAsset — show fallback instructions
+    alert('To add GRES.ALPHA manually:\n\n1. Open MetaMask\n2. Tap "Import tokens"\n3. Paste this address:\n\n' + CONFIG.tokenContract);
+  }
 };
 
 // ── Purchase Modal Helpers ──
