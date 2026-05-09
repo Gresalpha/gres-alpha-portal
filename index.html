@@ -553,7 +553,6 @@ a:hover { color: var(--gold-light); }
 <header class="header">
   <div class="header-inner">
     <a href="#" class="logo">
-      <img src="Logo Gres.jpg" alt="GRES" onerror="this.style.display='none'">
       <div class="logo-text">GRES<span>PROTOCOL</span></div>
     </a>
     <nav class="header-nav">
@@ -920,17 +919,70 @@ a:hover { color: var(--gold-light); }
   </div>
 </div>
 
-<!-- Success Modal (for purchases — future) -->
-<div class="modal-overlay modal-success" id="success-modal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="location.reload()">&times;</button>
-    <div style="font-size:48px;margin-bottom:16px;">✓</div>
-    <h3>Allocation Confirmed</h3>
-    <p style="margin:16px 0 24px;">Transaction successful. Your GRES.ALPHA tokens have been sent to your wallet. A confirmation email has been sent — <strong style="color:var(--text)">please check your spam folder</strong>.</p>
-    <button class="btn btn-ghost" style="width:100%;margin-bottom:10px" onclick="addTokenToWallet()">Add GRES.ALPHA to Wallet</button>
-    <button class="btn btn-primary btn-lg" style="background:var(--green);" onclick="location.reload()">Got It</button>
+<!-- Purchase Stepper Modal -->
+<div class="modal-overlay modal-success" id="purchase-modal">
+  <div class="modal-box" style="text-align:left;max-width:480px;">
+    <button class="modal-close" id="pm-close" onclick="closePurchaseModal()" style="display:none;">&times;</button>
+    <h3 style="margin-bottom:8px;text-align:center;" id="pm-title">Processing Your Purchase</h3>
+    <p style="margin:0 0 24px;text-align:center;color:var(--text-muted);font-size:13px;" id="pm-subtitle">Please confirm each step in your wallet</p>
+    
+    <div id="pm-step-quote" class="pm-step" style="padding:14px 16px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;">
+      <span class="pm-icon" style="flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">1</span>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;color:var(--text);">Quote calculated</div>
+        <div class="pm-detail" style="font-size:12px;color:var(--text-muted);margin-top:2px;">Waiting for you to start</div>
+      </div>
+    </div>
+    
+    <div id="pm-step-approve" class="pm-step" style="padding:14px 16px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;opacity:0.5;">
+      <span class="pm-icon" style="flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">2</span>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;color:var(--text);">Approve USDC</div>
+        <div class="pm-detail" style="font-size:12px;color:var(--text-muted);margin-top:2px;">Authorize the contract to spend USDC</div>
+      </div>
+    </div>
+    
+    <div id="pm-step-buy" class="pm-step" style="padding:14px 16px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;opacity:0.5;">
+      <span class="pm-icon" style="flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">3</span>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;color:var(--text);">Purchase</div>
+        <div class="pm-detail" style="font-size:12px;color:var(--text-muted);margin-top:2px;">Confirm transaction in wallet</div>
+      </div>
+    </div>
+    
+    <div id="pm-step-confirm" class="pm-step" style="padding:14px 16px;border:1px solid var(--border);border-radius:8px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px;opacity:0.5;">
+      <span class="pm-icon" style="flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">4</span>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;color:var(--text);">On-chain confirmation</div>
+        <div class="pm-detail" style="font-size:12px;color:var(--text-muted);margin-top:2px;">Waiting for block confirmation</div>
+      </div>
+    </div>
+    
+    <div id="pm-success-actions" style="display:none;">
+      <p style="text-align:center;font-size:14px;color:var(--text);margin:0 0 16px;">Your <strong style="color:var(--gold)" id="pm-token-amount">0</strong> GRES.ALPHA tokens are in your wallet. A confirmation email was sent — <strong>check spam</strong>.</p>
+      <button class="btn btn-primary btn-lg" style="width:100%;background:var(--gold);color:#0a0a0a;" onclick="addTokenToWallet()">Add GRES.ALPHA to MetaMask</button>
+    </div>
+    
+    <div id="pm-error-actions" style="display:none;">
+      <p style="text-align:center;font-size:14px;color:var(--red);margin:0 0 16px;" id="pm-error-msg">Transaction failed.</p>
+      <button class="btn btn-primary btn-lg" style="width:100%;" onclick="closePurchaseModal()">Close</button>
+    </div>
   </div>
 </div>
+
+<style>
+  .pm-step.pm-active { opacity:1 !important; border-color:var(--gold) !important; background:rgba(201,168,76,0.05); }
+  .pm-step.pm-active .pm-icon { background:var(--gold); color:#0a0a0a; }
+  .pm-step.pm-done { opacity:1 !important; border-color:rgba(16,185,129,0.4) !important; }
+  .pm-step.pm-done .pm-icon { background:var(--green); color:#fff; }
+  .pm-step.pm-done .pm-icon::before { content:'✓'; }
+  .pm-step.pm-done .pm-icon-num { display:none; }
+  .pm-step.pm-error { opacity:1 !important; border-color:rgba(239,68,68,0.4) !important; }
+  .pm-step.pm-error .pm-icon { background:var(--red); color:#fff; }
+  .pm-step.pm-error .pm-icon::before { content:'✗'; }
+  .pm-step.pm-active .pm-icon::after { content:''; position:absolute; width:24px; height:24px; border:2px solid var(--gold); border-top-color:transparent; border-radius:50%; animation:pm-spin 0.8s linear infinite; }
+  @keyframes pm-spin { to { transform:rotate(360deg); } }
+</style>
 
 <!-- ═══════════════════════════════════════════════════════════════════
      ██████  JAVASCRIPT  ██████
@@ -947,6 +999,7 @@ import { base } from 'https://esm.sh/@reown/appkit/networks'
 
 const CONFIG = {
   saleStatus: "pre-launch",
+  rpcUrl: "https://base-mainnet.g.alchemy.com/v2/cKDErpJgMtpWH2FObllEf",
   saleContract:  "0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93",
   tokenContract: "0xba8A4A252b3819DD2244338e300a39eD30399c58",
   usdcContract:  "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
@@ -1182,7 +1235,7 @@ function isWhitelistedLocal(address) {
 async function refreshSaleState() {
   if (!CONFIG.saleContract || CONFIG.saleStatus === 'pre-launch') return;
   try {
-    const provider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
+    const provider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
     const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
     const [_cL,_cP,_tIL,_tT,_tS,_tR,_wO,_sF,_p] = await sale.saleStatus();
     const lotNum=_cL.toNumber(), price=_cP.toNumber()/1e6, raised=_tR.toNumber()/1e6;
@@ -1638,7 +1691,7 @@ window.calculateTokens = async function() {
   if (val <= 0) { document.getElementById('token-calc').textContent = '0'; return; }
   try {
     if (CONFIG.saleContract && CONFIG.saleStatus !== 'pre-launch') {
-      const provider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
+      const provider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
       const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
       const [tokenAmount] = await sale.getQuote(ethers.utils.parseUnits(val.toString(), 6));
       document.getElementById('token-calc').textContent = Math.floor(parseFloat(ethers.utils.formatUnits(tokenAmount, 18))).toLocaleString();
@@ -1711,6 +1764,57 @@ window.addTokenToWallet = async function() {
   try { await window.ethereum.request({ method: 'wallet_watchAsset', params: { type: 'ERC20', options: { address: CONFIG.tokenContract, symbol: 'GRESALPHA', decimals: 18 } } }); } catch (e) { console.error(e); }
 };
 
+// ── Purchase Modal Helpers ──
+function pmReset() {
+  ['quote','approve','buy','confirm'].forEach(s => {
+    const el = document.getElementById('pm-step-' + s);
+    if (el) { el.classList.remove('pm-active','pm-done','pm-error'); el.style.opacity = '0.5'; }
+  });
+  document.getElementById('pm-success-actions').style.display = 'none';
+  document.getElementById('pm-error-actions').style.display = 'none';
+  document.getElementById('pm-close').style.display = 'none';
+  document.getElementById('pm-title').textContent = 'Processing Your Purchase';
+  document.getElementById('pm-subtitle').textContent = 'Please confirm each step in your wallet';
+}
+function pmStepActive(step, detail) {
+  ['quote','approve','buy','confirm'].forEach(s => {
+    const el = document.getElementById('pm-step-' + s);
+    if (el && el.classList.contains('pm-active')) { el.classList.remove('pm-active'); el.classList.add('pm-done'); }
+  });
+  const el = document.getElementById('pm-step-' + step);
+  if (el) { el.classList.add('pm-active'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
+}
+function pmStepDone(step, detail) {
+  const el = document.getElementById('pm-step-' + step);
+  if (el) { el.classList.remove('pm-active'); el.classList.add('pm-done'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
+}
+function pmStepError(step, detail) {
+  const el = document.getElementById('pm-step-' + step);
+  if (el) { el.classList.remove('pm-active'); el.classList.add('pm-error'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
+}
+function pmShowSuccess(tokens) {
+  document.getElementById('pm-title').textContent = 'Allocation Confirmed';
+  document.getElementById('pm-subtitle').textContent = '';
+  document.getElementById('pm-token-amount').textContent = Math.floor(tokens).toLocaleString();
+  document.getElementById('pm-success-actions').style.display = 'block';
+  document.getElementById('pm-close').style.display = 'block';
+}
+function pmShowError(msg) {
+  document.getElementById('pm-title').textContent = 'Transaction Failed';
+  document.getElementById('pm-subtitle').textContent = '';
+  document.getElementById('pm-error-msg').textContent = msg;
+  document.getElementById('pm-error-actions').style.display = 'block';
+  document.getElementById('pm-close').style.display = 'block';
+}
+window.closePurchaseModal = function() {
+  document.getElementById('purchase-modal').classList.remove('active');
+  // Reset form
+  document.getElementById('user-email').value = '';
+  document.getElementById('invest-amount').value = '';
+  document.getElementById('agree-terms').checked = false;
+  document.getElementById('token-calc').textContent = '0';
+};
+
 // ── Purchase Flow (approve + buy via Sale Contract) ──
 window.investNow = async function() {
   if (CONFIG.saleStatus === 'pre-launch') { alert('The sale has not started yet.'); return; }
@@ -1720,37 +1824,106 @@ window.investNow = async function() {
   const amount = parseFloat(document.getElementById('invest-amount').value);
   if (!amount || amount < 1) { alert('Minimum 1 USDC.'); return; }
   if (!connectedAddress) { modal.open(); return; }
+
+  const btnPurchase = document.getElementById('btn-purchase');
   const usdcAmount = ethers.utils.parseUnits(amount.toString(), 6);
+  
+  // Disable button
+  if (btnPurchase) { btnPurchase.disabled = true; btnPurchase.classList.add('btn-disabled'); btnPurchase.textContent = 'Processing...'; }
+  
+  // Open stepper modal
+  pmReset();
+  document.getElementById('purchase-modal').classList.add('active');
+  
   try {
     const provider = new ethers.providers.Web3Provider(modal.getWalletProvider());
+    
+    // Network check — force BASE
+    const network = await provider.getNetwork();
+    if (network.chainId !== 8453) {
+      try {
+        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x2105' }] });
+      } catch(e) {
+        throw new Error('Please switch your wallet to Base Mainnet (chainId 8453) and try again.');
+      }
+    }
+    
     const signer = provider.getSigner();
     const usdc = new ethers.Contract(CONFIG.usdcContract, USDC_ABI, signer);
     const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, signer);
+    
+    // Step 1: Quote
+    pmStepActive('quote', 'Calculating tokens for $' + amount + ' USDC...');
     const finished = await sale.saleFinished();
-    if (finished) { alert('The sale is finished.'); return; }
+    if (finished) throw new Error('The sale is finished.');
     const isWLOnly = await sale.whitelistOnly();
-    if (isWLOnly) { const isWL = await sale.whitelist(connectedAddress); if (!isWL) { alert('Join Community Incentives for early access. Public sale opens May 15th.'); return; } }
+    if (isWLOnly) {
+      const isWL = await sale.whitelist(connectedAddress);
+      if (!isWL) throw new Error('Whitelist active. Join Community Incentives for early access.');
+    }
     const [tokenAmount, usdcUsed] = await sale.getQuote(usdcAmount);
-    const tokenFormatted = parseFloat(ethers.utils.formatUnits(tokenAmount, 18)).toLocaleString();
+    const tokenFormatted = parseFloat(ethers.utils.formatUnits(tokenAmount, 18));
     const usdcFormatted = parseFloat(ethers.utils.formatUnits(usdcUsed, 6)).toFixed(2);
-    if (!confirm('Step 1/2: Approve $' + usdcFormatted + ' USDC.\nYou will receive ' + tokenFormatted + ' GRES.ALPHA tokens.')) return;
+    pmStepDone('quote', Math.floor(tokenFormatted).toLocaleString() + ' GRES.ALPHA for $' + usdcFormatted);
+    
+    // Step 2: Approve USDC
+    pmStepActive('approve', 'Confirm USDC approval in your wallet...');
     const approveTx = await usdc.approve(CONFIG.saleContract, usdcUsed);
+    pmStepActive('approve', 'Waiting for approval to confirm on-chain...');
     await approveTx.wait();
-    if (!confirm('Step 2/2: Confirm purchase of ' + tokenFormatted + ' GRES.ALPHA.')) return;
+    pmStepDone('approve', 'USDC approved');
+    
+    // Step 3: Buy
+    pmStepActive('buy', 'Confirm purchase in your wallet...');
     const buyTx = await sale.buy(usdcAmount);
-    document.getElementById('success-modal').classList.add('active');
+    pmStepActive('buy', 'Transaction sent: ' + buyTx.hash.substring(0,10) + '...');
+    
+    // Step 4: Confirmation
+    pmStepDone('buy', 'Transaction submitted');
+    pmStepActive('confirm', 'Waiting for block confirmation...');
     await buyTx.wait();
+    pmStepDone('confirm', 'Confirmed on-chain');
+    
+    // Refresh state
     await refreshSaleState();
-    const tokens = parseFloat(ethers.utils.formatUnits(tokenAmount, 18));
     const currentLotNum = await sale.currentLot();
     const ref = new URLSearchParams(window.location.search).get('ref') || '';
-    fetch(CONFIG.n8nWebhook + '/purchase', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: parseFloat(usdcFormatted), tokens: Math.floor(tokens), lot: 'Lot 0' + currentLotNum.toNumber(), tx_hash: buyTx.hash, referral_code: ref }),
+    
+    // Webhook (fire and forget)
+    fetch(CONFIG.n8nWebhook + '/purchase', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: parseFloat(usdcFormatted), tokens: Math.floor(tokenFormatted), lot: 'Lot 0' + currentLotNum.toNumber(), tx_hash: buyTx.hash, referral_code: ref }),
     }).catch(err => {
       fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: parseFloat(usdcFormatted), hash: buyTx.hash, ref, lot: currentLotNum.toNumber() }) }).catch(e => console.error(e));
     });
-  } catch (e) { console.error('Purchase error:', e); if (e.reason) alert('Error: ' + e.reason); else if (e.message && e.message.includes('user rejected')) alert('Transaction cancelled.'); else alert('Transaction failed.'); }
+    
+    // Success
+    pmShowSuccess(tokenFormatted);
+    
+  } catch (e) {
+    console.error('Purchase error full:', e);
+    console.error('Error code:', e.code);
+    console.error('Error reason:', e.reason);
+    console.error('Error data:', e.data);
+    let msg = 'Transaction failed.';
+    if (e.code === 'INSUFFICIENT_FUNDS' || (e.message && e.message.includes('insufficient'))) msg = 'Insufficient ETH for gas or USDC for purchase. Check your BASE balances.';
+    else if (e.message && e.message.includes('user rejected')) msg = 'Transaction cancelled by user.';
+    else if (e.code === 'CALL_EXCEPTION') msg = 'Contract rejected the transaction. Check console for details.';
+    else if (e.reason) msg = 'Error: ' + e.reason;
+    else if (e.message) msg = e.message;
+    
+    // Mark current active step as error
+    const activeStep = document.querySelector('.pm-step.pm-active');
+    if (activeStep) {
+      const stepId = activeStep.id.replace('pm-step-','');
+      pmStepError(stepId, msg);
+    }
+    pmShowError(msg);
+  } finally {
+    // Re-enable button
+    if (btnPurchase) { btnPurchase.disabled = false; btnPurchase.classList.remove('btn-disabled'); btnPurchase.textContent = 'Purchase GRES.ALPHA'; }
+  }
 };
 
 
