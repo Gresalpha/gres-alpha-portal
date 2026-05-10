@@ -6,6 +6,9 @@
 <title>GRES Protocol — Global Real Estate Standard</title>
 <meta name="description" content="The first perpetual real estate fund with AI-driven NAV. Secure early access to institutional-grade real estate tokenization.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://base-mainnet.g.alchemy.com" crossorigin>
+<link rel="preconnect" href="https://gres.app.n8n.cloud" crossorigin>
+<link rel="preconnect" href="https://esm.sh" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
 
@@ -621,7 +624,7 @@ a:hover { color: var(--gold-light); }
       <div class="sale-info">
         <div class="section-label">Early Access</div>
         <h2>Seed Round:<br><em>GRES.ALPHA</em></h2>
-        <p>GRES.ALPHA is a utility token that funds the development of the GRES Protocol. Early holders secure a buyback yield of up to 50x and massive fee reductions within the future ecosystem.</p>
+        <p>GRES.ALPHA is a utility token that funds the development of the GRES Protocol. The buyback mechanism targets a burn floor of $0.05 per token (25x the seed price). Outcomes depend on adoption — not guaranteed. Plus fee reductions in the future ecosystem.</p>
         <div class="lot-grid" id="lot-grid"></div>
         <div class="raise-progress hidden" id="raise-progress">
           <div class="raise-labels">
@@ -1002,7 +1005,7 @@ import { base } from 'https://esm.sh/@reown/appkit/networks'
    ╚═══════════════════════════════════════════════════════════════════╝ */
 
 const CONFIG = {
-  saleStatus: "pre-launch",
+  saleStatus: "live",
   rpcUrl: "https://base-mainnet.g.alchemy.com/v2/cKDErpJgMtpWH2FObllEf",
   saleContract:  "0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93",
   tokenContract: "0xba8A4A252b3819DD2244338e300a39eD30399c58",
@@ -1044,7 +1047,11 @@ const SALE_ABI = [
   'function currentPrice() view returns (uint256)',
   'function saleFinished() view returns (bool)',
 ];
-const USDC_ABI = ['function approve(address spender, uint amount) returns (bool)'];
+const USDC_ABI = [
+  'function approve(address spender, uint amount) returns (bool)',
+  'function allowance(address owner, address spender) view returns (uint256)',
+  'function balanceOf(address) view returns (uint256)'
+];
 
 
 /* ╔═══════════════════════════════════════════════════════════════════╗
@@ -1254,7 +1261,17 @@ async function refreshSaleState() {
     renderLots();
   }catch(e){console.error('Contract read error:',e);}
 }
-setInterval(refreshSaleState,30000);
+// Pause polling when tab is hidden — saves bandwidth + battery on mobile
+let _refreshTimer = setInterval(refreshSaleState, 60000);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    clearInterval(_refreshTimer);
+    _refreshTimer = null;
+  } else {
+    refreshSaleState();
+    if (!_refreshTimer) _refreshTimer = setInterval(refreshSaleState, 60000);
+  }
+});
 
 // ── Apply Sale State ──
 function applySaleState() {
@@ -1546,10 +1563,11 @@ window.submitCommunity = async function() {
   document.getElementById('inc-email').disabled = true;
   document.getElementById('inc-email').style.opacity = '0.5';
 
-  // Show inline confirmation
+  // Show inline confirmation (XSS-safe: email injected via textContent, not innerHTML)
   const confirmDiv = document.createElement('div');
   confirmDiv.style.cssText = 'margin-top:10px;padding:10px 14px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);text-align:center;';
-  confirmDiv.innerHTML = '\u2713 Personal note will arrive at <strong>' + email + '</strong>. <br><span style="color:var(--text-muted);font-size:11px;">Check spam and mark us as safe.</span>';
+  confirmDiv.innerHTML = '\u2713 Personal note will arrive at <strong></strong>. <br><span style="color:var(--text-muted);font-size:11px;">Check spam and mark us as safe.</span>';
+  confirmDiv.querySelector('strong').textContent = email;
   btn.parentElement.appendChild(confirmDiv);
 };
 
@@ -1642,7 +1660,7 @@ window.generateReferralLink = function() {
   area.style.display = 'block';
 
   // Set share links
-  const shareText = encodeURIComponent("I just joined The GRES Protocol \u2014 the first perpetual, asset-backed, AI-managed global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl);
+  const shareText = encodeURIComponent("I just joined The GRES Protocol \u2014 the first perpetual, AI-driven global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl);
   document.getElementById('share-x').href = 'https://x.com/intent/tweet?text=' + shareText;
   document.getElementById('share-tg').href = 'https://t.me/share/url?url=' + encodeURIComponent(refUrl) + '&text=' + shareText;
   document.getElementById('share-wa').href = 'https://wa.me/?text=' + shareText;
@@ -1658,7 +1676,7 @@ window.copyRefLink = function() {
 
 window.copySharePost = function() {
   const refUrl = document.getElementById('inc-ref-link').value;
-  const text = "I just joined The GRES Protocol \u2014 the first perpetual, asset-backed, AI-managed global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl;
+  const text = "I just joined The GRES Protocol \u2014 the first perpetual, AI-driven global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl;
   navigator.clipboard.writeText(text);
   alert('Post copied to clipboard!');
 };
@@ -1689,8 +1707,13 @@ window.resendAccessLink = function() {
 
 // Community gate moved to incentives modal
 
-// ── Calculate Tokens ──
-window.calculateTokens = async function() {
+// ── Calculate Tokens (debounced 400ms to avoid hammering RPC on every keystroke) ──
+let _calcTimeout = null;
+window.calculateTokens = function() {
+  clearTimeout(_calcTimeout);
+  _calcTimeout = setTimeout(_doCalculateTokens, 400);
+};
+async function _doCalculateTokens() {
   const val = parseFloat(document.getElementById('invest-amount').value) || 0;
   if (val <= 0) { document.getElementById('token-calc').textContent = '0'; return; }
   try {
@@ -1701,7 +1724,7 @@ window.calculateTokens = async function() {
       document.getElementById('token-calc').textContent = Math.floor(parseFloat(ethers.utils.formatUnits(tokenAmount, 18))).toLocaleString();
     } else { document.getElementById('token-calc').textContent = Math.floor(val / 0.002).toLocaleString(); }
   } catch(e) { document.getElementById('token-calc').textContent = Math.floor(val / 0.002).toLocaleString(); }
-};
+}
 
 // ── Wallet Connection ──
 const modal = createAppKit({
@@ -1917,23 +1940,50 @@ window.investNow = async function() {
     const usdcFormatted = parseFloat(ethers.utils.formatUnits(usdcUsed, 6)).toFixed(2);
     pmStepDone('quote', Math.floor(tokenFormatted).toLocaleString() + ' GRES.ALPHA for $' + usdcFormatted);
     
-    // Step 2: Approve USDC
-    pmStepActive('approve', 'Confirm USDC approval in your wallet...');
-    const approveTx = await usdc.approve(CONFIG.saleContract, usdcUsed);
-    pmStepActive('approve', 'Waiting for approval to confirm on-chain...');
-    await approveTx.wait();
-    pmStepDone('approve', 'USDC approved');
+    // Step 2: Approve USDC (skip if allowance already sufficient)
+    pmStepActive('approve', 'Checking USDC allowance...');
+    const currentAllowance = await usdc.allowance(connectedAddress, CONFIG.saleContract);
+    if (currentAllowance.gte(usdcUsed)) {
+      pmStepDone('approve', 'USDC already approved');
+    } else {
+      pmStepActive('approve', 'Confirm USDC approval in your wallet...');
+      const approveTx = await usdc.approve(CONFIG.saleContract, usdcUsed);
+      pmStepActive('approve', 'Waiting for approval to confirm on-chain...');
+      await approveTx.wait();
+      pmStepDone('approve', 'USDC approved');
+    }
     
     // Step 3: Buy
     pmStepActive('buy', 'Confirm purchase in your wallet...');
-    const buyTx = await sale.buy(usdcAmount);
+    // Provider liveness check before buy — prevents stale connection errors
+    try {
+      await provider.getBlockNumber();
+    } catch (livenessErr) {
+      throw new Error('Wallet connection lost. Please refresh the page and try again. Your USDC approval is still valid.');
+    }
+    // gasLimit explicit avoids ethers parser issues with mobile wallet responses
+    const buyTx = await sale.buy(usdcAmount, { gasLimit: 300000 });
     pmStepActive('buy', 'Transaction sent: ' + buyTx.hash.substring(0,10) + '...');
     
-    // Step 4: Confirmation
+    // Step 4: Confirmation with timeout fallback
     pmStepDone('buy', 'Transaction submitted');
     pmStepActive('confirm', 'Waiting for block confirmation...');
-    await buyTx.wait();
-    pmStepDone('confirm', 'Confirmed on-chain');
+    try {
+      await Promise.race([
+        buyTx.wait(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('CONFIRM_TIMEOUT')), 60000)
+        )
+      ]);
+      pmStepDone('confirm', 'Confirmed on-chain');
+    } catch (confirmErr) {
+      if (confirmErr.message === 'CONFIRM_TIMEOUT') {
+        // Tx may still confirm — show Basescan link
+        pmStepDone('confirm', 'Taking longer than expected. Check Basescan: ' + buyTx.hash.substring(0,10) + '...');
+      } else {
+        throw confirmErr;
+      }
+    }
     
     // Refresh state
     await refreshSaleState();
@@ -1958,7 +2008,10 @@ window.investNow = async function() {
     console.error('Error reason:', e.reason);
     console.error('Error data:', e.data);
     let msg = 'Transaction failed.';
-    if (e.code === 'INSUFFICIENT_FUNDS' || (e.message && e.message.includes('insufficient'))) msg = 'Insufficient ETH for gas or USDC for purchase. Check your BASE balances.';
+    if (e.code === 'INVALID_ARGUMENT' && (e.argument === 'value' || (e.message && e.message.includes('BigNumber')))) {
+      msg = 'Wallet returned an incomplete response. Please refresh the page and try again. If you already approved USDC, that approval is still valid.';
+    }
+    else if (e.code === 'INSUFFICIENT_FUNDS' || (e.message && e.message.includes('insufficient'))) msg = 'Insufficient ETH for gas or USDC for purchase. Check your BASE balances.';
     else if (e.message && e.message.includes('user rejected')) msg = 'Transaction cancelled by user.';
     else if (e.code === 'CALL_EXCEPTION') msg = 'Contract rejected the transaction. Check console for details.';
     else if (e.reason) msg = 'Error: ' + e.reason;
@@ -1981,11 +2034,11 @@ window.investNow = async function() {
 /* ── FAQ DATA ── */
 const FAQ = [
   { q: "What is GRES.ALPHA?", a: "GRES.ALPHA is a utility token designed to fund the development of the GRES Protocol. It is NOT a security, equity, or ownership stake. Holders gain access to a Buyback & Burn mechanism and significant fee reductions within the future ecosystem through Platform Credits." },
-  { q: "What is the GRES Protocol?", a: "GRES is the first perpetual, AI-managed real estate fund built on blockchain. It tokenizes a diversified global portfolio of real estate assets, providing investors with a liquid, asset-backed token ($GRES) whose value is driven by real-time Net Asset Value calculated by an AI Oracle." },
+  { q: "What is the GRES Protocol?", a: "GRES is the first perpetual, AI-driven real estate fund built on blockchain. It is being designed to tokenize a diversified global portfolio of real estate assets, providing investors with a liquid, asset-backed token ($GRES, Phase 04) whose value is driven by Net Asset Value calculated by the AI-Augmented Oracle (Phase 04 design feature). Foundation-secured custody, Human-Governed strategy." },
   { q: "What is the Community Incentives program?", a: "The Community Incentives program rewards early supporters with free GRES.ALPHA tokens. Step 1: Join with your email to receive 1,000 GRES.ALPHA + an exclusive access link for early purchase. Step 2: Follow us on Telegram and X to double your airdrop to 2,000 GRES.ALPHA. Step 3: Share your referral link \u2014 earn 10% of every referred purchase in USDC + an extra 10% in GRES.ALPHA tokens." },
   { q: "How do I get early access to the token sale?", a: "Join the Community Incentives program. You\u2019ll receive an exclusive access link via email. Community members get priority access starting May 13th, two days before the public sale on May 15th. No wallet needed to join \u2014 just your email." },
   { q: "How does the referral program work?", a: "Every community member gets a unique referral link. When someone you refer purchases GRES.ALPHA, you earn two rewards: 10% of their purchase amount in USDC (commission) + 10% in GRES.ALPHA tokens (airdrop). Example: your friend buys $500 of GRES.ALPHA \u2014 you receive $50 USDC + 25,000 GRES.ALPHA tokens." },
-  { q: "How does the 50x return potential work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The protocol\u2019s Buyback & Burn mechanism purchases tokens back at a floor price of $0.05 and a cap of $0.10 \u2014 representing a 25x to 50x multiple from the Lot 01 entry price. This buyback is funded by 0.5% of all transactional volume within the ecosystem." },
+  { q: "How does the buyback mechanism work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The protocol\u2019s Buyback & Burn mechanism is designed to purchase tokens back at a burn floor target of $0.05 per token (25x the Lot 01 seed price), with outcomes dependent on protocol adoption \u2014 not guaranteed. The buyback is funded by 0.5% of all transactional volume within the future ecosystem (Phase 04 design)." },
   { q: "What is the Buyback & Burn mechanism?", a: "The protocol allocates 0.5% of all transactional volume to buy GRES.ALPHA from liquidity pools and permanently burn them. This creates mathematically enforced deflation: supply decreases over time while buyback demand is constant. The burn floor is $0.05 and the burn cap is $0.10, engineered for total supply absorption within 60 months." },
   { q: "How are my assets protected?", a: "The GRES Protocol uses the \u201CRolex Governance Model\u201D \u2014 a non-profit Foundation holds 100% of all property deeds and titles, legally ring-fenced from the for-profit Operator. This means your real estate backing is protected even if the technology company faces issues." },
   { q: "What happens after I buy GRES.ALPHA?", a: "Your tokens are sent directly to your wallet on the BASE network (Ethereum L2). During the development phase, you hold them. When the mainnet launches, you can burn your GRES.ALPHA to receive Platform Credits (fee discounts) or hold them for the Buyback & Burn mechanism. You will be guided through every step via email and our Telegram community." },
