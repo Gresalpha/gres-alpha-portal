@@ -1005,7 +1005,7 @@ import { base } from 'https://esm.sh/@reown/appkit/networks'
    ╚═══════════════════════════════════════════════════════════════════╝ */
 
 const CONFIG = {
-  saleStatus: "pre-launch",
+  saleStatus: "live",
   rpcUrl: "https://base-mainnet.g.alchemy.com/v2/cKDErpJgMtpWH2FObllEf",
   saleContract:  "0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93",
   tokenContract: "0xba8A4A252b3819DD2244338e300a39eD30399c58",
@@ -1942,46 +1942,108 @@ window.investNow = async function() {
     
     // Step 2: Approve USDC (skip if allowance already sufficient)
     pmStepActive('approve', 'Checking USDC allowance...');
-    const currentAllowance = await usdc.allowance(connectedAddress, CONFIG.saleContract);
+    let currentAllowance;
+    try {
+      currentAllowance = await usdc.allowance(connectedAddress, CONFIG.saleContract);
+    } catch (allowErr) {
+      console.warn('Allowance check failed, proceeding with approve:', allowErr);
+      currentAllowance = ethers.BigNumber.from(0);
+    }
     if (currentAllowance.gte(usdcUsed)) {
       pmStepDone('approve', 'USDC already approved');
     } else {
       pmStepActive('approve', 'Confirm USDC approval in your wallet...');
-      const approveTx = await usdc.approve(CONFIG.saleContract, usdcUsed);
-      pmStepActive('approve', 'Waiting for approval to confirm on-chain...');
-      await approveTx.wait();
+      // Use signer.sendTransaction directly to bypass ethers parser bug with mobile wallets
+      // (ethers Formatter.transactionResponse breaks on undefined fields from some wallet responses)
+      const usdcInterface = new ethers.utils.Interface(USDC_ABI);
+      const approveData = usdcInterface.encodeFunctionData('approve', [CONFIG.saleContract, usdcUsed]);
+      let approveTxHash;
+      try {
+        const approveTx = await signer.sendTransaction({
+          to: CONFIG.usdcContract,
+          data: approveData,
+          gasLimit: 100000
+        });
+        approveTxHash = approveTx.hash;
+        pmStepActive('approve', 'Waiting for approval to confirm on-chain...');
+        await approveTx.wait();
+      } catch (approveErr) {
+        // If error has txHash in data, the tx was actually sent — wait via provider
+        const possibleHash = approveErr?.transactionHash || approveErr?.transaction?.hash || approveErr?.hash;
+        if (possibleHash) {
+          console.log('Approve error but tx hash exists, waiting via provider:', possibleHash);
+          pmStepActive('approve', 'Waiting for approval (via fallback)...');
+          await provider.waitForTransaction(possibleHash);
+          approveTxHash = possibleHash;
+        } else if (approveErr.code === 'INVALID_ARGUMENT' && approveErr.message && approveErr.message.includes('BigNumber')) {
+          // Parser bug — verify allowance directly
+          console.log('Parser error on approve, verifying allowance directly...');
+          await new Promise(r => setTimeout(r, 3000));
+          const newAllowance = await usdc.allowance(connectedAddress, CONFIG.saleContract);
+          if (newAllowance.gte(usdcUsed)) {
+            console.log('Allowance is set despite parser error');
+          } else {
+            throw new Error('Approval failed. Please try again.');
+          }
+        } else {
+          throw approveErr;
+        }
+      }
       pmStepDone('approve', 'USDC approved');
     }
     
     // Step 3: Buy
     pmStepActive('buy', 'Confirm purchase in your wallet...');
-    // Provider liveness check before buy — prevents stale connection errors
     try {
       await provider.getBlockNumber();
     } catch (livenessErr) {
       throw new Error('Wallet connection lost. Please refresh the page and try again. Your USDC approval is still valid.');
     }
-    // gasLimit explicit avoids ethers parser issues with mobile wallet responses
-    const buyTx = await sale.buy(usdcAmount, { gasLimit: 300000 });
-    pmStepActive('buy', 'Transaction sent: ' + buyTx.hash.substring(0,10) + '...');
     
-    // Step 4: Confirmation with timeout fallback
-    pmStepDone('buy', 'Transaction submitted');
-    pmStepActive('confirm', 'Waiting for block confirmation...');
+    // Use signer.sendTransaction directly to bypass ethers parser bug with mobile wallets
+    const saleInterface = new ethers.utils.Interface(SALE_ABI);
+    const buyData = saleInterface.encodeFunctionData('buy', [usdcAmount]);
+    let buyTxHash;
     try {
+      const buyTx = await signer.sendTransaction({
+        to: CONFIG.saleContract,
+        data: buyData,
+        gasLimit: 300000
+      });
+      buyTxHash = buyTx.hash;
+      pmStepActive('buy', 'Transaction sent: ' + buyTxHash.substring(0,10) + '...');
+      pmStepDone('buy', 'Transaction submitted');
+      pmStepActive('confirm', 'Waiting for block confirmation...');
       await Promise.race([
         buyTx.wait(),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('CONFIRM_TIMEOUT')), 60000)
-        )
+        new Promise((_, reject) => setTimeout(() => reject(new Error('CONFIRM_TIMEOUT')), 60000))
       ]);
       pmStepDone('confirm', 'Confirmed on-chain');
-    } catch (confirmErr) {
-      if (confirmErr.message === 'CONFIRM_TIMEOUT') {
-        // Tx may still confirm — show Basescan link
-        pmStepDone('confirm', 'Taking longer than expected. Check Basescan: ' + buyTx.hash.substring(0,10) + '...');
+    } catch (buyErr) {
+      // Try to recover tx hash from error
+      const possibleHash = buyErr?.transactionHash || buyErr?.transaction?.hash || buyErr?.hash;
+      if (possibleHash) {
+        console.log('Buy error but tx hash exists, waiting via provider:', possibleHash);
+        buyTxHash = possibleHash;
+        pmStepDone('buy', 'Transaction submitted: ' + buyTxHash.substring(0,10) + '...');
+        pmStepActive('confirm', 'Waiting for block confirmation (via fallback)...');
+        try {
+          await Promise.race([
+            provider.waitForTransaction(buyTxHash),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('CONFIRM_TIMEOUT')), 60000))
+          ]);
+          pmStepDone('confirm', 'Confirmed on-chain');
+        } catch (waitErr) {
+          if (waitErr.message === 'CONFIRM_TIMEOUT') {
+            pmStepDone('confirm', 'Taking longer than expected. Tx: ' + buyTxHash.substring(0,10) + '...');
+          } else {
+            throw waitErr;
+          }
+        }
+      } else if (buyErr.message === 'CONFIRM_TIMEOUT') {
+        pmStepDone('confirm', 'Taking longer than expected. Check Basescan.');
       } else {
-        throw confirmErr;
+        throw buyErr;
       }
     }
     
@@ -1993,10 +2055,10 @@ window.investNow = async function() {
     // Webhook (fire and forget)
     fetch(CONFIG.n8nWebhook + '/purchase', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: parseFloat(usdcFormatted), tokens: Math.floor(tokenFormatted), lot: 'Lot 0' + currentLotNum.toNumber(), tx_hash: buyTx.hash, referral_code: ref }),
+      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: parseFloat(usdcFormatted), tokens: Math.floor(tokenFormatted), lot: 'Lot 0' + currentLotNum.toNumber(), tx_hash: buyTxHash, referral_code: ref }),
     }).catch(err => {
       fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: parseFloat(usdcFormatted), hash: buyTx.hash, ref, lot: currentLotNum.toNumber() }) }).catch(e => console.error(e));
+        body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: parseFloat(usdcFormatted), hash: buyTxHash, ref, lot: currentLotNum.toNumber() }) }).catch(e => console.error(e));
     });
     
     // Success
