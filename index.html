@@ -673,7 +673,7 @@ a:hover { color: var(--gold-light); }
         <div class="terms-check"><input type="checkbox" id="agree-terms"><label for="agree-terms">I confirm I am NOT a US Citizen, US resident, or US Person, and I agree to the <a onclick="openModal('tc-modal')">Terms &amp; Conditions</a>.</label></div>
 
         <button class="btn btn-primary btn-lg btn-disabled" id="btn-purchase" disabled onclick="investNow()">Coming Soon</button>
-        <button type="button" onclick="openBasescanModal()" style="width:100%;margin-top:10px;padding:10px 14px;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:12px;border-radius:6px;cursor:pointer;font-weight:500;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">Prefer to buy directly on Basescan? &rarr;</button>
+        <button type="button" onclick="openBasescanModal()" style="width:100%;margin-top:10px;padding:11px 14px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-size:12px;border-radius:6px;cursor:pointer;font-weight:600;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.1)'" onmouseout="this.style.background='transparent'">Prefer to buy directly on Basescan? &rarr;</button>
         <div class="wallet-status" id="wallet-status" style="margin-top:10px; font-size:11px; text-align:center; color:var(--text-muted);">Join <a onclick="openModal('incentives-modal')" style="cursor:pointer; text-decoration:underline;">Community Incentives</a> for early access + free GRES.ALPHA.</div>
 
 </div>
@@ -984,12 +984,29 @@ a:hover { color: var(--gold-light); }
     <button class="modal-close" onclick="closeBasescanModal()">&times;</button>
     
     <h3 style="margin-bottom:8px;text-align:center;">Buy Directly on Basescan</h3>
-    <p style="margin:0 0 20px;text-align:center;color:var(--text-muted);font-size:13px;">Skip the web interface and interact with the smart contract directly. Same purchase, same price, no website dependency.</p>
+    <p style="margin:0 0 20px;text-align:center;color:var(--text-muted);font-size:13px;">Skip the web interface and interact with the smart contract directly. Same purchase, same price.</p>
     
     <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:14px 16px;margin-bottom:24px;font-size:13px;line-height:1.5;">
-      <strong style="color:var(--gold);">Heads up:</strong> Direct purchases bypass our referral system. If you want to credit a referrer, use the website form with the referral link instead. Make sure you are on the <strong>Base network</strong> (chainId 8453).
+      <strong style="color:var(--gold);">Before you start:</strong> make sure your wallet is connected to the <strong>Base network</strong> (chainId 8453) and has enough <strong>USDC</strong> for the purchase.
     </div>
     
+    <!-- CALCULATOR -->
+    <div style="padding:16px;background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.4);border-radius:8px;margin-bottom:20px;">
+      <div style="font-weight:600;font-size:13px;color:var(--gold);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Amount Calculator</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">USDC uses 6 decimals on-chain. Enter how much USDC you want to spend, then copy the value below to paste into Basescan.</div>
+      
+      <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px;">How much USDC do you want to invest?</label>
+      <input type="number" id="bsc-usdc-input" min="10" step="0.01" placeholder="10" oninput="bscCalcAmount()" style="width:100%;padding:10px 12px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;margin-bottom:14px;box-sizing:border-box;">
+      
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Value to paste into Basescan (amount/usdcAmount field):</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+        <code id="bsc-onchain-value" style="flex:1;font-family:monospace;font-size:14px;color:var(--gold);background:rgba(0,0,0,0.4);padding:10px 12px;border-radius:6px;word-break:break-all;font-weight:600;">10000000</code>
+        <button type="button" id="bsc-copy-btn" onclick="bscCopyValue()" style="flex-shrink:0;padding:10px 14px;background:var(--gold);color:#0a0a0a;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">Copy</button>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);line-height:1.5;">You will receive approximately <strong id="bsc-tokens-estimate" style="color:var(--gold);">5,000</strong> GRES.ALPHA at the current lot price.<br>Your wallet will show this exact USDC amount before you confirm. Double-check the number matches what you intend to spend.</div>
+    </div>
+    
+    <!-- STEP 1 -->
     <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding:14px;background:var(--bg-input,rgba(255,255,255,0.03));border:1px solid var(--border);border-radius:8px;">
       <span style="flex-shrink:0;width:28px;height:28px;background:var(--gold);color:#0a0a0a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">1</span>
       <div style="flex:1;min-width:0;">
@@ -998,28 +1015,31 @@ a:hover { color: var(--gold-light); }
         <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Function: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:3px;color:var(--gold);">approve</code></div>
         <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">spender:</div>
         <div style="font-size:11px;font-family:monospace;color:var(--text);word-break:break-all;background:rgba(0,0,0,0.3);padding:6px 8px;border-radius:4px;margin-bottom:6px;">0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">amount: your USDC × 1,000,000 (e.g., 10 USDC = 10000000)</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">amount: paste the value from the calculator above</div>
         <a href="https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913#writeContract" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:8px 14px;background:var(--gold);color:#0a0a0a;text-decoration:none;border-radius:6px;font-size:12px;font-weight:600;">Open USDC on Basescan &rarr;</a>
       </div>
     </div>
     
+    <!-- STEP 2 -->
     <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding:14px;background:var(--bg-input,rgba(255,255,255,0.03));border:1px solid var(--border);border-radius:8px;">
       <span style="flex-shrink:0;width:28px;height:28px;background:var(--gold);color:#0a0a0a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">2</span>
       <div style="flex:1;min-width:0;">
         <div style="font-weight:600;font-size:14px;color:var(--text);margin-bottom:4px;">Buy GRES.ALPHA</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Call buy() with the same USDC amount.</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Call buy() with the same value you used in step 1.</div>
         <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Function: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:3px;color:var(--gold);">buy</code></div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">usdcAmount: same as step 1</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">usdcAmount: paste the same value as step 1</div>
         <a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93#writeContract" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:8px 14px;background:var(--gold);color:#0a0a0a;text-decoration:none;border-radius:6px;font-size:12px;font-weight:600;">Open Sale Contract on Basescan &rarr;</a>
       </div>
     </div>
     
+    <!-- STEP 3 -->
     <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;padding:14px;background:var(--bg-input,rgba(255,255,255,0.03));border:1px solid var(--border);border-radius:8px;">
       <span style="flex-shrink:0;width:28px;height:28px;background:var(--gold);color:#0a0a0a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">3</span>
       <div style="flex:1;min-width:0;">
         <div style="font-weight:600;font-size:14px;color:var(--text);margin-bottom:4px;">Add token to your wallet</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Tokens arrive instantly. To see them, add this address in MetaMask under "Import tokens":</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Tokens arrive instantly. To see them in your wallet, import a custom token using the contract address below:</div>
         <div style="font-size:11px;font-family:monospace;color:var(--text);word-break:break-all;background:rgba(0,0,0,0.3);padding:6px 8px;border-radius:4px;">0xba8A4A252b3819DD2244338e300a39eD30399c58</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">Symbol: GRESALPHA &middot; Decimals: 18 &middot; Network: Base</div>
       </div>
     </div>
     
@@ -1927,9 +1947,50 @@ function pmShowError(msg) {
 }
 window.openBasescanModal = function() {
   document.getElementById('basescan-modal').classList.add('active');
+  // Initialize calculator with default value
+  bscCalcAmount();
 };
 window.closeBasescanModal = function() {
   document.getElementById('basescan-modal').classList.remove('active');
+};
+window.bscCalcAmount = function() {
+  const input = document.getElementById('bsc-usdc-input');
+  if (!input) return;
+  const usdc = parseFloat(input.value) || 0;
+  // USDC has 6 decimals on Base
+  const onchainValue = Math.floor(usdc * 1000000);
+  const valEl = document.getElementById('bsc-onchain-value');
+  if (valEl) valEl.textContent = onchainValue.toLocaleString('en-US').replace(/,/g, '');
+  // Estimate GRES.ALPHA tokens at Lot 01 price $0.002
+  const tokens = usdc / 0.002;
+  const estEl = document.getElementById('bsc-tokens-estimate');
+  if (estEl) estEl.textContent = Math.floor(tokens).toLocaleString('en-US');
+};
+window.bscCopyValue = function() {
+  const val = document.getElementById('bsc-onchain-value').textContent;
+  const btn = document.getElementById('bsc-copy-btn');
+  navigator.clipboard.writeText(val).then(() => {
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.background = 'var(--green)';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = 'var(--gold)'; }, 1500);
+    }
+  }).catch(() => {
+    // Fallback for older browsers
+    const tmp = document.createElement('input');
+    tmp.value = val;
+    document.body.appendChild(tmp);
+    tmp.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(tmp);
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.background = 'var(--green)';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = 'var(--gold)'; }, 1500);
+    }
+  });
 };
 window.closePurchaseModal = function() {
   document.getElementById('purchase-modal').classList.remove('active');
