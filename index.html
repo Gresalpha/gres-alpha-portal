@@ -1914,6 +1914,41 @@ function pmStepError(step, detail) {
   const el = document.getElementById('pm-step-' + step);
   if (el) { el.classList.remove('pm-active'); el.classList.add('pm-error'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
 }
+
+// Race a promise against a timeout with visible countdown in the step detail
+// step: 'quote'|'approve'|'buy'|'confirm' - which step shows the countdown
+// timeoutSec: max seconds before reject with STEP_TIMEOUT
+// label: prefix shown e.g. "Waiting for wallet confirmation"
+function pmRaceTimeout(promise, timeoutSec, step, label) {
+  let intervalId = null;
+  let remaining = timeoutSec;
+  const stepEl = document.getElementById('pm-step-' + step);
+  const detailEl = stepEl ? stepEl.querySelector('.pm-detail') : null;
+  
+  const updateLabel = () => {
+    if (detailEl) detailEl.textContent = `${label}... (${remaining}s left)`;
+  };
+  updateLabel();
+  intervalId = setInterval(() => {
+    remaining -= 1;
+    if (remaining <= 0) { remaining = 0; }
+    updateLabel();
+  }, 1000);
+  
+  const cleanup = () => { if (intervalId) { clearInterval(intervalId); intervalId = null; } };
+  
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      cleanup();
+      reject(new Error('STEP_TIMEOUT'));
+    }, timeoutSec * 1000);
+  });
+  
+  return Promise.race([
+    promise.then(v => { cleanup(); return v; }, e => { cleanup(); throw e; }),
+    timeoutPromise
+  ]);
+}
 function pmShowSuccess(tokens) {
   document.getElementById('pm-title').textContent = 'Allocation Confirmed';
   document.getElementById('pm-subtitle').textContent = '';
@@ -2098,22 +2133,41 @@ window.investNow = async function() {
       const approveData = usdcInterface.encodeFunctionData('approve', [CONFIG.saleContract, usdcUsed]);
       let approveTxHash;
       try {
-        const approveTx = await signer.sendTransaction({
-          to: CONFIG.usdcContract,
-          data: approveData,
-          gasLimit: 100000
-        });
+        // Timeout on sendTransaction (wallet confirmation): 90s
+        const approveTx = await pmRaceTimeout(
+          signer.sendTransaction({
+            to: CONFIG.usdcContract,
+            data: approveData,
+            gasLimit: 100000
+          }),
+          90,
+          'approve',
+          'Waiting for wallet confirmation'
+        );
         approveTxHash = approveTx.hash;
-        pmStepActive('approve', 'Waiting for approval to confirm on-chain...');
-        await approveTx.wait();
+        // Timeout on wait() (block confirmation): 60s
+        await pmRaceTimeout(
+          approveTx.wait(),
+          60,
+          'approve',
+          'Waiting for approval to confirm on-chain'
+        );
       } catch (approveErr) {
-        // If error has txHash in data, the tx was actually sent — wait via provider
+        // If error has txHash in data, the tx was actually sent — wait via provider with timeout
         const possibleHash = approveErr?.transactionHash || approveErr?.transaction?.hash || approveErr?.hash;
         if (possibleHash) {
           console.log('Approve error but tx hash exists, waiting via provider:', possibleHash);
-          pmStepActive('approve', 'Waiting for approval (via fallback)...');
-          await provider.waitForTransaction(possibleHash);
-          approveTxHash = possibleHash;
+          try {
+            await pmRaceTimeout(
+              provider.waitForTransaction(possibleHash),
+              60,
+              'approve',
+              'Waiting for approval (via fallback)'
+            );
+            approveTxHash = possibleHash;
+          } catch (fallbackErr) {
+            throw fallbackErr;
+          }
         } else if (approveErr.code === 'INVALID_ARGUMENT' && approveErr.message && approveErr.message.includes('BigNumber')) {
           // Parser bug — verify allowance directly
           console.log('Parser error on approve, verifying allowance directly...');
@@ -2144,19 +2198,27 @@ window.investNow = async function() {
     const buyData = saleInterface.encodeFunctionData('buy', [usdcAmount]);
     let buyTxHash;
     try {
-      const buyTx = await signer.sendTransaction({
-        to: CONFIG.saleContract,
-        data: buyData,
-        gasLimit: 300000
-      });
+      // Timeout on sendTransaction (wallet confirmation): 90s
+      const buyTx = await pmRaceTimeout(
+        signer.sendTransaction({
+          to: CONFIG.saleContract,
+          data: buyData,
+          gasLimit: 300000
+        }),
+        90,
+        'buy',
+        'Waiting for wallet confirmation'
+      );
       buyTxHash = buyTx.hash;
       pmStepActive('buy', 'Transaction sent: ' + buyTxHash.substring(0,10) + '...');
       pmStepDone('buy', 'Transaction submitted');
-      pmStepActive('confirm', 'Waiting for block confirmation...');
-      await Promise.race([
+      // Timeout on wait() (block confirmation): 60s
+      await pmRaceTimeout(
         buyTx.wait(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('CONFIRM_TIMEOUT')), 60000))
-      ]);
+        60,
+        'confirm',
+        'Waiting for block confirmation'
+      );
       pmStepDone('confirm', 'Confirmed on-chain');
     } catch (buyErr) {
       // Try to recover tx hash from error
@@ -2165,22 +2227,24 @@ window.investNow = async function() {
         console.log('Buy error but tx hash exists, waiting via provider:', possibleHash);
         buyTxHash = possibleHash;
         pmStepDone('buy', 'Transaction submitted: ' + buyTxHash.substring(0,10) + '...');
-        pmStepActive('confirm', 'Waiting for block confirmation (via fallback)...');
         try {
-          await Promise.race([
+          await pmRaceTimeout(
             provider.waitForTransaction(buyTxHash),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('CONFIRM_TIMEOUT')), 60000))
-          ]);
+            60,
+            'confirm',
+            'Waiting for block confirmation (via fallback)'
+          );
           pmStepDone('confirm', 'Confirmed on-chain');
         } catch (waitErr) {
-          if (waitErr.message === 'CONFIRM_TIMEOUT') {
+          if (waitErr.message === 'STEP_TIMEOUT') {
             pmStepDone('confirm', 'Taking longer than expected. Tx: ' + buyTxHash.substring(0,10) + '...');
           } else {
             throw waitErr;
           }
         }
-      } else if (buyErr.message === 'CONFIRM_TIMEOUT') {
-        pmStepDone('confirm', 'Taking longer than expected. Check Basescan.');
+      } else if (buyErr.message === 'STEP_TIMEOUT') {
+        // Timeout from pmRaceTimeout — treat as failure to trigger Basescan fallback
+        throw new Error('Transaction timed out. The network may be congested or your wallet did not respond.');
       } else {
         throw buyErr;
       }
@@ -2209,12 +2273,15 @@ window.investNow = async function() {
     console.error('Error reason:', e.reason);
     console.error('Error data:', e.data);
     let msg = 'Transaction failed.';
-    if (e.code === 'INVALID_ARGUMENT' && (e.argument === 'value' || (e.message && e.message.includes('BigNumber')))) {
+    if (e.message === 'STEP_TIMEOUT') {
+      msg = 'Transaction timed out. Your wallet did not respond or the network is congested. Try again or use Basescan directly.';
+    }
+    else if (e.code === 'INVALID_ARGUMENT' && (e.argument === 'value' || (e.message && e.message.includes('BigNumber')))) {
       msg = 'Wallet returned an incomplete response. Please refresh the page and try again. If you already approved USDC, that approval is still valid.';
     }
     else if (e.code === 'INSUFFICIENT_FUNDS' || (e.message && e.message.includes('insufficient'))) msg = 'Insufficient ETH for gas or USDC for purchase. Check your BASE balances.';
     else if (e.message && e.message.includes('user rejected')) msg = 'Transaction cancelled by user.';
-    else if (e.code === 'CALL_EXCEPTION') msg = 'Contract rejected the transaction. Check console for details.';
+    else if (e.code === 'CALL_EXCEPTION') msg = 'Contract rejected the transaction. This usually means insufficient USDC balance, sale paused, or below minimum. Check your wallet balance.';
     else if (e.reason) msg = 'Error: ' + e.reason;
     else if (e.message) msg = e.message;
     
