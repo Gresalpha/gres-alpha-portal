@@ -624,7 +624,7 @@ a:hover { color: var(--gold-light); }
       <div class="sale-info">
         <div class="section-label">Early Access</div>
         <h2>Seed Round:<br><em>GRES.ALPHA</em></h2>
-        <p>GRES.ALPHA is a utility token that funds the development of the GRES Protocol. The buyback mechanism targets a burn floor of $0.05 per token (25x the seed price). Outcomes depend on adoption — not guaranteed. Plus fee reductions in the future ecosystem.</p>
+        <p>GRES.ALPHA is a utility token that funds the development of the GRES Protocol. The buyback mechanism targets a minimum burn price of $0.05 per token (25x the seed price). Outcomes depend on adoption — not guaranteed. Plus fee reductions in the future ecosystem.</p>
         <div class="lot-grid" id="lot-grid"></div>
         <div class="raise-progress hidden" id="raise-progress">
           <div class="raise-labels">
@@ -1328,7 +1328,7 @@ async function refreshSaleState() {
     const cp=document.getElementById('card-price'),cn=document.getElementById('card-next'),cl=document.getElementById('card-lot'),ug=document.getElementById('invest-urgency');
     if(_sF){if(cp)cp.textContent='SOLD OUT';if(cn)cn.textContent='\u2014';if(cl)cl.textContent='Sold Out';if(ug){ug.style.color='var(--green)';ug.innerHTML='\u2705 All lots sold \u2014 Thank you!';}}
     else{if(cp)cp.textContent='$'+price.toFixed(3);if(cn){const np=lotNum<4?lp[lotNum]:0;cn.textContent=np>0?'$'+np.toFixed(3):'Last Lot';}if(cl)cl.textContent='0'+lotNum+' / 04';if(ug){const lt=lotNum<=3?50e6:35e6,pct=Math.round((tokensLeft/lt)*100);if(pct<20){ug.style.color='var(--red)';ug.innerHTML='\ud83d\udd34 Lot 0'+lotNum+' \u2014 only '+pct+'% remaining!';}else{ug.style.color='var(--gold)';ug.innerHTML='\ud83d\udfe1 Lot 0'+lotNum+' is LIVE \u2014 '+Math.round(tokensLeft).toLocaleString()+' tokens left';}}}
-    if(raised>0){var re=document.getElementById('raise-progress');if(re)re.classList.remove('hidden');var rf=document.getElementById('raise-fill');if(rf)rf.style.width=Math.round((raised/CONFIG.hardCap)*100)+'%';var rd=document.getElementById('raised-display');if(rd)rd.textContent='$'+raised.toLocaleString();}
+    if(raised>=20000){var re=document.getElementById('raise-progress');if(re)re.classList.remove('hidden');var rf=document.getElementById('raise-fill');if(rf)rf.style.width=Math.round((raised/CONFIG.hardCap)*100)+'%';var rd=document.getElementById('raised-display');if(rd)rd.textContent='$'+raised.toLocaleString();}
     const he=document.getElementById('hero-eyebrow');if(he&&CONFIG.saleStatus==='live'){if(_sF)he.innerHTML='<span class="dot"></span> Seed Round \u2014 Sold Out';else he.innerHTML='<span class="dot"></span> Seed Round \u2014 Lot 0'+lotNum+' is Open';}
     renderLots();
   }catch(e){console.error('Contract read error:',e);}
