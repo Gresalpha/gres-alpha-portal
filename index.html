@@ -106,12 +106,16 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--gold);
   font-weight: 500;
   margin-bottom: 24px;
+}
+.six-functions .eyebrow {
+  font-size: 14px;
+  letter-spacing: 0.22em;
 }
 
 .section-divider {
@@ -471,10 +475,12 @@ section {
 .function-num {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 14px;
+  font-size: 28px;
   color: var(--gold);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   letter-spacing: 0.05em;
+  font-weight: 500;
+  opacity: 0.95;
 }
 
 .function-card h3 {
@@ -2955,12 +2961,12 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // ── Init ──
-checkAccessToken();
-renderLots();
+try { checkAccessToken(); } catch(e) { console.error('checkAccessToken err:', e); }
+try { renderLots(); } catch(e) { console.error('renderLots err:', e); }
 try { renderRoadmap(); } catch(e) { console.log('Roadmap is static, skipping'); }
-renderFAQ();
-applySaleState();
-refreshSaleState();
+try { renderFAQ(); } catch(e) { console.error('renderFAQ err:', e); }
+try { applySaleState(); } catch(e) { console.error('applySaleState err:', e); }
+try { refreshSaleState(); } catch(e) { console.error('refreshSaleState err:', e); }
 
 </script>
 </body>
