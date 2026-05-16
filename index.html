@@ -2957,12 +2957,11 @@ updateCountdown();
 // ── Init ──
 checkAccessToken();
 renderLots();
-renderRoadmap();
+try { renderRoadmap(); } catch(e) { console.log('Roadmap is static, skipping'); }
 renderFAQ();
 applySaleState();
 refreshSaleState();
 
-</script>
 </script>
 </body>
 </html>
