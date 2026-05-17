@@ -1521,6 +1521,10 @@ section {
           <li><a href="https://t.me/gres_protocol" target="_blank" rel="noopener">Telegram</a></li>
           <li><a href="https://twitter.com/gresprotocol" target="_blank" rel="noopener">X / Twitter</a></li>
           <li><a href="https://linkedin.com/company/gres-protocol" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-soft);">
+            <a onclick="openModal('founders-modal')" style="color:var(--gold);cursor:pointer;font-weight:500;">Founders&rsquo; Table</a>
+            <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-top:4px;">For unique individuals</div>
+          </li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1688,6 +1692,38 @@ section {
     <button class="btn btn-gold btn-lg" style="width:100%;margin-top:24px;" onclick="closeModal('tc-modal')">I Understand</button>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: FOUNDERS' TABLE
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="founders-modal">
+  <div class="modal-box" style="max-width:560px;text-align:left;">
+    <button class="modal-close" onclick="closeModal('founders-modal')">&times;</button>
+    
+    <div style="text-align:center;margin-bottom:32px;">
+      <div class="eyebrow" style="margin-bottom:12px;">Founders&rsquo; Table</div>
+      <h3 style="font-size:30px;margin:0;line-height:1.2;"><em style="font-style:italic;color:var(--gold);font-weight:400;">For unique individuals.</em></h3>
+    </div>
+    
+    <div style="font-size:16px;color:var(--text-secondary);line-height:1.8;font-weight:300;font-family:var(--font-display);font-style:italic;">
+      <p style="margin-bottom:20px;">This is a project that will outlive you and me. It is about access to generational wealth — for everyone.</p>
+      
+      <p style="margin-bottom:20px;">I am looking for unique individuals with the same vision. If you feel your contribution will make the difference, send me an email.</p>
+      
+      <p style="margin-bottom:20px;font-style:normal;font-family:var(--font-body);font-size:14px;color:var(--text-muted);padding:18px 20px;border-left:2px solid var(--gold);background:rgba(201,168,76,0.04);">
+        <strong style="color:var(--gold);display:block;margin-bottom:8px;letter-spacing:0.08em;text-transform:uppercase;font-size:11px;">Please note</strong>
+        GRES is on BUILDERS mode. Everyone joining now has to agree on company participation, GRES.ALPHA stake, and/or cash flow received upon delivery.
+      </p>
+      
+      <p style="margin-bottom:32px;">If you share the GRES vision, let me know how you can help.</p>
+    </div>
+    
+    <a href="mailto:admin@gres.network?subject=Founders%27%20Table%20%E2%80%94%20Joining%20the%20Vision" class="btn btn-gold btn-lg" style="width:100%;text-align:center;display:block;">Email admin@gres.network</a>
+    
+    <p style="text-align:center;font-size:13px;color:var(--text-muted);font-style:italic;margin-top:20px;font-family:var(--font-display);">Thank you.</p>
+  </div>
+</div>
+
 
 <script type="module">
 import { createAppKit } from 'https://esm.sh/@reown/appkit'
