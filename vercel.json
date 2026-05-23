@@ -3,6 +3,10 @@
     {
       "source": "/confirm",
       "destination": "https://gres.app.n8n.cloud/webhook/news-confirm"
+    },
+    {
+      "source": "/unsubscribe",
+      "destination": "https://gres.app.n8n.cloud/webhook/news-unsubscribe"
     }
   ]
 }
