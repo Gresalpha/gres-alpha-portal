@@ -162,7 +162,7 @@ section {
 /* ══════════════════════════════════════════
    HEADER
    ══════════════════════════════════════════ */
-
+html { scroll-padding-top: 90px; }
 .site-header {
   position: fixed;
   top: 0;
@@ -268,8 +268,7 @@ section {
   .brand-logo { height: 32px; }
 }
 
-.nav-gold { color: var(--gold) !important; }
-.nav-gold:hover { color: var(--gold-bright) !important; }
+.nav-links a.active { color: var(--gold); }
 
 /* ══════════════════════════════════════════
    HERO
@@ -894,7 +893,7 @@ section {
       <a href="#what">What</a>
       <a href="#how">How</a>
       <a href="#roadmap">Roadmap</a>
-      <a href="/investors" class="nav-gold">Investors</a>
+      <a href="/investors">Investors</a>
       <a href="/news-feed">News Feed</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -1275,4 +1274,23 @@ window.GRES_N8N = {
 renderFAQ();
 </script>
 </body>
+   <script>
+(function(){
+  const links = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sections = Array.from(links)
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  function update() {
+    const y = window.scrollY + 120;
+    let current = null;
+    for (const s of sections) {
+      if (s.offsetTop <= y) current = s.id;
+    }
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('load', update);
+  update();
+})();
+</script>
 </html>
