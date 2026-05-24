@@ -140,6 +140,70 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 .footer .brand{display:block;margin-bottom:12px}
 
 @media (max-width:760px){.brand span{display:none}.brand-logo{height:32px}.nav-links{gap:18px}}
+
+/* Form states */
+.form-error{color:#e8654a;font-size:13px;margin-top:6px;display:none}
+.form-error.show{display:block}
+.path-thanks{display:none;text-align:center;padding:32px 8px}
+.path-thanks.show{display:block}
+.path-form.hide{display:none}
+.thanks-icon{width:56px;height:56px;border-radius:50%;background:var(--gold);color:#000;font-size:30px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.path-thanks h3{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--gold);margin-bottom:10px}
+.path-thanks p{color:var(--text);font-size:15px;max-width:380px;margin:0 auto 4px}
+.path-thanks .muted{color:var(--muted)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.lot-display{padding:11px 14px;background:var(--bg-card);border:1px solid var(--border);color:var(--gold);font-size:14px;font-weight:500;border-radius:2px;min-height:44px;display:flex;align-items:center}
+
+/* Purchase modal */
+.pm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
+.pm-overlay.show{display:flex}
+.pm-box{background:var(--bg-elev);border:1px solid var(--border);max-width:480px;width:100%;padding:32px;border-radius:4px;position:relative;max-height:90vh;overflow-y:auto}
+.pm-close{position:absolute;top:14px;right:18px;background:none;border:0;color:var(--muted);font-size:24px;cursor:pointer}
+.pm-close:hover{color:var(--text)}
+.pm-title{font-family:var(--serif);font-size:24px;color:var(--gold);margin-bottom:6px}
+.pm-sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+.pm-step{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border-soft);opacity:.4}
+.pm-step:last-of-type{border-bottom:none}
+.pm-step.pm-active{opacity:1}
+.pm-step.pm-done{opacity:1}
+.pm-step.pm-error{opacity:1}
+.pm-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;margin-top:1px}
+.pm-step.pm-active .pm-dot{border-color:var(--gold);background:var(--gold);color:#000}
+.pm-step.pm-active .pm-dot::after{content:'';width:8px;height:8px;border:2px solid #000;border-top-color:transparent;border-radius:50%;animation:pmSpin .8s linear infinite}
+.pm-step.pm-active .pm-dot{font-size:0}
+.pm-step.pm-done .pm-dot{border-color:var(--gold);background:var(--gold);color:#000}
+.pm-step.pm-done .pm-dot::before{content:'✓';font-size:13px}
+.pm-step.pm-error .pm-dot{border-color:#e8654a;background:#e8654a;color:#fff}
+.pm-step.pm-error .pm-dot::before{content:'!';font-size:14px}
+@keyframes pmSpin{to{transform:rotate(360deg)}}
+.pm-body{flex:1;min-width:0}
+.pm-label{color:var(--text);font-size:14px;font-weight:500}
+.pm-detail{color:var(--muted);font-size:12px;margin-top:3px;word-break:break-word}
+.pm-result{margin-top:20px;padding:14px;background:var(--bg-card);border:1px solid var(--gold-soft);border-radius:3px;display:none}
+.pm-result.show{display:block}
+.pm-result a{color:var(--gold);font-size:13px;word-break:break-all;border-bottom:1px solid var(--gold-soft)}
+.pm-fallback{display:none;margin-top:18px;padding:16px;background:rgba(232,101,74,.08);border:1px solid rgba(232,101,74,.3);border-radius:3px;color:var(--text);font-size:13px;line-height:1.6}
+.pm-fallback.show{display:block}
+.pm-fallback a{color:var(--gold);border-bottom:1px solid var(--gold-soft)}
+
+/* Footer (index-matching) */
+.site-footer{background:var(--bg);padding:80px 0 40px;border-top:1px solid var(--border-soft);position:relative;z-index:2}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:60px}
+.footer-brand{font-family:var(--serif);font-style:italic;font-size:24px;font-weight:400;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.footer-logo{height:48px;width:auto;display:block}
+.footer-brand em{font-style:normal;color:var(--gold)}
+.footer-tagline{font-size:13px;color:var(--muted);line-height:1.7;max-width:320px}
+.footer-col h5{font-family:var(--sans);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:20px}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:12px}
+.footer-col a{color:var(--muted);font-size:13px;font-weight:300;text-decoration:none}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{padding-top:32px;border-top:1px solid var(--border-soft);font-size:11px;color:var(--muted);line-height:1.7}
+.footer-bottom p{margin-bottom:8px}
+.footer-bottom .copyright{margin-top:20px;font-size:11px;color:var(--muted)}
+@media (max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{font-size:20px}.footer-logo{height:40px}}
+@media (max-width:480px){.footer-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -454,14 +518,14 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
           <li>Receive the full investor deck on submit</li>
         </ul>
 
-        <div class="path-form">
+        <div class="path-form" id="pathA-form">
           <div class="fields">
-            <div><label>Full name</label><input placeholder="Jane Doe"></div>
-            <div><label>Email</label><input type="email" placeholder="jane@fund.com"></div>
-            <div><label>Role / Fund</label><input placeholder="GP at Acme Ventures"></div>
-            <div><label>Country</label><input placeholder="Spain"></div>
+            <div><label>Full name</label><input id="pa-name" placeholder="Jane Doe"></div>
+            <div><label>Email</label><input id="pa-email" type="email" placeholder="jane@fund.com"></div>
+            <div><label>Role / Fund</label><input id="pa-role" placeholder="GP at Acme Ventures"></div>
+            <div><label>Country</label><input id="pa-country" placeholder="Spain"></div>
             <div><label>Indicative ticket</label>
-              <select>
+              <select id="pa-ticket">
                 <option>$25K – $50K</option>
                 <option>$50K – $100K</option>
                 <option>$100K – $250K</option>
@@ -469,13 +533,20 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
               </select>
             </div>
             <label class="terms">
-              <input type="checkbox">
-              <span>I have read and accept the <a href="/terms">Terms & Conditions</a> and the <a href="/privacy">Privacy Policy</a>. I understand this is an information request only, not a subscription or offer to invest.</span>
+              <input id="pa-terms" type="checkbox">
+              <span>I have read and accept the <a href="/legal#terms" target="_blank">Terms &amp; Conditions</a> and the <a href="/legal#privacy" target="_blank">Privacy Policy</a>. I understand this is an information request only, not a subscription or offer to invest.</span>
             </label>
+            <div id="pa-error" class="form-error"></div>
           </div>
           <div class="submit-row">
-            <button class="btn">Request the deck</button>
+            <button class="btn" id="pa-submit" type="button">Request the deck</button>
           </div>
+        </div>
+        <div class="path-thanks" id="pathA-thanks">
+          <div class="thanks-icon">✓</div>
+          <h3>Thank you.</h3>
+          <p>Your request has been received. The investor deck and a personal note will reach <strong id="pa-thanks-email"></strong> within one business day.</p>
+          <p class="muted" style="margin-top:14px;font-size:13px">If you don't see it, check your spam folder or reach out at <a href="mailto:legal@gres.network">legal@gres.network</a>.</p>
         </div>
       </div>
 
@@ -492,29 +563,26 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
           <li>Outcomes depend on adoption — not guaranteed</li>
         </ul>
 
-        <div class="path-form">
+        <div class="path-form" id="pathB-form">
           <div class="fields">
-            <div><label>Email</label><input type="email" placeholder="you@email.com"></div>
+            <div><label>Email</label><input id="pb-email" type="email" placeholder="you@email.com"></div>
             <div><label>Wallet</label>
-              <button type="button" class="btn outline" style="margin-top:0;width:100%">Connect wallet</button>
+              <button id="pb-connect" type="button" class="btn outline" style="margin-top:0;width:100%">Connect wallet</button>
             </div>
-            <div><label>Lot</label>
-              <select>
-                <option>Lot 1 · $0.002 / token</option>
-                <option>Lot 2 · $0.004 / token</option>
-                <option>Lot 3 · $0.007 / token</option>
-                <option>Lot 4 · $0.010 / token</option>
-              </select>
+            <div><label>Active lot</label>
+              <div id="pb-lot-display" class="lot-display">Loading current lot…</div>
             </div>
-            <div><label>Amount (USDC)</label><input type="number" placeholder="100"></div>
-            <div><label>Referral code <span style="color:var(--dim);text-transform:none;letter-spacing:0">(optional)</span></label><input placeholder="GRES-XXXX"></div>
+            <div><label>Amount (USDC)</label><input id="pb-amount" type="number" min="10" step="1" placeholder="100" oninput="calculateTokens()"></div>
+            <div><label>You receive · <span id="pb-tokens">0</span> GRES.ALPHA</label><input id="pb-quote" type="text" readonly placeholder="—" style="opacity:.7"></div>
+            <div><label>Referral code <span style="color:var(--dim);text-transform:none;letter-spacing:0">(optional)</span></label><input id="pb-ref" placeholder="GRES-XXXX"></div>
             <label class="terms">
-              <input type="checkbox">
-              <span>I have read and accept the <a href="/terms">Terms & Conditions</a> and the <a href="/privacy">Privacy Policy</a>. I understand GRES.ALPHA is a utility token — outcomes depend on adoption and are not guaranteed.</span>
+              <input id="pb-terms" type="checkbox">
+              <span>I have read and accept the <a href="/legal#terms" target="_blank">Terms &amp; Conditions</a>, <a href="/legal#privacy" target="_blank">Privacy Policy</a> and <a href="/legal#risk" target="_blank">Risk Disclosure</a>. I understand GRES.ALPHA is a utility token &mdash; outcomes depend on adoption and are not guaranteed.</span>
             </label>
+            <div id="pb-error" class="form-error"></div>
           </div>
           <div class="submit-row">
-            <button class="btn">Buy GRES.ALPHA</button>
+            <button class="btn" id="pb-submit" type="button">Buy GRES.ALPHA</button>
           </div>
         </div>
       </div>
@@ -530,14 +598,414 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
   </div>
 </section>
 
-<!-- ════════ FOOTER ════════ -->
-<footer class="footer">
+<!-- ════════ FOOTER (matches index) ════════ -->
+<footer class="site-footer">
   <div class="container">
-    <span class="brand">GRES</span>
-    <div>The Global Standard for On-chain Real Estate · gres.network · admin@gres.network</div>
-    <div style="margin-top:8px">© 2026 GRES Protocol</div>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img src="/logo.png" alt="GRES Protocol" class="footer-logo">
+          <span>GRES <em>Protocol</em></span>
+        </div>
+        <p class="footer-tagline">The Global Standard for On-chain Real Estate. Built to compound across generations.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="/whitepaper.pdf" target="_blank" rel="noopener">Whitepaper</a></li>
+          <li><a href="/digital-assets-paper.pdf" target="_blank" rel="noopener">Digital Assets Paper</a></li>
+          <li><a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93" target="_blank" rel="noopener">Smart Contracts</a></li>
+          <li><a href="/#roadmap">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Investors &amp; Insights</h5>
+        <ul>
+          <li><a href="/investors">Investors</a></li>
+          <li><a href="/news-feed">News Feed</a></li>
+          <li><a href="https://t.me/gres_protocol" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="https://twitter.com/gresprotocol" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="https://linkedin.com/company/gres-protocol" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Compliance</h5>
+        <ul>
+          <li><a href="/legal#terms">Terms &amp; Conditions</a></li>
+          <li><a href="/legal#privacy">Privacy Policy</a></li>
+          <li><a href="/legal#risk">Risk Disclosure</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>GRES Operator: for-profit corporation (formation in progress).</p>
+      <p>GRES Foundation: Swiss-style Foundation modeled after Swiss law (formation in progress). Holds 100% of underlying deeds.</p>
+      <p>Founder: <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" rel="noopener" style="color:var(--gold);">Thiago Sequinel</a>.</p>
+      <p>Not investment advice. MiCA-aligned design. GRES.ALPHA is a utility token &mdash; outcomes depend on adoption, not guaranteed. Risk of total loss. Not available to US persons or persons located in the United States.</p>
+      <p class="copyright">&copy; 2026 GRES Protocol</p>
+    </div>
   </div>
 </footer>
+
+
+
+<!-- ════════ PURCHASE MODAL (Path B) ════════ -->
+<div class="pm-overlay" id="pm-overlay">
+  <div class="pm-box">
+    <button class="pm-close" id="pm-close" type="button">&times;</button>
+    <div class="pm-title">Processing purchase</div>
+    <div class="pm-sub" id="pm-sub">Follow the steps in your wallet.</div>
+
+    <div class="pm-step" id="pm-step-quote">
+      <div class="pm-dot">1</div>
+      <div class="pm-body">
+        <div class="pm-label">Calculating tokens</div>
+        <div class="pm-detail">Reading current lot price from the sale contract…</div>
+      </div>
+    </div>
+    <div class="pm-step" id="pm-step-approve">
+      <div class="pm-dot">2</div>
+      <div class="pm-body">
+        <div class="pm-label">USDC approval</div>
+        <div class="pm-detail">Authorize the sale contract to pull your USDC.</div>
+      </div>
+    </div>
+    <div class="pm-step" id="pm-step-buy">
+      <div class="pm-dot">3</div>
+      <div class="pm-body">
+        <div class="pm-label">Purchase transaction</div>
+        <div class="pm-detail">Confirm the buy() call in your wallet.</div>
+      </div>
+    </div>
+    <div class="pm-step" id="pm-step-confirm">
+      <div class="pm-dot">4</div>
+      <div class="pm-body">
+        <div class="pm-label">Block confirmation</div>
+        <div class="pm-detail">Wait for the transaction to be mined on Base.</div>
+      </div>
+    </div>
+
+    <div class="pm-result" id="pm-result">
+      <div style="color:var(--gold);font-weight:600;margin-bottom:6px;">✓ Purchase successful</div>
+      <div style="color:var(--text);font-size:13px;margin-bottom:8px;">Welcome to the genesis. Your GRES.ALPHA tokens are in your wallet.</div>
+      <a id="pm-tx-link" target="_blank" rel="noopener">View transaction on Basescan ↗</a>
+    </div>
+
+    <div class="pm-fallback" id="pm-fallback">
+      <strong>Need to complete this manually?</strong>
+      <p style="margin-top:8px">The sale contract is verified and public. You can call <code>buy(usdcAmount)</code> directly on Basescan:</p>
+      <p style="margin-top:8px"><a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93#writeContract" target="_blank" rel="noopener">Open Sale Contract on Basescan ↗</a></p>
+      <p style="margin-top:10px;color:var(--muted);font-size:12px">Step 1 · Approve USDC for the sale contract address.<br>Step 2 · Call buy(usdcAmount) with your amount in USDC base units (6 decimals).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ Path A handler ════════ -->
+<script>
+(function(){
+  const N8N = "https://gres.app.n8n.cloud/webhook";
+
+  const $ = id => document.getElementById(id);
+  const paSubmit = $('pa-submit');
+  if (!paSubmit) return;
+
+  paSubmit.addEventListener('click', async () => {
+    const name    = $('pa-name').value.trim();
+    const email   = $('pa-email').value.trim();
+    const role    = $('pa-role').value.trim();
+    const country = $('pa-country').value.trim();
+    const ticket  = $('pa-ticket').value;
+    const terms   = $('pa-terms').checked;
+    const err     = $('pa-error');
+    err.classList.remove('show');
+
+    if (!name || !email || !role || !country) {
+      err.textContent = 'Please fill name, email, role and country.';
+      err.classList.add('show'); return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      err.textContent = 'Please enter a valid email address.';
+      err.classList.add('show'); return;
+    }
+    if (!terms) {
+      err.textContent = 'Please accept the Terms & Privacy Policy to continue.';
+      err.classList.add('show'); return;
+    }
+
+    paSubmit.disabled = true;
+    paSubmit.textContent = 'Sending…';
+
+    const ref = new URLSearchParams(window.location.search).get('ref') || '';
+    try {
+      await fetch(N8N + '/deck-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email, role, country,
+          ticket_range: ticket,
+          referral_code: ref,
+          path: 'A',
+          submitted_at: new Date().toISOString(),
+          source: 'investors_page'
+        })
+      });
+    } catch (e) {
+      console.error('Deck request webhook error:', e);
+      // Still show thanks — user data is captured client-side and can be retried
+    }
+
+    $('pa-thanks-email').textContent = email;
+    $('pathA-form').classList.add('hide');
+    $('pathA-thanks').classList.add('show');
+  });
+})();
+</script>
+
+<!-- ════════ Path B: Reown AppKit + smart contract checkout ════════ -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script type="module">
+import { createAppKit }    from 'https://esm.sh/@reown/appkit';
+import { Ethers5Adapter }  from 'https://esm.sh/@reown/appkit-adapter-ethers5';
+import { base }            from 'https://esm.sh/@reown/appkit/networks';
+
+const CONFIG = {
+  rpcUrl:         "https://base-mainnet.g.alchemy.com/v2/cKDErpJgMtpWH2FObllEf",
+  saleContract:   "0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93",
+  tokenContract:  "0xba8A4A252b3819DD2244338e300a39eD30399c58",
+  usdcContract:   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  walletConnectId:"fbc5f569abebf58f9c260075a2882c1a",
+  n8nWebhook:     "https://gres.app.n8n.cloud/webhook",
+  lots: [
+    { name: "Lot 01", price: 0.002 },
+    { name: "Lot 02", price: 0.004 },
+    { name: "Lot 03", price: 0.007 },
+    { name: "Lot 04", price: 0.010 },
+  ]
+};
+
+const SALE_ABI = [
+  'function buy(uint256 usdcAmount)',
+  'function getQuote(uint256 usdcAmount) view returns (uint256 tokenAmount, uint256 usdcUsed)',
+  'function saleStatus() view returns (uint256,uint256,uint256,uint256,uint256,uint256,bool,bool,bool)',
+  'function getLot(uint256 index) view returns (uint256,uint256,uint256,bool,bool)',
+  'function whitelistOnly() view returns (bool)',
+  'function whitelist(address) view returns (bool)',
+  'function currentLot() view returns (uint256)',
+  'function saleFinished() view returns (bool)'
+];
+const USDC_ABI = [
+  'function approve(address spender, uint amount) returns (bool)',
+  'function allowance(address owner, address spender) view returns (uint256)',
+  'function balanceOf(address) view returns (uint256)'
+];
+
+const $ = id => document.getElementById(id);
+
+let connectedAddress = null;
+let currentLotIndex  = 0;
+
+// ── Reown AppKit ──
+const modal = createAppKit({
+  adapters: [new Ethers5Adapter()],
+  networks: [base],
+  metadata: { name: 'GRES Protocol', url: window.location.origin, icons: [] },
+  projectId: CONFIG.walletConnectId,
+});
+
+let lastNotifiedWallet = null;
+modal.subscribeAccount(account => {
+  if (account.isConnected) {
+    connectedAddress = account.address;
+    const btn = $('pb-connect');
+    btn.textContent = connectedAddress.substring(0,6) + '…' + connectedAddress.slice(-4);
+    btn.classList.remove('outline');
+    if (lastNotifiedWallet !== connectedAddress.toLowerCase()) {
+      lastNotifiedWallet = connectedAddress.toLowerCase();
+    }
+  } else {
+    connectedAddress = null;
+    $('pb-connect').textContent = 'Connect wallet';
+    $('pb-connect').classList.add('outline');
+  }
+});
+$('pb-connect').addEventListener('click', () => modal.open());
+
+// ── Read current lot for display ──
+async function loadCurrentLot() {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
+    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
+    const idx = await sale.currentLot();
+    currentLotIndex = idx.toNumber();
+    const lot = CONFIG.lots[currentLotIndex] || CONFIG.lots[0];
+    $('pb-lot-display').textContent = lot.name + ' · $' + lot.price.toFixed(3) + ' / token';
+  } catch (e) {
+    console.warn('Could not read current lot from contract, falling back to Lot 01', e);
+    $('pb-lot-display').textContent = CONFIG.lots[0].name + ' · $' + CONFIG.lots[0].price.toFixed(3) + ' / token';
+  }
+}
+loadCurrentLot();
+
+// ── Quote (debounced) ──
+let _quoteTimeout = null;
+window.calculateTokens = function() {
+  clearTimeout(_quoteTimeout);
+  _quoteTimeout = setTimeout(doQuote, 350);
+};
+async function doQuote() {
+  const val = parseFloat($('pb-amount').value) || 0;
+  if (val <= 0) { $('pb-tokens').textContent = '0'; $('pb-quote').value = ''; return; }
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
+    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
+    const [tokenAmount] = await sale.getQuote(ethers.utils.parseUnits(val.toString(), 6));
+    const tokens = Math.floor(parseFloat(ethers.utils.formatUnits(tokenAmount, 18)));
+    $('pb-tokens').textContent = tokens.toLocaleString();
+    $('pb-quote').value = '$' + val.toFixed(2) + ' USDC → ' + tokens.toLocaleString() + ' tokens';
+  } catch (e) {
+    const lot = CONFIG.lots[currentLotIndex] || CONFIG.lots[0];
+    const tokens = Math.floor(val / lot.price);
+    $('pb-tokens').textContent = tokens.toLocaleString();
+    $('pb-quote').value = '$' + val.toFixed(2) + ' USDC → ' + tokens.toLocaleString() + ' tokens (estimate)';
+  }
+}
+
+// ── Modal helpers ──
+function pmOpen()  { $('pm-overlay').classList.add('show'); ['quote','approve','buy','confirm'].forEach(s => { const el=$('pm-step-'+s); el.classList.remove('pm-active','pm-done','pm-error'); }); $('pm-result').classList.remove('show'); $('pm-fallback').classList.remove('show'); }
+function pmClose() { $('pm-overlay').classList.remove('show'); }
+function pmActive(step, detail) { const el=$('pm-step-'+step); el.classList.remove('pm-done','pm-error'); el.classList.add('pm-active'); const d=el.querySelector('.pm-detail'); if(d && detail) d.textContent = detail; }
+function pmDone(step, detail)   { const el=$('pm-step-'+step); el.classList.remove('pm-active','pm-error'); el.classList.add('pm-done'); const d=el.querySelector('.pm-detail'); if(d && detail) d.textContent = detail; }
+function pmError(step, detail)  { const el=$('pm-step-'+step); el.classList.remove('pm-active','pm-done'); el.classList.add('pm-error'); const d=el.querySelector('.pm-detail'); if(d && detail) d.textContent = detail; $('pm-fallback').classList.add('show'); }
+$('pm-close').addEventListener('click', pmClose);
+
+// ── Purchase flow ──
+$('pb-submit').addEventListener('click', async () => {
+  const email = $('pb-email').value.trim();
+  const amount = parseFloat($('pb-amount').value) || 0;
+  const terms = $('pb-terms').checked;
+  const ref = $('pb-ref').value.trim() || new URLSearchParams(window.location.search).get('ref') || '';
+  const err = $('pb-error');
+  err.classList.remove('show');
+
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    err.textContent = 'Please enter a valid email address.'; err.classList.add('show'); return;
+  }
+  if (!connectedAddress) {
+    err.textContent = 'Please connect your wallet first.'; err.classList.add('show'); return;
+  }
+  if (amount < 10) {
+    err.textContent = 'Minimum amount is 10 USDC.'; err.classList.add('show'); return;
+  }
+  if (!terms) {
+    err.textContent = 'Please accept Terms, Privacy and Risk Disclosure.'; err.classList.add('show'); return;
+  }
+
+  pmOpen();
+
+  try {
+    const walletProvider = modal.getWalletProvider();
+    if (!walletProvider) throw new Error('Wallet not connected.');
+    const provider = new ethers.providers.Web3Provider(walletProvider);
+
+    // Switch / add Base
+    const network = await provider.getNetwork();
+    if (network.chainId !== 8453) {
+      try {
+        await walletProvider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x2105' }] });
+      } catch (e) {
+        if (e.code === 4902 || (e.message && e.message.includes('Unrecognized'))) {
+          await walletProvider.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: '0x2105',
+              chainName: 'Base',
+              nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+              rpcUrls: ['https://mainnet.base.org'],
+              blockExplorerUrls: ['https://basescan.org']
+            }]
+          });
+        } else { throw e; }
+      }
+    }
+
+    const signer = provider.getSigner();
+    const usdc = new ethers.Contract(CONFIG.usdcContract, USDC_ABI, signer);
+    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, signer);
+    const usdcAmount = ethers.utils.parseUnits(amount.toString(), 6);
+
+    // Step 1: quote
+    pmActive('quote', 'Reading current lot…');
+    const finished = await sale.saleFinished();
+    if (finished) { pmError('quote', 'The sale is finished.'); return; }
+    const isWLOnly = await sale.whitelistOnly();
+    if (isWLOnly) {
+      const isWL = await sale.whitelist(connectedAddress);
+      if (!isWL) { pmError('quote', 'Whitelist active. This wallet is not on the list.'); return; }
+    }
+    const [tokenAmount, usdcUsed] = await sale.getQuote(usdcAmount);
+    const tokenFormatted = parseFloat(ethers.utils.formatUnits(tokenAmount, 18));
+    const usdcFormatted = parseFloat(ethers.utils.formatUnits(usdcUsed, 6));
+    pmDone('quote', Math.floor(tokenFormatted).toLocaleString() + ' GRES.ALPHA for $' + usdcFormatted.toFixed(2));
+
+    // Step 2: approve
+    pmActive('approve', 'Checking USDC allowance…');
+    let allowance;
+    try { allowance = await usdc.allowance(connectedAddress, CONFIG.saleContract); }
+    catch (e) { allowance = ethers.BigNumber.from(0); }
+    if (allowance.gte(usdcUsed)) {
+      pmDone('approve', 'USDC already approved');
+    } else {
+      pmActive('approve', 'Confirm USDC approval in your wallet…');
+      const usdcIface = new ethers.utils.Interface(USDC_ABI);
+      const approveData = usdcIface.encodeFunctionData('approve', [CONFIG.saleContract, usdcUsed]);
+      const approveTx = await signer.sendTransaction({ to: CONFIG.usdcContract, data: approveData, gasLimit: 100000 });
+      pmActive('approve', 'Waiting for approval to confirm on-chain…');
+      await approveTx.wait();
+      pmDone('approve', 'USDC approved');
+    }
+
+    // Step 3: buy
+    pmActive('buy', 'Confirm purchase in your wallet…');
+    const saleIface = new ethers.utils.Interface(SALE_ABI);
+    const buyData = saleIface.encodeFunctionData('buy', [usdcAmount]);
+    const buyTx = await signer.sendTransaction({ to: CONFIG.saleContract, data: buyData, gasLimit: 300000 });
+    pmDone('buy', 'Transaction submitted: ' + buyTx.hash.substring(0,12) + '…');
+
+    // Step 4: confirm
+    pmActive('confirm', 'Waiting for block confirmation…');
+    await buyTx.wait();
+    pmDone('confirm', 'Confirmed on-chain');
+
+    // Result UI
+    $('pm-tx-link').href = 'https://basescan.org/tx/' + buyTx.hash;
+    $('pm-result').classList.add('show');
+
+    // n8n webhook (fire-and-forget)
+    fetch(CONFIG.n8nWebhook + '/purchase', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        wallet: connectedAddress,
+        amount_usd: usdcFormatted,
+        tokens: Math.floor(tokenFormatted),
+        lot: 'Lot 0' + (currentLotIndex + 1),
+        tx_hash: buyTx.hash,
+        referral_code: ref,
+        purchased_at: new Date().toISOString(),
+        source: 'investors_page'
+      })
+    }).catch(e => console.error('Purchase webhook error:', e));
+
+  } catch (e) {
+    console.error('Purchase error:', e);
+    const msg = (e && e.message) ? e.message : 'Transaction failed.';
+    const activeStep = document.querySelector('.pm-step.pm-active');
+    const stepId = activeStep ? activeStep.id.replace('pm-step-', '') : 'quote';
+    pmError(stepId, msg.substring(0, 200));
+  }
+});
+</script>
+
 
 </body>
 </html>
