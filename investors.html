@@ -144,13 +144,6 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 /* Form states */
 .form-error{color:#e8654a;font-size:13px;margin-top:6px;display:none}
 .form-error.show{display:block}
-.path-thanks{display:none;text-align:center;padding:32px 8px}
-.path-thanks.show{display:block}
-.path-form.hide{display:none}
-.thanks-icon{width:56px;height:56px;border-radius:50%;background:var(--gold);color:#000;font-size:30px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
-.path-thanks h3{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--gold);margin-bottom:10px}
-.path-thanks p{color:var(--text);font-size:15px;max-width:380px;margin:0 auto 4px}
-.path-thanks .muted{color:var(--muted)}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 .lot-display{padding:11px 14px;background:var(--bg-card);border:1px solid var(--border);color:var(--gold);font-size:14px;font-weight:500;border-radius:2px;min-height:44px;display:flex;align-items:center}
 
@@ -185,6 +178,20 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 .pm-fallback{display:none;margin-top:18px;padding:16px;background:rgba(232,101,74,.08);border:1px solid rgba(232,101,74,.3);border-radius:3px;color:var(--text);font-size:13px;line-height:1.6}
 .pm-fallback.show{display:block}
 .pm-fallback a{color:var(--gold);border-bottom:1px solid var(--gold-soft)}
+
+
+/* Thanks modal (shared) */
+.tm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
+.tm-overlay.show{display:flex}
+.tm-box{background:var(--bg-elev);border:1px solid var(--gold-soft);max-width:440px;width:100%;padding:40px 32px 32px;border-radius:4px;position:relative;text-align:center}
+.tm-close{position:absolute;top:14px;right:18px;background:none;border:0;color:var(--muted);font-size:24px;cursor:pointer;line-height:1}
+.tm-close:hover{color:var(--text)}
+.tm-icon{width:64px;height:64px;border-radius:50%;background:var(--gold);color:#000;font-size:34px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.tm-title{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--gold);margin-bottom:14px}
+.tm-body{color:var(--text);font-size:15px;line-height:1.6;margin-bottom:14px}
+.tm-body strong{color:var(--gold-bright);font-weight:600}
+.tm-foot{color:var(--muted);font-size:13px;line-height:1.55;margin-bottom:4px}
+.tm-foot a{color:var(--gold);border-bottom:1px solid var(--gold-soft)}
 
 /* Footer (index-matching) */
 .site-footer{background:var(--bg);padding:80px 0 40px;border-top:1px solid var(--border-soft);position:relative;z-index:2}
@@ -542,12 +549,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
             <button class="btn" id="pa-submit" type="button">Request the deck</button>
           </div>
         </div>
-        <div class="path-thanks" id="pathA-thanks">
-          <div class="thanks-icon">✓</div>
-          <h3>Thank you.</h3>
-          <p>Your request has been received. The investor deck and a personal note will reach <strong id="pa-thanks-email"></strong> within one business day.</p>
-          <p class="muted" style="margin-top:14px;font-size:13px">If you don't see it, check your spam folder or reach out at <a href="mailto:legal@gres.network">legal@gres.network</a>.</p>
-        </div>
+
       </div>
 
       <!-- PATH B — Token -->
@@ -700,6 +702,54 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
   </div>
 </div>
 
+
+<!-- ════════ THANKS MODAL (shared by Path A and Path B) ════════ -->
+<div class="tm-overlay" id="tm-overlay">
+  <div class="tm-box">
+    <button class="tm-close" id="tm-close" type="button" aria-label="Close">&times;</button>
+    <div class="tm-icon">✓</div>
+    <h3 class="tm-title">Thank you.</h3>
+    <p class="tm-body" id="tm-body">Your request has been received.</p>
+    <p class="tm-foot">If you don't see it, check your spam folder or reach out at <a href="mailto:legal@gres.network">legal@gres.network</a>.</p>
+    <button class="btn" id="tm-dismiss" type="button" style="width:100%;margin-top:20px">Got it</button>
+  </div>
+</div>
+
+<!-- ════════ Shared thanks modal opener ════════ -->
+<script>
+window.openThanksModal = function(opts) {
+  const tm = document.getElementById('tm-overlay');
+  const body = document.getElementById('tm-body');
+  if (!tm || !body) return;
+  let html = '';
+  if (opts.kind === 'A') {
+    html = `Your request has been received. The investor deck and a personal note was sent to <strong>${opts.email}</strong>.`;
+  } else {
+    html = `Welcome to the genesis. <strong>${opts.tokens.toLocaleString()} GRES.ALPHA</strong> are now in your wallet, and a confirmation was sent to <strong>${opts.email}</strong>.<br><br><a href="https://basescan.org/tx/${opts.txHash}" target="_blank" rel="noopener" style="color:var(--gold);border-bottom:1px solid var(--gold-soft);font-size:13px">View transaction on Basescan ↗</a>`;
+  }
+  body.innerHTML = html;
+  tm.classList.add('show');
+};
+window.closeThanksModal = function() {
+  const tm = document.getElementById('tm-overlay');
+  if (tm) tm.classList.remove('show');
+};
+document.addEventListener('DOMContentLoaded', () => {
+  const c = document.getElementById('tm-close');
+  const d = document.getElementById('tm-dismiss');
+  if (c) c.addEventListener('click', window.closeThanksModal);
+  if (d) d.addEventListener('click', () => {
+    window.closeThanksModal();
+    // For Path B, also close the steps modal when user dismisses thanks
+    const pm = document.getElementById('pm-overlay');
+    if (pm && pm.classList.contains('show')) pm.classList.remove('show');
+  });
+  // Click outside the box to dismiss
+  const tm = document.getElementById('tm-overlay');
+  if (tm) tm.addEventListener('click', (e) => { if (e.target === tm) window.closeThanksModal(); });
+});
+</script>
+
 <!-- ════════ Path A handler ════════ -->
 <script>
 (function(){
@@ -736,8 +786,9 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
     paSubmit.textContent = 'Sending…';
 
     const ref = new URLSearchParams(window.location.search).get('ref') || '';
+    let ok = false;
     try {
-      await fetch(N8N + '/deck-request', {
+      const res = await fetch(N8N + '/deck-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -749,14 +800,33 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
           source: 'investors_page'
         })
       });
+      ok = res.ok;
+      if (!ok) console.error('Deck request webhook returned status', res.status);
     } catch (e) {
       console.error('Deck request webhook error:', e);
-      // Still show thanks — user data is captured client-side and can be retried
     }
 
-    $('pa-thanks-email').textContent = email;
-    $('pathA-form').classList.add('hide');
-    $('pathA-thanks').classList.add('show');
+    if (!ok) {
+      err.textContent = 'We could not submit your request right now. Please try again, or email legal@gres.network directly.';
+      err.classList.add('show');
+      paSubmit.disabled = false;
+      paSubmit.textContent = 'Request the deck';
+      return;
+    }
+
+    // Show shared thanks modal
+    window.openThanksModal({
+      kind: 'A',
+      email,
+    });
+    // Reset the form so user can dismiss the popup and the page is clean
+    $('pa-name').value = '';
+    $('pa-email').value = '';
+    $('pa-role').value = '';
+    $('pa-country').value = '';
+    $('pa-terms').checked = false;
+    paSubmit.disabled = false;
+    paSubmit.textContent = 'Request the deck';
   });
 })();
 </script>
@@ -976,9 +1046,19 @@ $('pb-submit').addEventListener('click', async () => {
     await buyTx.wait();
     pmDone('confirm', 'Confirmed on-chain');
 
-    // Result UI
+    // Result UI (in-modal recap with tx link)
     $('pm-tx-link').href = 'https://basescan.org/tx/' + buyTx.hash;
     $('pm-result').classList.add('show');
+
+    // Also open shared thanks modal after a brief moment so user sees both
+    setTimeout(() => {
+      window.openThanksModal({
+        kind: 'B',
+        email,
+        tokens: Math.floor(tokenFormatted),
+        txHash: buyTx.hash,
+      });
+    }, 600);
 
     // n8n webhook (fire-and-forget)
     fetch(CONFIG.n8nWebhook + '/purchase', {
