@@ -17,23 +17,26 @@
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Color system — restrained, refined */
-  --bg: #0a0908;
-  --bg-elevated: #110f0d;
-  --bg-input: #1a1815;
-  --bg-card: #131110;
-  --border: #2a2520;
-  --border-soft: #1f1c18;
-  --gold: #c9a84c;
+  /* Cream zone (Patek paper) — DEFAULT */
+  --bg: #ede5d3;
+  --bg-elevated: #f4ede0;
+  --bg-input: #f4ede0;
+  --bg-card: #f4ede0;
+  --bg-deep: #e4dac4;
+  --border: #c4b896;
+  --border-soft: rgba(196,184,150,0.55);
+  --gold: #8a6f24;
   --gold-soft: #a8893c;
-  --gold-bright: #d9bb60;
-  --text: #f0ece4;
-  --text-muted: #8a8478;
-  --text-secondary: #b8b2a4;
-  --green: #6b8e6b;
-  --green-dim: rgba(107, 142, 107, 0.12);
-  --red: #b85a4a;
-  --red-dim: rgba(184, 90, 74, 0.12);
+  --gold-bright: #6e561a;
+  --text: #1a1633;
+  --text-muted: #6a5e48;
+  --text-secondary: #4a4060;
+  --indigo: #1a1633;
+  --indigo-deep: #0e0a1f;
+  --green: #5a7458;
+  --green-dim: rgba(90, 116, 88, 0.12);
+  --red: #a04434;
+  --red-dim: rgba(160, 68, 52, 0.12);
 
   /* Typography */
   --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
@@ -42,6 +45,44 @@
   /* Spacing */
   --container: 1140px;
   --gutter: 32px;
+}
+
+/* Indigo zone (modern infra) — six-functions + roadmap */
+.zone-indigo {
+  --bg: #1a1633;
+  --bg-elevated: #221c45;
+  --bg-input: #221c45;
+  --bg-card: #221c45;
+  --bg-deep: #0e0a1f;
+  --border: #3a3270;
+  --border-soft: rgba(58,50,112,0.45);
+  --gold: #c9a84c;
+  --gold-soft: #a8893c;
+  --gold-bright: #d9bb60;
+  --text: #f0ede8;
+  --text-muted: #a0a0c8;
+  --text-secondary: #c0bcd8;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Indigo deep zone — footer signature */
+.zone-indigo-deep {
+  --bg: #0e0a1f;
+  --bg-elevated: #1a1633;
+  --bg-input: #1a1633;
+  --bg-card: #221c45;
+  --bg-deep: #221c45;
+  --border: #2a2055;
+  --border-soft: rgba(42,32,85,0.45);
+  --gold: #c9a84c;
+  --gold-soft: #a8893c;
+  --gold-bright: #d9bb60;
+  --text: #f0ede8;
+  --text-muted: #a0a0c8;
+  --text-secondary: #c0bcd8;
+  background: var(--bg);
+  color: var(--text);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -169,7 +210,7 @@ html { scroll-padding-top: 90px; }
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(10, 9, 8, 0.85);
+  background: rgba(237, 229, 211, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-soft);
@@ -822,7 +863,7 @@ html { scroll-padding-top: 90px; }
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(14, 10, 31, 0.88);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
@@ -938,7 +979,7 @@ html { scroll-padding-top: 90px; }
 <!-- ══════════════════════════════════════════
      SIX FUNCTIONS ($GRES BEYOND A TOKEN)
      ══════════════════════════════════════════ -->
-<section class="six-functions" id="what">
+<section class="six-functions zone-indigo" id="what">
   <div class="container">
     <div class="section-header">
       <div class="eyebrow">$GRES &mdash; Beyond a Token</div>
@@ -1046,7 +1087,7 @@ html { scroll-padding-top: 90px; }
 <!-- ══════════════════════════════════════════
      ROADMAP
      ══════════════════════════════════════════ -->
-<section class="roadmap-section" id="roadmap">
+<section class="roadmap-section zone-indigo" id="roadmap">
   <div class="container">
     <div class="section-header">
       <div class="eyebrow">Roadmap</div>
@@ -1133,7 +1174,7 @@ html { scroll-padding-top: 90px; }
 <!-- ══════════════════════════════════════════
      FOOTER
      ══════════════════════════════════════════ -->
-<footer class="site-footer">
+<footer class="site-footer zone-indigo-deep">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
