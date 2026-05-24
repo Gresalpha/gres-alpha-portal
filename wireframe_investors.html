@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WIREFRAME — GRES Investors</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0908; --bg-elev:#110f0d; --bg-card:#131110; --bg-lifted:#1a1815;
+  --border:#2a2520; --border-soft:#1f1c18;
+  --gold:#c9a84c; --gold-soft:#a8893c; --gold-bright:#d9bb60;
+  --text:#f0ece4; --muted:#8a8478; --dim:#5a5448;
+  --coral:#a83a1c; --teal:#2d6650; --green:#6b8e6b;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.65}
+.container{max-width:1140px;margin:0 auto;padding:0 32px}
+.container-narrow{max-width:920px;margin:0 auto;padding:0 32px}
+
+.wf-banner{background:var(--gold);color:#000;padding:10px 32px;font-size:12px;font-weight:600;letter-spacing:.06em;text-align:center;text-transform:uppercase}
+.wf-label{position:absolute;left:16px;top:-11px;background:var(--bg);padding:0 10px;color:var(--gold);font-size:10px;letter-spacing:.12em;font-weight:600;text-transform:uppercase}
+.wf-note{position:absolute;right:16px;top:8px;background:rgba(201,168,76,.18);border:1px dashed var(--gold-soft);color:var(--gold-bright);font-size:10px;padding:3px 8px;letter-spacing:.05em;border-radius:2px;text-transform:uppercase}
+.wf-section{position:relative;border-top:1px dashed var(--border)}
+
+/* HEADER */
+.header{padding:24px 0;border-bottom:1px solid var(--border-soft);position:sticky;top:0;background:rgba(10,9,8,.92);backdrop-filter:blur(12px);z-index:50}
+.header .container{display:flex;justify-content:space-between;align-items:center}
+.brand{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--gold)}
+.nav-links{display:flex;gap:36px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--gold)}
+
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.18em;font-weight:600;text-transform:uppercase;margin-bottom:24px}
+.section-eyebrow{color:var(--gold);font-size:11px;letter-spacing:.15em;font-weight:600;text-transform:uppercase;margin-bottom:16px}
+
+h1{font-family:var(--serif);font-size:64px;font-weight:400;line-height:1.05;letter-spacing:-.01em;margin-bottom:24px}
+h1 em{font-style:italic;color:var(--gold)}
+h2{font-family:var(--serif);font-size:42px;font-weight:400;line-height:1.15;margin-bottom:20px}
+h2 em{font-style:italic;color:var(--gold)}
+h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
+.lead{font-size:18px;max-width:780px;margin-bottom:32px}
+.muted{color:var(--muted)}
+.section{padding:90px 0}
+
+/* HERO */
+.hero{padding:100px 0 80px;border-bottom:1px solid var(--border-soft)}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--muted);max-width:780px;margin-bottom:48px}
+.hero-stats{display:flex;gap:56px;border-top:1px solid var(--border);padding-top:28px;max-width:840px}
+.stat-val{font-family:var(--serif);font-size:36px;color:var(--gold);line-height:1}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* TOC (sticky inline) */
+.toc{background:var(--bg-elev);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:16px 0;position:sticky;top:73px;z-index:40;backdrop-filter:blur(12px);background:rgba(17,15,13,.92)}
+.toc-inner{display:flex;gap:32px;align-items:center;font-size:13px;color:var(--muted)}
+.toc-inner a{color:var(--muted);text-decoration:none;padding:6px 0;border-bottom:1px solid transparent}
+.toc-inner a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.toc-lbl{color:var(--gold);font-size:11px;letter-spacing:.12em;font-weight:600;text-transform:uppercase}
+
+/* MONEY FLOW — 7 step framework */
+.flow-intro{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start;margin-bottom:48px}
+.flow-list{display:flex;flex-direction:column;gap:14px}
+.flow-step{display:grid;grid-template-columns:60px 1fr 220px;gap:24px;align-items:stretch;background:var(--bg-card);border:1px solid var(--border);padding:24px 28px;position:relative;margin:0 auto;transition:width .3s ease}
+.flow-step.gres{border-color:var(--gold-soft);background:var(--bg-lifted)}
+/* Funnel taper — each step ~3% narrower than the previous, centered */
+.flow-step.f1{width:100%}
+.flow-step.f2{width:97%}
+.flow-step.f3{width:94%}
+.flow-step.f4{width:91%}
+.flow-step.f5{width:88%}
+.flow-step.f6{width:85%}
+.flow-step.f7{width:82%}
+.flow-num{font-family:var(--serif);font-style:italic;font-size:42px;color:var(--gold);line-height:1}
+.flow-body h4{font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.flow-body p{color:var(--muted);font-size:14px;line-height:1.55}
+.flow-side{border-left:1px solid var(--border-soft);padding-left:20px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.flow-side .gres-way{color:var(--gold);font-size:13px;font-weight:500}
+.flow-side .traditional-way{color:var(--dim);font-size:12px;text-decoration:line-through}
+
+/* COMPARISON — traditional vs GRES */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.compare{padding:36px;border:1px solid var(--border);background:var(--bg-card)}
+.compare.gres{border-color:var(--gold-soft);background:var(--bg-lifted)}
+.compare h4{color:var(--gold);font-size:11px;letter-spacing:.15em;font-weight:600;text-transform:uppercase;margin-bottom:20px}
+.compare.trad h4{color:var(--coral)}
+.compare ul{list-style:none}
+.compare li{padding:10px 0;border-bottom:1px solid var(--border-soft);font-size:14.5px;color:var(--text)}
+.compare li:last-child{border-bottom:0}
+.compare .crossed{color:var(--dim);text-decoration:line-through}
+.compare .check{color:var(--gold);margin-right:8px}
+.compare .x{color:var(--coral);margin-right:8px}
+
+/* POSITIONING — chart row */
+.chart-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.chart-card{background:var(--bg-card);border:1px solid var(--border);padding:28px;display:flex;flex-direction:column;gap:12px}
+.chart-num{color:var(--gold);font-size:11px;letter-spacing:.12em;font-weight:600;text-transform:uppercase}
+.chart-title{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--text);line-height:1.2}
+.chart-takeaway{color:var(--muted);font-size:13.5px;line-height:1.55;margin-top:8px}
+.chart-quote{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);border-top:1px solid var(--border-soft);padding-top:14px;margin-top:auto}
+
+/* HOMEWORK / TRUST signals */
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.trust{background:var(--bg-card);border:1px solid var(--border);padding:24px;text-align:center}
+.trust-val{font-family:var(--serif);font-size:32px;color:var(--gold);line-height:1;margin-bottom:8px}
+.trust-lbl{color:var(--muted);font-size:12.5px}
+
+/* PROOF — documents */
+.docs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+.doc{background:var(--bg-card);border:1px solid var(--border);padding:24px 28px;display:flex;flex-direction:column;gap:8px}
+.doc-tag{color:var(--gold);font-size:10px;letter-spacing:.12em;font-weight:600;text-transform:uppercase}
+.doc-title{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--text)}
+.doc-meta{color:var(--muted);font-size:12.5px}
+.doc-link{color:var(--gold);font-size:12.5px;margin-top:8px;border-bottom:1px solid var(--gold-soft);padding-bottom:2px;display:inline-block;width:fit-content}
+
+/* THE FORK — two paths */
+.fork{padding:120px 0;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-elev) 100%);border-top:1px solid var(--border-soft)}
+.fork-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.path{background:var(--bg-card);border:1px solid var(--border);padding:48px 44px;transition:border-color .2s;display:flex;flex-direction:column}
+.path:hover{border-color:var(--gold-soft)}
+.path .path-form{flex:1}
+.path-tag{color:var(--gold);font-size:11px;letter-spacing:.15em;font-weight:600;text-transform:uppercase;margin-bottom:20px}
+.path-title{font-family:var(--serif);font-style:italic;font-size:34px;color:var(--text);line-height:1.15;margin-bottom:16px}
+.path-sub{color:var(--muted);font-size:15px;margin-bottom:28px;min-height:75px}
+.path-checks{list-style:none;margin-bottom:32px}
+.path-checks li{padding:8px 0;font-size:14px;color:var(--text);border-bottom:1px solid var(--border-soft)}
+.path-checks li::before{content:"✓  ";color:var(--gold);font-weight:600}
+
+/* FORM */
+.path-form{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.path-form .fields{display:flex;flex-direction:column;gap:12px;flex:1}
+.path-form .submit-row{margin-top:auto;padding-top:8px}
+.path-form label{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;display:block}
+.path-form input,.path-form select{background:var(--bg-elev);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:var(--sans);font-size:14px;border-radius:2px;width:100%}
+.path-form input:focus,.path-form select:focus{outline:none;border-color:var(--gold-soft)}
+.terms{display:flex;gap:10px;align-items:flex-start;padding:14px 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.terms input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);margin-top:2px;flex-shrink:0}
+.terms a{color:var(--gold);border-bottom:1px solid var(--gold-soft)}
+.btn{background:var(--gold);color:#000;border:0;padding:14px 24px;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:8px;border-radius:2px;font-family:var(--sans)}
+.btn.outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+
+/* COMPLIANCE */
+.disclaimer{padding:60px 0;border-top:1px solid var(--border-soft);background:var(--bg-elev)}
+.disclaimer p{color:var(--dim);font-size:12.5px;max-width:780px;margin:0 auto;text-align:center;line-height:1.7}
+
+/* FOOTER */
+.footer{padding:50px 0 40px;border-top:1px solid var(--border-soft);color:var(--dim);font-size:13px;text-align:center}
+.footer .brand{display:block;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<div class="wf-banner">WIREFRAME · INVESTORS PAGE — authority-first funnel, two paths</div>
+
+<!-- ════════ HEADER ════════ -->
+<header class="header">
+  <div class="container">
+    <a class="brand" href="/">GRES</a>
+    <nav class="nav-links">
+      <a href="/#protocol">Protocol</a>
+      <a href="/#governance">Governance</a>
+      <a href="/investors" class="active">Investors</a>
+      <a href="/news-feed">News Feed</a>
+      <a href="/faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <span class="wf-note">authority hero — sets the tone</span>
+  <div class="container">
+    <div class="eyebrow">For Investors</div>
+    <h1>Built for<br><em>generational wealth.</em></h1>
+    <p class="hero-sub">A walkthrough of how capital moves through GRES, why the architecture matters, and where it fits among modern alternatives. The homework is done — what's left is your decision.</p>
+    <div class="hero-stats">
+      <div><div class="stat-val">$400T</div><div class="stat-lbl">Asset class</div></div>
+      <div><div class="stat-val">40+</div><div class="stat-lbl">Markets targeted</div></div>
+      <div><div class="stat-val">7</div><div class="stat-lbl">Layers re-engineered</div></div>
+      <div><div class="stat-val">2</div><div class="stat-lbl">Paths to participate</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ TOC (sticky) ════════ -->
+<div class="toc">
+  <div class="container toc-inner">
+    <span class="toc-lbl">On this page</span>
+    <a href="#flow">Capital flow</a>
+    <a href="#compare">Traditional vs GRES</a>
+    <a href="#positioning">Positioning</a>
+    <a href="#homework">The homework</a>
+    <a href="#docs">Documents</a>
+    <a href="#fork" style="margin-left:auto;color:var(--gold)">→ Join now</a>
+  </div>
+</div>
+
+<!-- ════════ 1. CAPITAL FLOW (the 7 layers — your reference inspiration) ════════ -->
+<section class="section wf-section" id="flow">
+  <span class="wf-label">Section 1 · How the money moves — the 7 layers</span>
+  <div class="container">
+
+    <div class="flow-intro">
+      <div>
+        <div class="section-eyebrow">Modern Real Estate Capital Framework</div>
+        <h2>Seven layers, <em>one path.</em></h2>
+        <p class="lead muted">Most developers only use Layer 1. The projects winning capital in 2026 will have built all seven. Here is how capital moves through GRES — and where each layer replaces the friction of the traditional path.</p>
+      </div>
+      <div style="border-left:1px solid var(--border);padding-left:32px">
+        <div class="eyebrow" style="margin-bottom:12px">The premise</div>
+        <p class="muted" style="font-size:14.5px">Capital fails to reach real estate not because investors don't want exposure. It fails because the path between investor and asset has seven points of friction — each one historically owned by a different intermediary. GRES collapses all seven into one protocol.</p>
+      </div>
+    </div>
+
+    <div class="flow-list">
+
+      <div class="flow-step gres f1">
+        <div class="flow-num">01</div>
+        <div class="flow-body">
+          <h4>Investors — where the money comes from</h4>
+          <p>Global investors from $10 tickets. Family offices. Capital partners paying in USDC, EUR or USD. Cross-border by default — no jurisdiction lock.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">$10 minimum · global · stablecoin or fiat</div>
+          <div class="traditional-way">$5M minimum · accredited only · USD only</div>
+        </div>
+      </div>
+
+      <div class="flow-step gres f2">
+        <div class="flow-num">02</div>
+        <div class="flow-body">
+          <h4>Deal structure — what makes a project investable</h4>
+          <p>Each deal is held by the Swiss-style Foundation, which manages contracts and underlying deeds. First-lien position by default. Senior secured exit before any operator carry. Cross-border legal templates pre-built.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">Foundation custody · templates standardized</div>
+          <div class="traditional-way">Bespoke per deal · 60-120 days legal cycle</div>
+        </div>
+      </div>
+
+      <div class="flow-step gres f3">
+        <div class="flow-num">03</div>
+        <div class="flow-body">
+          <h4>Project review — what earns investor trust</h4>
+          <p>Automated Due Diligence (ADD): AI scoring across 200+ data points. Proven valuation methodology powered by AI Oracle across millions of data points. Permit and entitlement verification. Developer track-record check. A single risk grade per project.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">48-hour viability score · transparent risk grade</div>
+          <div class="traditional-way">Months of fragmented analyst diligence</div>
+        </div>
+      </div>
+
+      <div class="flow-step gres f4">
+        <div class="flow-num">04</div>
+        <div class="flow-body">
+          <h4>How the money reaches the project</h4>
+          <p>Direct funding in stablecoins or fiat. Bank rails and card payments accepted. Funds held in audited escrow until each milestone is met. Automatic block if a project does not reach its goal.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">Escrow-locked · milestone-released</div>
+          <div class="traditional-way">Trust the GP · no automated refund</div>
+        </div>
+      </div>
+
+      <div class="flow-step gres f5">
+        <div class="flow-num">05</div>
+        <div class="flow-body">
+          <h4>Rules and protection — what makes it safe and legal</h4>
+          <p>MiCA-aligned issuance for EU cross-border raises. Independent paying agent and trustee. Continuous KYC / AML at the protocol layer. Foundation custody of underlying deeds.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">MiCA · Foundation-secured · audited escrow</div>
+          <div class="traditional-way">Jurisdiction patchwork · 1 lawyer per market</div>
+        </div>
+      </div>
+
+      <div class="flow-step gres f6">
+        <div class="flow-num">06</div>
+        <div class="flow-body">
+          <h4>The platform — what replaces paperwork</h4>
+          <p>One process per investor. Digital tokens represent each holder's share. Automatic reports and payouts. No bank dependency, no manual admin. End-to-end tokenization handled by the protocol, not the developer.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">One workflow · automated reporting</div>
+          <div class="traditional-way">Multiple platforms · manual statements</div>
+        </div>
+      </div>
+
+      <div class="flow-step gres f7">
+        <div class="flow-num">07</div>
+        <div class="flow-body">
+          <h4>Exit and liquidity — how investors get their money back</h4>
+          <p>A regulated marketplace to sell early. Real estate that trades more like a stock. Faster exits attract a bigger pool of capital for the next deal. Buyers and sellers fully verified.</p>
+        </div>
+        <div class="flow-side">
+          <div class="gres-way">24/7 secondary · KYC-verified market</div>
+          <div class="traditional-way">5-10 year lock-up · GP-controlled redemptions</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="muted" style="margin-top:32px;font-size:13.5px;text-align:center;font-style:italic">Most developers only use Layer 1. The projects winning capital in 2026 will have built all seven. GRES is built on all seven.</p>
+  </div>
+</section>
+
+<!-- ════════ 2. TRADITIONAL VS GRES ════════ -->
+<section class="section wf-section" id="compare">
+  <span class="wf-label">Section 2 · Side-by-side — what we replace</span>
+  <div class="container">
+    <div class="section-eyebrow">The comparison</div>
+    <h2>Same asset class.<br><em>Different architecture.</em></h2>
+    <p class="lead muted">Real estate has not changed. The way capital reaches it has.</p>
+
+    <div class="compare-grid">
+      <div class="compare trad">
+        <h4>Traditional path</h4>
+        <ul>
+          <li><span class="x">✗</span>  $5M+ minimum ticket for institutional grade</li>
+          <li><span class="x">✗</span>  60–120 days for property purchase</li>
+          <li><span class="x">✗</span>  30–90 day mortgage approval</li>
+          <li><span class="x">✗</span>  5–10 year fund-life locks</li>
+          <li><span class="x">✗</span>  Quarterly NAV reports — 90 days lagged</li>
+          <li><span class="x">✗</span>  8.75% sales fees on private REITs</li>
+          <li><span class="x">✗</span>  Cross-border = consular, FX, local lawyers</li>
+          <li><span class="x">✗</span>  Single market exposure or fund-of-funds drag</li>
+          <li><span class="x">✗</span>  Capital sits idle in escrow without milestones</li>
+        </ul>
+      </div>
+
+      <div class="compare gres">
+        <h4>The GRES path</h4>
+        <ul>
+          <li><span class="check">✓</span>  $10 minimum — institutional-grade exposure</li>
+          <li><span class="check">✓</span>  Position in minutes — wallet, KYC, buy</li>
+          <li><span class="check">✓</span>  No mortgage required</li>
+          <li><span class="check">✓</span>  Perpetual structure — no forced exit</li>
+          <li><span class="check">✓</span>  Daily NAV via AI-Augmented Valuation</li>
+          <li><span class="check">✓</span>  Protocol-level fees — transparent, lower</li>
+          <li><span class="check">✓</span>  Cross-border by design — Foundation custody</li>
+          <li><span class="check">✓</span>  40+ jurisdictions targeted from one entry</li>
+          <li><span class="check">✓</span>  Milestone-released escrow with automated refund</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ 3. POSITIONING — 6 chart cards ════════ -->
+<section class="section wf-section" id="positioning">
+  <span class="wf-label">Section 3 · Where GRES sits in the investment universe</span>
+  <div class="container">
+    <div class="section-eyebrow">Positioning</div>
+    <h2>Where GRES sits —<br><em>six perspectives, one corner.</em></h2>
+    <p class="lead muted">A modern lower-risk investor's mental map. Each chart is a different lens on the same conclusion: GRES occupies a position no traditional asset can reach without tradeoffs.</p>
+
+    <div class="chart-row">
+
+      <div class="chart-card">
+        <div class="chart-num">Chart 0</div>
+        <div class="chart-title">Traditional × Modern · Risk</div>
+        <div class="chart-takeaway">Modern lower-risk: a corner today occupied only by stablecoins, tokenized bonds — and GRES, the only real-estate exposure in the zone.</div>
+        <div class="chart-quote">"The missing piece of the modern portfolio."</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-num">Chart 1</div>
+        <div class="chart-title">ROI × Global Reach</div>
+        <div class="chart-takeaway">Realty Income gives US retail. BREIT charges 8.75% fees. Vanguard VNQI tracks. GRES delivers global, perpetual, NAV-pegged — without the drag.</div>
+        <div class="chart-quote">"Global reach without the fee tax."</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-num">Chart 2</div>
+        <div class="chart-title">Versatility × Net Return</div>
+        <div class="chart-takeaway">An apartment is one use of capital. $GRES is six: store of value, yield, qualified collateral, access, settlement, data layer.</div>
+        <div class="chart-quote">"Same capital. Six functions."</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-num">Chart 4</div>
+        <div class="chart-title">Entry Ticket × Return</div>
+        <div class="chart-takeaway">Blackstone PE starts at $5M. Whole property at $400K. GRES at $10 — same asset class, retail entry.</div>
+        <div class="chart-quote">"Niche by audience, accessible by design."</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-num">Chart 5</div>
+        <div class="chart-title">Friction × Time-to-Position</div>
+        <div class="chart-takeaway">Property: 120 days. Mortgage: 90 days. BREIT: accreditation. GRES: connect wallet, KYC, buy.</div>
+        <div class="chart-quote">"Real estate at the speed of the market."</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-num">Chart 6</div>
+        <div class="chart-title">Capital Demand · Operators</div>
+        <div class="chart-takeaway">Hotel chains and developers have one option for scale capital: banks. GRES is the second — equity-like, not debt.</div>
+        <div class="chart-quote">"The bridge between modern capital and institutional operators."</div>
+      </div>
+
+    </div>
+
+    <p class="muted" style="text-align:center;margin-top:32px;font-size:13.5px">
+      <a href="/GRES_Communication_Charts.pdf" style="color:var(--gold);border-bottom:1px solid var(--gold-soft)">Read the full positioning brief →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ════════ 4. HOMEWORK — credibility signals ════════ -->
+<section class="section wf-section" id="homework">
+  <span class="wf-label">Section 4 · The homework — what's already shipped</span>
+  <div class="container">
+    <div class="section-eyebrow">The homework</div>
+    <h2>What is already <em>shipped.</em></h2>
+    <p class="lead muted">Before any capital moves, the work is visible. Smart contracts deployed. Foundation in formation. Compliance scoped. The protocol you are evaluating is not a deck — it is a system you can inspect.</p>
+
+    <div class="trust-grid">
+      <div class="trust"><div class="trust-val">✓</div><div class="trust-lbl">Smart contracts deployed<br>Basescan-verified</div></div>
+      <div class="trust"><div class="trust-val">93</div><div class="trust-lbl">Backlog stories<br>across 18 epics</div></div>
+      <div class="trust"><div class="trust-val">3</div><div class="trust-lbl">EU jurisdictions<br>under evaluation</div></div>
+      <div class="trust"><div class="trust-val">7</div><div class="trust-lbl">Capital layers<br>re-engineered</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ 5. DOCUMENTS ════════ -->
+<section class="section wf-section" id="docs">
+  <span class="wf-label">Section 5 · Documents — for the careful reader</span>
+  <div class="container">
+    <div class="section-eyebrow">Read the work</div>
+    <h2>The documents.</h2>
+    <p class="lead muted">Three published documents define what GRES is. Read them before talking to us.</p>
+
+    <div class="docs-grid">
+      <div class="doc">
+        <span class="doc-tag">v1.0  ·  Published</span>
+        <div class="doc-title">Whitepaper</div>
+        <div class="doc-meta">Architecture, governance, technology, economic design.</div>
+        <a class="doc-link" href="/whitepaper.pdf">Download PDF →</a>
+      </div>
+      <div class="doc">
+        <span class="doc-tag">v1.0  ·  Published</span>
+        <div class="doc-title">Digital Assets Paper</div>
+        <div class="doc-meta">$GRES specification, six functions, NAV peg, issuance mechanics.</div>
+        <a class="doc-link" href="/digital-assets-paper.pdf">Download PDF →</a>
+      </div>
+      <div class="doc">
+        <span class="doc-tag">v2  ·  Published</span>
+        <div class="doc-title">Communication Charts</div>
+        <div class="doc-meta">Seven positioning charts — how GRES is framed against alternatives.</div>
+        <a class="doc-link" href="/GRES_Communication_Charts.pdf">Download PDF →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ 6. THE FORK — two paths ════════ -->
+<section class="fork" id="fork">
+  <span class="wf-note">conversion section — two doors, equal weight</span>
+  <div class="container">
+    <div class="section-eyebrow" style="text-align:center">Two ways to participate</div>
+    <h2 style="text-align:center"><em>Join now.</em></h2>
+    <p class="lead muted" style="text-align:center;margin:0 auto 16px;max-width:720px">Both paths lead to the same building. The right door depends on whether you want exposure to the company building the standard — or exposure to the protocol itself.</p>
+
+    <div class="fork-grid">
+
+      <!-- PATH A — Equity -->
+      <div class="path" id="equity">
+        <div class="path-tag">Path A  ·  Capital Partner</div>
+        <div class="path-title">Invest in the company building the standard.</div>
+        <p class="path-sub">Pre-Seed equity in GRES Operator. $400K round to complete Blueprint phase (4–8 months). For angels and VCs.</p>
+        <ul class="path-checks">
+          <li>SAFE / SAFT instrument</li>
+          <li>Clean pre-Seed cap table</li>
+          <li>Pro-rata rights for follow-on rounds</li>
+          <li>Founder access throughout Blueprint</li>
+          <li>Receive the full investor deck on submit</li>
+        </ul>
+
+        <div class="path-form">
+          <span class="wf-note" style="position:relative;top:auto;right:auto;align-self:flex-start">form posts to WF10_Deck_Request</span>
+          <div class="fields">
+            <div><label>Full name</label><input placeholder="Jane Doe"></div>
+            <div><label>Email</label><input type="email" placeholder="jane@fund.com"></div>
+            <div><label>Role / Fund</label><input placeholder="GP at Acme Ventures"></div>
+            <div><label>Country</label><input placeholder="Spain"></div>
+            <div><label>Indicative ticket</label>
+              <select>
+                <option>$25K – $50K</option>
+                <option>$50K – $100K</option>
+                <option>$100K – $250K</option>
+                <option>$250K+</option>
+              </select>
+            </div>
+            <label class="terms">
+              <input type="checkbox">
+              <span>I have read and accept the <a href="/terms">Terms & Conditions</a> and the <a href="/privacy">Privacy Policy</a>. I understand this is an information request only, not a subscription or offer to invest.</span>
+            </label>
+          </div>
+          <div class="submit-row">
+            <button class="btn">Request the deck</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PATH B — Token -->
+      <div class="path" id="token">
+        <div class="path-tag">Path B  ·  Protocol Holder</div>
+        <div class="path-title">Hold the token. Join the genesis.</div>
+        <p class="path-sub">GRES.ALPHA pre-sale — utility token, funds protocol development. Eligible to buyback and burn or convert into platform credits. For Web3-fluent holders. <a href="/digital-assets-paper.pdf" style="color:var(--gold);border-bottom:1px solid var(--gold-soft)">Digital Assets Paper →</a></p>
+        <ul class="path-checks">
+          <li>ERC-20 on BASE L2</li>
+          <li>4-lot structure · $0.002 → $0.010</li>
+          <li>Buyback engineered — Floor $0.05 / Cap $0.10</li>
+          <li>0.5% of all volume routed to buyback</li>
+          <li>Outcomes depend on adoption — not guaranteed</li>
+        </ul>
+
+        <div class="path-form">
+          <span class="wf-note" style="position:relative;top:auto;right:auto;align-self:flex-start">inline checkout — same fields, same UX as Path A</span>
+          <div class="fields">
+            <div><label>Email</label><input type="email" placeholder="you@email.com"></div>
+            <div><label>Wallet</label>
+              <button type="button" class="btn outline" style="margin-top:0;width:100%">Connect wallet</button>
+            </div>
+            <div><label>Lot</label>
+              <select>
+                <option>Lot 1 · $0.002 / token</option>
+                <option>Lot 2 · $0.004 / token</option>
+                <option>Lot 3 · $0.006 / token</option>
+                <option>Lot 4 · $0.010 / token</option>
+              </select>
+            </div>
+            <div><label>Amount (USDC)</label><input type="number" placeholder="100"></div>
+            <div><label>Referral code <span style="color:var(--dim);text-transform:none;letter-spacing:0">(optional)</span></label><input placeholder="GRES-XXXX"></div>
+            <label class="terms">
+              <input type="checkbox">
+              <span>I have read and accept the <a href="/terms">Terms & Conditions</a> and the <a href="/privacy">Privacy Policy</a>. I understand GRES.ALPHA is a utility token — outcomes depend on adoption and are not guaranteed.</span>
+            </label>
+          </div>
+          <div class="submit-row">
+            <button class="btn">Buy GRES.ALPHA</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ DISCLAIMER ════════ -->
+<section class="disclaimer">
+  <div class="container-narrow">
+    <p>This page is for information purposes only and does not constitute an offer to sell or a solicitation to buy any security or token in any jurisdiction. GRES.ALPHA is a utility token; outcomes depend on adoption and are not guaranteed. $GRES is a forward-looking asset-backed token scheduled for Phase 04 mainnet launch, subject to MiCA-aligned licensing and Foundation formation. Read the Whitepaper and Token Paper in full before participating. Past performance does not predict future returns. Real estate involves risk of capital loss.</p>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="footer">
+  <div class="container">
+    <span class="brand">GRES</span>
+    <div>The Global Standard for On-chain Real Estate · gres.network · admin@gres.network</div>
+    <div style="margin-top:8px">© 2026 GRES Protocol</div>
+  </div>
+</footer>
+
+</body>
+</html>
