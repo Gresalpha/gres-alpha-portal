@@ -22,7 +22,7 @@
   --gold: #8a6f24;          /* gold-dark for readability on light */
   --gold-soft: #a8893c;
   --gold-bright: #6e561a;   /* darker on hover for contrast */
-  --text: #1a1612;          /* deep brown-black for body */
+  --text: #1a1633;          /* deep brown-black for body */
   --text-muted: #6a5e48;    /* warm muted */
   --text-secondary: #3d3528;
   --green: #5a7458;
@@ -33,6 +33,40 @@
 
   --container: 920px;
   --gutter: 32px;
+}
+
+/* Indigo zone (modern infra) — used by footer for cross-site consistency */
+.zone-indigo {
+  --bg: #1a1633;
+  --bg-elevated: #221c45;
+  --bg-input: #221c45;
+  --bg-card: #221c45;
+  --border: #3a3270;
+  --border-soft: rgba(58,50,112,0.4);
+  --gold: #c9a84c;
+  --gold-soft: #a8893c;
+  --gold-bright: #d9bb60;
+  --text: #f0ede8;
+  --text-muted: #a0a0c8;
+  --text-secondary: #c0bcd8;
+  background: var(--bg);
+  color: var(--text);
+}
+.zone-indigo-deep {
+  --bg: #0e0a1f;
+  --bg-elevated: #1a1633;
+  --bg-input: #1a1633;
+  --bg-card: #221c45;
+  --border: #2a2055;
+  --border-soft: rgba(42,32,85,0.4);
+  --gold: #c9a84c;
+  --gold-soft: #a8893c;
+  --gold-bright: #d9bb60;
+  --text: #f0ede8;
+  --text-muted: #a0a0c8;
+  --text-secondary: #c0bcd8;
+  background: var(--bg);
+  color: var(--text);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -600,7 +634,7 @@ h1 em { font-style: italic; color: var(--gold); }
 </section>
 
 <!-- ════════ FOOTER ════════ -->
-<footer class="site-footer">
+<footer class="site-footer zone-indigo-deep">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
