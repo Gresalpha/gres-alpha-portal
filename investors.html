@@ -7,13 +7,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0908; --bg-elev:#110f0d; --bg-card:#131110; --bg-lifted:#1a1815;
-  --border:#2a2520; --border-soft:#1f1c18;
-  --gold:#c9a84c; --gold-soft:#a8893c; --gold-bright:#d9bb60;
-  --text:#f0ece4; --muted:#8a8478; --dim:#5a5448;
-  --coral:#a83a1c; --teal:#2d6650; --green:#6b8e6b;
+  /* Cream zone (Patek paper) — default */
+  --bg:#ede5d3; --bg-elev:#f4ede0; --bg-card:#f4ede0; --bg-lifted:#e4dac4;
+  --border:#c4b896; --border-soft:rgba(196,184,150,0.5);
+  --gold:#8a6f24; --gold-soft:#a8893c; --gold-bright:#6e561a;
+  --text:#1a1633; --muted:#6a5e48; --dim:#8a7e68;
+  --coral:#a83a1c; --teal:#2d6650; --green:#5a7458;
+  --indigo:#1a1633; --indigo-deep:#0e0a1f;
   --serif:'Cormorant Garamond',Georgia,serif;
   --sans:'Inter',-apple-system,sans-serif;
+}
+/* Indigo zone (modern infra) */
+.zone-indigo{
+  --bg:#1a1633; --bg-elev:#221c45; --bg-card:#221c45; --bg-lifted:#2a2557;
+  --border:#3a3270; --border-soft:rgba(58,50,112,0.4);
+  --gold:#c9a84c; --gold-soft:#a8893c; --gold-bright:#d9bb60;
+  --text:#f0ede8; --muted:#a0a0c8; --dim:#6e6a9e;
+  background:var(--bg); color:var(--text);
+}
+.zone-indigo-deep{
+  --bg:#0e0a1f; --bg-elev:#1a1633; --bg-card:#221c45; --bg-lifted:#221c45;
+  --border:#2a2055; --border-soft:rgba(42,32,85,0.4);
+  --gold:#c9a84c; --gold-soft:#a8893c; --gold-bright:#d9bb60;
+  --text:#f0ede8; --muted:#a0a0c8; --dim:#6e6a9e;
+  background:var(--bg); color:var(--text);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.65}
@@ -21,7 +38,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
 .container-narrow{max-width:920px;margin:0 auto;padding:0 32px}
 
 /* HEADER */
-.header{padding:24px 0;border-bottom:1px solid var(--border-soft);position:sticky;top:0;background:rgba(10,9,8,.92);backdrop-filter:blur(12px);z-index:50}
+.header{padding:24px 0;border-bottom:1px solid var(--border-soft);position:sticky;top:0;background:rgba(237,229,211,0.92);backdrop-filter:blur(12px);z-index:50}
 .header .container{display:flex;justify-content:space-between;align-items:center}
 .brand{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--text);letter-spacing:.04em;display:flex;align-items:center;gap:12px;text-decoration:none}
 .brand-logo{height:36px;width:auto;display:block}
@@ -145,10 +162,16 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 .form-error{color:#e8654a;font-size:13px;margin-top:6px;display:none}
 .form-error.show{display:block}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
+/* On cream zone, the primary submit invokes indigo as the "deep commitment" color */
+.path:not(.zone-indigo) .btn{background:var(--indigo);color:#ede5d3}
+.path:not(.zone-indigo) .btn:hover{background:#2a2557}
+.path.zone-indigo .btn{background:var(--gold);color:#1a1633}
+.path.zone-indigo .btn:hover{background:var(--gold-bright)}
+
 .lot-display{padding:11px 14px;background:var(--bg-card);border:1px solid var(--border);color:var(--gold);font-size:14px;font-weight:500;border-radius:2px;min-height:44px;display:flex;align-items:center}
 
 /* Purchase modal */
-.pm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
+.pm-overlay{display:none;position:fixed;inset:0;background:rgba(14,10,31,0.88);z-index:200;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
 .pm-overlay.show{display:flex}
 .pm-box{background:var(--bg-elev);border:1px solid var(--border);max-width:480px;width:100%;padding:32px;border-radius:4px;position:relative;max-height:90vh;overflow-y:auto}
 .pm-close{position:absolute;top:14px;right:18px;background:none;border:0;color:var(--muted);font-size:24px;cursor:pointer}
@@ -181,7 +204,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 
 
 /* Thanks modal (shared) */
-.tm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
+.tm-overlay{display:none;position:fixed;inset:0;background:rgba(14,10,31,0.88);z-index:300;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
 .tm-overlay.show{display:flex}
 .tm-box{background:var(--bg-elev);border:1px solid var(--gold-soft);max-width:440px;width:100%;padding:40px 32px 32px;border-radius:4px;position:relative;text-align:center}
 .tm-close{position:absolute;top:14px;right:18px;background:none;border:0;color:var(--muted);font-size:24px;cursor:pointer;line-height:1}
@@ -553,7 +576,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
       </div>
 
       <!-- PATH B — Token -->
-      <div class="path" id="token">
+      <div class="path zone-indigo" id="token">
         <div class="path-tag">Path B  ·  Protocol Holder</div>
         <div class="path-title">Hold the token. Join the genesis.</div>
         <p class="path-sub">GRES.ALPHA pre-sale — utility token, funds protocol development. Eligible to buyback and burn or convert into platform credits. For Web3-fluent holders. <a href="/digital-assets-paper.pdf" style="color:var(--gold);border-bottom:1px solid var(--gold-soft)">Digital Assets Paper →</a></p>
@@ -601,7 +624,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 </section>
 
 <!-- ════════ FOOTER (matches index) ════════ -->
-<footer class="site-footer">
+<footer class="site-footer zone-indigo-deep">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
@@ -652,7 +675,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 
 
 <!-- ════════ PURCHASE MODAL (Path B) ════════ -->
-<div class="pm-overlay" id="pm-overlay">
+<div class="pm-overlay zone-indigo" id="pm-overlay">
   <div class="pm-box">
     <button class="pm-close" id="pm-close" type="button">&times;</button>
     <div class="pm-title">Processing purchase</div>
@@ -704,7 +727,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 
 
 <!-- ════════ THANKS MODAL (shared by Path A and Path B) ════════ -->
-<div class="tm-overlay" id="tm-overlay">
+<div class="tm-overlay zone-indigo" id="tm-overlay">
   <div class="tm-box">
     <button class="tm-close" id="tm-close" type="button" aria-label="Close">&times;</button>
     <div class="tm-icon">✓</div>
