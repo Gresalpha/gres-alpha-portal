@@ -23,7 +23,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
 /* HEADER */
 .header{padding:24px 0;border-bottom:1px solid var(--border-soft);position:sticky;top:0;background:rgba(10,9,8,.92);backdrop-filter:blur(12px);z-index:50}
 .header .container{display:flex;justify-content:space-between;align-items:center}
-.brand{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--gold)}
+.brand{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--text);letter-spacing:.04em;display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-logo{height:36px;width:auto;display:block}
+.brand em{font-style:italic;color:var(--gold);font-weight:400}
 .nav-links{display:flex;gap:36px}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:14px}
 .nav-links a:hover{color:var(--text)}
@@ -47,13 +49,6 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 .hero-stats{display:flex;gap:56px;border-top:1px solid var(--border);padding-top:28px;max-width:840px}
 .stat-val{font-family:var(--serif);font-size:36px;color:var(--gold);line-height:1}
 .stat-lbl{font-size:12px;color:var(--muted);margin-top:6px}
-
-/* TOC (sticky inline) */
-.toc{background:var(--bg-elev);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:16px 0;position:sticky;top:73px;z-index:40;backdrop-filter:blur(12px);background:rgba(17,15,13,.92)}
-.toc-inner{display:flex;gap:32px;align-items:center;font-size:13px;color:var(--muted)}
-.toc-inner a{color:var(--muted);text-decoration:none;padding:6px 0;border-bottom:1px solid transparent}
-.toc-inner a:hover{color:var(--gold);border-bottom-color:var(--gold)}
-.toc-lbl{color:var(--gold);font-size:11px;letter-spacing:.12em;font-weight:600;text-transform:uppercase}
 
 /* MONEY FLOW — 7 step framework */
 .flow-intro{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start;margin-bottom:48px}
@@ -143,6 +138,8 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 /* FOOTER */
 .footer{padding:50px 0 40px;border-top:1px solid var(--border-soft);color:var(--dim);font-size:13px;text-align:center}
 .footer .brand{display:block;margin-bottom:12px}
+
+@media (max-width:760px){.brand span{display:none}.brand-logo{height:32px}.nav-links{gap:18px}}
 </style>
 </head>
 <body>
@@ -150,13 +147,18 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
 <!-- ════════ HEADER ════════ -->
 <header class="header">
   <div class="container">
-    <a class="brand" href="/">GRES</a>
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="GRES Protocol" class="brand-logo">
+      <span>GRES <em>Protocol</em></span>
+    </a>
     <nav class="nav-links">
-      <a href="/#protocol">Protocol</a>
-      <a href="/#governance">Governance</a>
+      <a href="/#why">Why</a>
+      <a href="/#what">What</a>
+      <a href="/#how">How</a>
+      <a href="/#roadmap">Roadmap</a>
       <a href="/investors" class="active">Investors</a>
       <a href="/news-feed">News Feed</a>
-      <a href="/faq">FAQ</a>
+      <a href="/#faq">FAQ</a>
     </nav>
   </div>
 </header>
@@ -175,19 +177,6 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
     </div>
   </div>
 </section>
-
-<!-- ════════ TOC (sticky) ════════ -->
-<div class="toc">
-  <div class="container toc-inner">
-    <span class="toc-lbl">On this page</span>
-    <a href="#flow">Capital flow</a>
-    <a href="#compare">Traditional vs GRES</a>
-    <a href="#positioning">Positioning</a>
-    <a href="#homework">The homework</a>
-    <a href="#docs">Documents</a>
-    <a href="#fork" style="margin-left:auto;color:var(--gold)">→ Join now</a>
-  </div>
-</div>
 
 <!-- ════════ 1. CAPITAL FLOW (the 7 layers — your reference inspiration) ════════ -->
 <section class="section" id="flow">
