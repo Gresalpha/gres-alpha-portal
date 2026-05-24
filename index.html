@@ -4,14 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GRES Protocol — The Global Standard for On-chain Real Estate</title>
-<meta name="description" content="The first perpetual real estate fund on-chain. Token, protocol, and data platform built to compound across generations.">
+<meta name="description" content="The Global Standard for On-chain Real Estate. Foundation-secured, AI-Augmented, MiCA-aligned. Built to compound across generations.">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://base-mainnet.g.alchemy.com" crossorigin>
 <link rel="preconnect" href="https://gres.app.n8n.cloud" crossorigin>
-<link rel="preconnect" href="https://esm.sh" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
 
 <style>
 /* ═══════════════════════════════════════════════════════════════
@@ -221,12 +218,6 @@ section {
 }
 .nav-links a:hover { color: var(--text); }
 
-.header-ctas {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -246,15 +237,6 @@ section {
   color: var(--text);
 }
 
-.btn-ghost {
-  border-color: var(--border);
-  color: var(--text-secondary);
-}
-.btn-ghost:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
 .btn-gold {
   background: var(--gold);
   color: #0a0908;
@@ -265,23 +247,9 @@ section {
   border-color: var(--gold-bright);
 }
 
-.btn-outline-gold {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-.btn-outline-gold:hover {
-  background: rgba(201, 168, 76, 0.08);
-}
-
 .btn-lg {
   padding: 16px 32px;
   font-size: 13px;
-}
-
-.btn-disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  pointer-events: none;
 }
 
 .mobile-toggle {
@@ -296,11 +264,12 @@ section {
 @media (max-width: 968px) {
   .nav-links { display: none; }
   .mobile-toggle { display: block; }
-  .header-ctas .btn { padding: 10px 16px; font-size: 11px; }
-  .header-ctas .btn-ghost { display: none; }
   .brand span { display: none; }
   .brand-logo { height: 32px; }
 }
+
+.nav-gold { color: var(--gold) !important; }
+.nav-gold:hover { color: var(--gold-bright) !important; }
 
 /* ══════════════════════════════════════════
    HERO
@@ -375,26 +344,6 @@ section {
   font-weight: 500;
 }
 
-.hero-status {
-  font-size: 16px;
-  font-style: italic;
-  color: var(--text-secondary);
-  font-family: var(--font-display);
-  margin-bottom: 40px;
-  font-weight: 400;
-}
-
-.hero-ctas {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 600px) {
-  .hero-ctas { flex-direction: column; align-items: center; }
-  .hero-ctas .btn { width: 80%; max-width: 280px; }
-}
 /* ══════════════════════════════════════════
    WHY SECTION — editorial layout
    ══════════════════════════════════════════ */
@@ -691,235 +640,32 @@ section {
 }
 
 /* ══════════════════════════════════════════
-   SUPPORT THE BUILD (purchase card)
+   JOIN — single CTA section (routes to /investors)
    ══════════════════════════════════════════ */
 
-.support-section {
+.join-section {
   background: var(--bg);
+  padding: 100px 0 120px;
 }
 
-.support-intro {
-  text-align: center;
+.join-section .section-subtitle {
   max-width: 680px;
-  margin: 0 auto 60px;
-}
-
-.support-intro p {
-  font-size: 16px;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  font-weight: 300;
-  margin-bottom: 16px;
-}
-
-.support-intro .patronage {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 19px;
-  color: var(--gold);
-  margin-top: 20px;
-  font-weight: 400;
-}
-
-.purchase-card {
-  max-width: 540px;
-  margin: 0 auto;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 48px 40px;
-  position: relative;
-}
-
-.purchase-card::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.card-heading {
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
-  margin-bottom: 32px;
 }
 
-.card-heading .eyebrow { margin-bottom: 12px; }
-
-.card-heading h3 {
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--text);
-}
-.card-heading h3 em {
-  font-style: normal;
-  color: var(--gold);
-}
-
-.lot-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.lot-card {
-  background: var(--bg-input);
-  border: 1px solid var(--border-soft);
-  padding: 18px 10px;
+.join-cta-wrap {
   text-align: center;
-  border-radius: 2px;
-  transition: all 0.2s ease;
+  margin-top: 48px;
 }
 
-.lot-card.active {
-  border-color: var(--gold);
-  background: rgba(201, 168, 76, 0.05);
-}
-
-.lot-card .lot-num {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-
-.lot-card.active .lot-num { color: var(--gold); }
-
-.lot-card .lot-price {
-  font-family: var(--font-display);
-  font-size: 22px;
-  color: var(--text);
-  font-weight: 600;
-  font-style: italic;
-}
-
-.lot-card.active .lot-price { color: var(--gold); }
-
-.hard-cap-line {
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 28px;
-  letter-spacing: 0.05em;
-}
-.hard-cap-line strong {
-  color: var(--gold);
-  font-weight: 500;
-}
-
-.raise-progress { transition: all 0.3s ease; margin-bottom: 24px; }
-.raise-progress.hidden { display: none; }
-.raise-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
-}
-.raise-labels strong { color: var(--gold); font-weight: 500; }
-.raise-track {
-  height: 3px;
-  background: var(--bg-input);
-  border-radius: 0;
-  overflow: hidden;
-}
-.raise-fill {
-  height: 100%;
-  background: var(--gold);
-  transition: width 0.5s ease;
-}
-
-.form-group { margin-bottom: 16px; }
-.form-group label {
-  display: block;
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
-}
-
-.form-input {
-  width: 100%;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  padding: 14px 16px;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 14px;
-  border-radius: 2px;
-  transition: border-color 0.2s ease;
-}
-.form-input:focus {
-  outline: none;
-  border-color: var(--gold);
-}
-
-.calc-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 14px 0;
-  border-top: 1px solid var(--border-soft);
-  font-size: 13px;
-}
-.calc-row span:first-child { color: var(--text-muted); }
-.calc-row .tokens {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 500;
-  color: var(--gold);
-  font-style: italic;
-}
-
-.terms-check {
-  display: flex;
-  gap: 10px;
-  align-items: start;
-  padding: 14px 0;
-  font-size: 11px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-.terms-check input { margin-top: 3px; flex-shrink: 0; }
-.terms-check label { cursor: pointer; }
-.terms-check a { color: var(--gold); cursor: pointer; }
-
-.wallet-status {
-  margin-top: 12px;
-  font-size: 11px;
-  text-align: center;
-  color: var(--text-muted);
-}
-
-.basescan-alt-btn {
-  width: 100%;
-  margin-top: 14px;
-  padding: 13px 18px;
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  font-family: var(--font-body);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  border-radius: 2px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
+.join-cta {
+  letter-spacing: 0.14em;
+  padding: 18px 48px;
   text-transform: uppercase;
 }
-.basescan-alt-btn:hover { background: rgba(201, 168, 76, 0.08); }
 
-@media (max-width: 600px) {
-  .purchase-card { padding: 32px 24px; }
-  .lot-grid { grid-template-columns: repeat(2, 1fr); }
-}
 
 /* ══════════════════════════════════════════
    FAQ
@@ -1127,63 +873,6 @@ section {
   color: var(--text);
 }
 
-/* ══════════════════════════════════════════
-   PURCHASE MODAL — stepper
-   ══════════════════════════════════════════ */
-
-.pm-steps { margin: 24px 0; }
-.pm-step {
-  display: flex;
-  gap: 16px;
-  align-items: start;
-  padding: 14px 16px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-soft);
-  border-radius: 2px;
-  margin-bottom: 10px;
-  opacity: 0.5;
-  transition: all 0.3s ease;
-}
-.pm-step.pm-active {
-  border-color: var(--gold);
-  opacity: 1;
-}
-.pm-step.pm-done {
-  border-color: var(--green);
-  opacity: 1;
-}
-.pm-step.pm-error {
-  border-color: var(--red);
-  opacity: 1;
-}
-.pm-step-num {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--border);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 500;
-  flex-shrink: 0;
-}
-.pm-step.pm-active .pm-step-num { background: var(--gold); color: #0a0908; }
-.pm-step.pm-done .pm-step-num { background: var(--green); color: #fff; }
-.pm-step.pm-error .pm-step-num { background: var(--red); color: #fff; }
-.pm-step-body { flex: 1; min-width: 0; }
-.pm-step-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-.pm-detail { font-size: 12px; color: var(--text-muted); }
-
-.pm-success-icon, .pm-error-icon {
-  text-align: center;
-  font-size: 48px;
-  margin-bottom: 8px;
-}
-.pm-success-icon { color: var(--green); }
-.pm-error-icon { color: var(--red); }
-
 /* Hide utility */
 .hidden { display: none !important; }
 
@@ -1205,12 +894,10 @@ section {
       <a href="#what">What</a>
       <a href="#how">How</a>
       <a href="#roadmap">Roadmap</a>
+      <a href="/investors" class="nav-gold">Investors</a>
+      <a href="/news-feed">News Feed</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <div class="header-ctas">
-      <a href="https://t.me/gres_protocol" target="_blank" rel="noopener" class="btn btn-ghost">Join Community</a>
-      <a href="#support" class="btn btn-gold">Support →</a>
-    </div>
     <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button>
   </div>
 </header>
@@ -1224,11 +911,6 @@ section {
       <div class="hero-anchor">Generational Wealth</div>
       <h1>The Global Standard for<br><em>On-chain Real Estate</em></h1>
       <p class="hero-subhead">Token. Protocol. Data layer. Built to compound across generations.</p>
-      <p class="hero-status">Build phase. GRES.ALPHA pre-sale is live to fund development.</p>
-      <div class="hero-ctas">
-        <a href="#why" class="btn btn-outline-gold btn-lg">Read the Thesis</a>
-        <a href="#support" class="btn btn-gold btn-lg">Support the Build</a>
-      </div>
     </div>
   </div>
 </section>
@@ -1261,7 +943,7 @@ section {
   <div class="container">
     <div class="section-header">
       <div class="eyebrow">$GRES &mdash; Beyond a Token</div>
-      <h2>Six functions. <em>One protocol.</em></h2>
+      <h2>Six functions. <em>One asset.</em></h2>
       <p class="section-subtitle">$GRES is not just a tokenized real estate fund. It&rsquo;s the asset class re-architected as on-chain infrastructure &mdash; playing six distinct roles in the next decade of finance.</p>
     </div>
     <div class="functions-grid">
@@ -1421,61 +1103,17 @@ section {
 </section>
 
 <!-- ══════════════════════════════════════════
-     SUPPORT THE BUILD
+     JOIN NOW — single CTA routing to /investors
      ══════════════════════════════════════════ -->
-<section class="support-section" id="support">
+<section class="join-section" id="join">
   <div class="container">
     <div class="section-header">
-      <div class="eyebrow">Support the Build</div>
-      <h2>Fund the work. <em>Receive GRES.ALPHA.</em></h2>
+      <div class="eyebrow">Generational Wealth</div>
+      <h2>Built to compound <em>across generations.</em></h2>
+      <p class="section-subtitle">Two ways to participate &mdash; equity in the company building the standard, or the protocol token itself. Both lead to the same building.</p>
     </div>
-    <div class="support-intro">
-      <p>GRES.ALPHA is the utility token issued during the construction phase. Holders fund the development of the protocol &mdash; smart contracts, Foundation structure, AI Oracle (Phase 04), first asset onboarding &mdash; and receive tokens designed to integrate with the $GRES ecosystem when it launches.</p>
-      <p class="patronage">This is not yield. This is not a trade. This is patronage with mechanics.</p>
-    </div>
-
-    <div class="purchase-card">
-      <div class="card-heading">
-        <div class="eyebrow">Build Phase Access</div>
-        <h3>GRES.<em>ALPHA</em></h3>
-      </div>
-
-      <div class="lot-grid" id="lot-grid"></div>
-      
-      <div class="raise-progress hidden" id="raise-progress">
-        <div class="raise-labels">
-          <span>Raised: <strong id="raised-display">$0</strong></span>
-          <span>Hard Cap: $1,000,000</span>
-        </div>
-        <div class="raise-track"><div class="raise-fill" id="raise-fill" style="width:0%"></div></div>
-      </div>
-
-      <div class="hard-cap-line">Hard Cap: <strong>$1,000,000 USD</strong> &middot; <strong id="card-lot">Lot 01</strong> at <strong id="card-price">$0.002</strong> &middot; <span id="card-next" style="opacity:0.7;"></span></div>
-
-      <div class="form-group">
-        <label for="user-email">Email</label>
-        <input type="email" id="user-email" class="form-input" placeholder="you@email.com" autocomplete="email">
-      </div>
-
-      <div class="form-group">
-        <label for="invest-amount">Amount (USDC)</label>
-        <input type="number" id="invest-amount" class="form-input" placeholder="10" min="10" step="1" oninput="calculateTokens()" autocomplete="off">
-      </div>
-
-      <div class="calc-row"><span>Estimated GRES.ALPHA</span><span class="tokens" id="token-calc">0</span></div>
-
-      <div class="terms-check"><input type="checkbox" id="agree-terms"><label for="agree-terms">I confirm I am NOT a US Citizen, US resident, or US Person, and I agree to the <a onclick="openModal('tc-modal')">Terms &amp; Conditions</a>.</label></div>
-
-      <button class="btn btn-gold btn-lg btn-disabled" id="btn-purchase" disabled onclick="investNow()" style="width:100%;margin-top:8px;">Purchase GRES.ALPHA</button>
-      
-      <button type="button" onclick="openBasescanModal()" class="basescan-alt-btn">Prefer to buy directly on Basescan? →</button>
-      
-      <div class="wallet-status" id="wallet-status">Connect via Reown AppKit when ready to purchase.</div>
-      
-      <div id="invest-urgency" class="hidden"></div>
-      <div id="waitlist-gate-msg" class="hidden">
-        <span id="waitlist-gate-text"></span>
-      </div>
+    <div class="join-cta-wrap">
+      <a href="/investors" class="btn btn-gold btn-lg join-cta">Investors  ·  Join Now  →</a>
     </div>
   </div>
 </section>
@@ -1509,168 +1147,40 @@ section {
       <div class="footer-col">
         <h5>Resources</h5>
         <ul>
-          <li><a href="#" target="_blank" rel="noopener">Whitepaper</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Token Paper</a></li>
+          <li><a href="/whitepaper.pdf" target="_blank" rel="noopener">Whitepaper</a></li>
+          <li><a href="/digital-assets-paper.pdf" target="_blank" rel="noopener">Digital Assets Paper</a></li>
           <li><a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93" target="_blank" rel="noopener">Smart Contracts</a></li>
           <li><a href="#roadmap">Roadmap</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5>Community</h5>
+        <h5>Investors &amp; Insights</h5>
         <ul>
+          <li><a href="/investors">Investors</a></li>
+          <li><a href="/news-feed">News Feed</a></li>
           <li><a href="https://t.me/gres_protocol" target="_blank" rel="noopener">Telegram</a></li>
           <li><a href="https://twitter.com/gresprotocol" target="_blank" rel="noopener">X / Twitter</a></li>
           <li><a href="https://linkedin.com/company/gres-protocol" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-soft);">
-            <a onclick="openModal('founders-modal')" style="color:var(--gold);cursor:pointer;font-weight:500;">Founders&rsquo; Table</a>
-            <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-top:4px;">For unique individuals</div>
-          </li>
         </ul>
       </div>
       <div class="footer-col">
         <h5>Compliance</h5>
         <ul>
           <li><a onclick="openModal('tc-modal')" style="cursor:pointer;">Terms &amp; Conditions</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Risk Disclosure</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/risk">Risk Disclosure</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>Project entity: TMS Brazil.</p>
-      <p>Operating entity: GRES Spain (formation in progress).</p>
-      <p>Custody: Swiss-style Foundation modeled after Swiss law (formation in progress).</p>
+      <p>GRES Operator: for-profit corporation (formation in progress).</p>
+      <p>GRES Foundation: Swiss-style Foundation modeled after Swiss law (formation in progress). Holds 100% of underlying deeds.</p>
       <p>Founder: <a href="https://www.linkedin.com/in/thiagosequinel/" target="_blank" rel="noopener" style="color:var(--gold);">Thiago Sequinel</a>.</p>
-      <p>Not investment advice. MiCA-aligned design. GRES.ALPHA is a utility token. Risk of total loss. Not available to US persons or persons located in the United States.</p>
+      <p>Not investment advice. MiCA-aligned design. GRES.ALPHA is a utility token &mdash; outcomes depend on adoption, not guaranteed. Risk of total loss. Not available to US persons or persons located in the United States.</p>
       <p class="copyright">&copy; 2026 GRES Protocol</p>
     </div>
   </div>
 </footer>
-
-<!-- ══════════════════════════════════════════
-     MODAL: PURCHASE STEPPER
-     ══════════════════════════════════════════ -->
-<div class="modal-overlay" id="purchase-modal">
-  <div class="modal-box" style="max-width:480px;">
-    <button class="modal-close" onclick="closePurchaseModal()">&times;</button>
-    <h3 id="pm-title" style="text-align:center;">Processing Your Purchase</h3>
-    <p id="pm-subtitle" style="text-align:center;color:var(--text-muted);font-size:13px;">Please confirm each step in your wallet</p>
-    
-    <div class="pm-steps">
-      <div class="pm-step" id="pm-step-quote">
-        <div class="pm-step-num">1</div>
-        <div class="pm-step-body">
-          <div class="pm-step-title">Quote calculated</div>
-          <div class="pm-detail">Calculating your token quote...</div>
-        </div>
-      </div>
-      <div class="pm-step" id="pm-step-approve">
-        <div class="pm-step-num">2</div>
-        <div class="pm-step-body">
-          <div class="pm-step-title">Approve USDC</div>
-          <div class="pm-detail">Waiting for approval...</div>
-        </div>
-      </div>
-      <div class="pm-step" id="pm-step-buy">
-        <div class="pm-step-num">3</div>
-        <div class="pm-step-body">
-          <div class="pm-step-title">Purchase</div>
-          <div class="pm-detail">Confirm transaction in wallet</div>
-        </div>
-      </div>
-      <div class="pm-step" id="pm-step-confirm">
-        <div class="pm-step-num">4</div>
-        <div class="pm-step-body">
-          <div class="pm-step-title">On-chain confirmation</div>
-          <div class="pm-detail">Waiting for block confirmation</div>
-        </div>
-      </div>
-    </div>
-    
-    <div id="pm-success-actions" style="display:none;">
-      <div class="pm-success-icon">✓</div>
-      <p style="text-align:center;color:var(--green);margin-bottom:16px;">Welcome, holder.</p>
-      <p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:24px;">You received <strong id="pm-token-amount" style="color:var(--gold);">0</strong> GRES.ALPHA tokens.</p>
-      <button class="btn btn-gold btn-lg" style="width:100%;" onclick="closePurchaseModal()">Continue</button>
-    </div>
-    
-    <div id="pm-error-actions" style="display:none;">
-      <div class="pm-error-icon">!</div>
-      <p style="text-align:center;color:var(--red);margin-bottom:16px;font-size:14px;" id="pm-error-msg">Transaction failed.</p>
-    </div>
-    
-    <div id="pm-close" style="display:none;">
-      <button class="btn btn-gold btn-lg" style="width:100%;" onclick="closePurchaseModal()">Close</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     MODAL: BASESCAN DIRECT BUY
-     ══════════════════════════════════════════ -->
-<div class="modal-overlay" id="basescan-modal">
-  <div class="modal-box" style="max-width:560px;text-align:left;">
-    <button class="modal-close" onclick="closeBasescanModal()">&times;</button>
-    
-    <h3 style="margin-bottom:8px;text-align:center;">Buy Directly on Basescan</h3>
-    <p style="margin:0 0 20px;text-align:center;color:var(--text-muted);font-size:13px;">Skip the web interface and interact with the smart contract directly. Same purchase, same price.</p>
-    
-    <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:2px;padding:14px 16px;margin-bottom:24px;font-size:13px;line-height:1.5;color:var(--text-secondary);">
-      <strong style="color:var(--gold);">Before you start:</strong> make sure your wallet is connected to the <strong>Base network</strong> (chainId 8453) and has enough <strong>USDC</strong> for the purchase.
-    </div>
-    
-    <div style="padding:16px;background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.4);border-radius:2px;margin-bottom:20px;">
-      <div style="font-weight:600;font-size:13px;color:var(--gold);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;">Amount Calculator</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">USDC uses 6 decimals on-chain. Enter how much USDC you want to spend, then copy the value below to paste into Basescan.</div>
-      <label style="display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px;">How much USDC do you want to invest?</label>
-      <input type="number" id="bsc-usdc-input" min="10" step="0.01" placeholder="10" oninput="bscCalcAmount()" class="form-input" style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Value to paste into Basescan (amount/usdcAmount field):</div>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-        <code id="bsc-onchain-value" style="flex:1;font-family:monospace;font-size:14px;color:var(--gold);background:rgba(0,0,0,0.4);padding:10px 12px;border-radius:2px;word-break:break-all;font-weight:600;">10000000</code>
-        <button type="button" id="bsc-copy-btn" onclick="bscCopyValue()" class="btn btn-gold" style="flex-shrink:0;padding:10px 14px;">Copy</button>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);line-height:1.5;">You will receive approximately <strong id="bsc-tokens-estimate" style="color:var(--gold);">5,000</strong> GRES.ALPHA at the current lot price.<br>Your wallet will show this exact USDC amount before you confirm. Double-check the number matches what you intend to spend.</div>
-    </div>
-    
-    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:2px;">
-      <span style="flex-shrink:0;width:28px;height:28px;background:var(--gold);color:#0a0908;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">1</span>
-      <div style="flex:1;min-width:0;">
-        <div style="font-weight:500;font-size:14px;color:var(--text);margin-bottom:4px;">Approve USDC</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Authorize the Sale Contract to spend your USDC.</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Function: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:2px;color:var(--gold);">approve</code></div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">spender:</div>
-        <div style="font-size:11px;font-family:monospace;color:var(--text);word-break:break-all;background:rgba(0,0,0,0.3);padding:6px 8px;border-radius:2px;margin-bottom:6px;">0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">amount: paste the value from the calculator above</div>
-        <a href="https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913#writeContract" target="_blank" rel="noopener" class="btn btn-gold" style="display:inline-block;margin-top:10px;padding:8px 14px;font-size:11px;">Open USDC on Basescan →</a>
-      </div>
-    </div>
-    
-    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:2px;">
-      <span style="flex-shrink:0;width:28px;height:28px;background:var(--gold);color:#0a0908;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">2</span>
-      <div style="flex:1;min-width:0;">
-        <div style="font-weight:500;font-size:14px;color:var(--text);margin-bottom:4px;">Buy GRES.ALPHA</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Call buy() with the same value you used in step 1.</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Function: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:2px;color:var(--gold);">buy</code></div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">usdcAmount: paste the same value as step 1</div>
-        <a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93#writeContract" target="_blank" rel="noopener" class="btn btn-gold" style="display:inline-block;margin-top:10px;padding:8px 14px;font-size:11px;">Open Sale Contract on Basescan →</a>
-      </div>
-    </div>
-    
-    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:2px;">
-      <span style="flex-shrink:0;width:28px;height:28px;background:var(--gold);color:#0a0908;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">3</span>
-      <div style="flex:1;min-width:0;">
-        <div style="font-weight:500;font-size:14px;color:var(--text);margin-bottom:4px;">Add token to your wallet</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Tokens arrive instantly. To see them in your wallet, import a custom token using the contract address below:</div>
-        <div style="font-size:11px;font-family:monospace;color:var(--text);word-break:break-all;background:rgba(0,0,0,0.3);padding:6px 8px;border-radius:2px;">0xba8A4A252b3819DD2244338e300a39eD30399c58</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">Symbol: GRESALPHA &middot; Decimals: 18 &middot; Network: Base</div>
-      </div>
-    </div>
-    
-    <div style="text-align:center;font-size:11px;color:var(--text-muted);padding-top:16px;border-top:1px solid var(--border-soft);">
-      Both contracts are verified on Basescan. Foundation-secured custody. MiCA-aligned token issuance.
-    </div>
-  </div>
-</div>
 
 <!-- ══════════════════════════════════════════
      MODAL: TERMS & CONDITIONS (placeholder)
@@ -1693,1287 +1203,64 @@ section {
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: FOUNDERS' TABLE
-     ══════════════════════════════════════════ -->
-<div class="modal-overlay" id="founders-modal">
-  <div class="modal-box" style="max-width:560px;text-align:left;">
-    <button class="modal-close" onclick="closeModal('founders-modal')">&times;</button>
-    
-    <div style="text-align:center;margin-bottom:32px;">
-      <div class="eyebrow" style="margin-bottom:12px;">Founders&rsquo; Table</div>
-      <h3 style="font-size:30px;margin:0;line-height:1.2;"><em style="font-style:italic;color:var(--gold);font-weight:400;">For unique individuals.</em></h3>
-    </div>
-    
-    <div style="font-size:16px;color:var(--text-secondary);line-height:1.8;font-weight:300;font-family:var(--font-display);font-style:italic;">
-      <p style="margin-bottom:20px;">This is a project that will outlive you and me. It is about access to generational wealth — for everyone.</p>
-      
-      <p style="margin-bottom:20px;">I am looking for unique individuals with the same vision. If you feel your contribution will make the difference, send me an email.</p>
-      
-      <p style="margin-bottom:20px;font-style:normal;font-family:var(--font-body);font-size:14px;color:var(--text-muted);padding:18px 20px;border-left:2px solid var(--gold);background:rgba(201,168,76,0.04);">
-        <strong style="color:var(--gold);display:block;margin-bottom:8px;letter-spacing:0.08em;text-transform:uppercase;font-size:11px;">Please note</strong>
-        GRES is on BUILDERS mode. Everyone joining now has to agree on company participation, GRES.ALPHA stake, and/or cash flow received upon delivery.
-      </p>
-      
-      <p style="margin-bottom:32px;">If you share the GRES vision, let me know how you can help.</p>
-    </div>
-    
-    <a href="mailto:admin@gres.network?subject=Founders%27%20Table%20%E2%80%94%20Joining%20the%20Vision" class="btn btn-gold btn-lg" style="width:100%;text-align:center;display:block;">Email admin@gres.network</a>
-    
-    <p style="text-align:center;font-size:13px;color:var(--text-muted);font-style:italic;margin-top:20px;font-family:var(--font-display);">Thank you.</p>
-  </div>
-</div>
-
-
-<script type="module">
-import { createAppKit } from 'https://esm.sh/@reown/appkit'
-import { Ethers5Adapter } from 'https://esm.sh/@reown/appkit-adapter-ethers5'
-import { base } from 'https://esm.sh/@reown/appkit/networks'
-
-
+<script>
 /* ╔═══════════════════════════════════════════════════════════════════╗
-   ║  CONFIGURATION — EDIT THIS SECTION TO UPDATE THE SITE           ║
+   ║  HOME PAGE — minimal runtime                                      ║
+   ║  Reown / checkout / smart-contract logic moved to /investors page ║
    ╚═══════════════════════════════════════════════════════════════════╝ */
 
-const CONFIG = {
-  saleStatus: "live",
-  rpcUrl: "https://base-mainnet.g.alchemy.com/v2/cKDErpJgMtpWH2FObllEf",
-  saleContract:  "0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93",
-  tokenContract: "0xba8A4A252b3819DD2244338e300a39eD30399c58",
-  usdcContract:  "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  treasuryWallet: "0x1a5ED4aFF8E4FeC1079028870f8E2Cd24ef5Dfc5",
-  saleStartDate:  new Date("2026-05-13T00:00:00Z"),
-  publicSaleDate: new Date("2026-05-15T00:00:00Z"),
-  whitelist: [],
-  hardCap: 1000000,
-  lots: [
-    { name: "Lot 01", price: 0.002, raise: "$100K", status: "upcoming" },
-    { name: "Lot 02", price: 0.004, raise: "$200K", status: "future"   },
-    { name: "Lot 03", price: 0.007, raise: "$350K", status: "future"   },
-    { name: "Lot 04", price: 0.010, raise: "$350K", status: "future"   },
-  ],
-  n8nWebhook: "https://gres.app.n8n.cloud/webhook",
-  sheetsAPI: "https://script.google.com/macros/s/AKfycbxpjSIU-2dizOPZutLHbpoVkFIlr8ALTA1KSROB2e4qIkUpr6lBOru_QcUPlceNb9Z_cw/exec",
-  walletConnectId: "fbc5f569abebf58f9c260075a2882c1a",
-  // Community Incentives
-  incentivesPerJoin: 1000,    // GRES.ALPHA tokens for joining community
-  incentivesPerBoost: 1000,   // Extra tokens for social boost (TG + X)
-  referralTokenPct: 10,       // % of purchase amount as GRES.ALPHA airdrop
-  referralUsdcPct: 10,        // % of USDC received as commission
-  incentivesPool: 20000000,   // 20M tokens allocated for join + boost
-  referralPool: 20000000,     // 20M tokens for referral airdrops
-  telegram: "https://t.me/gres_protocol",
-  x: "https://x.com/gresprotocol",
-  linkedin: "https://www.linkedin.com/company/gres-protocol",
+/* ── Modal helpers (still used by Terms & Conditions in footer) ── */
+window.openModal = function(id) {
+  const m = document.getElementById(id);
+  if (m) m.classList.add('active');
+};
+window.closeModal = function(id) {
+  const m = document.getElementById(id);
+  if (m) m.classList.remove('active');
 };
 
-const SALE_ABI = [
-  'function buy(uint256 usdcAmount)',
-  'function getQuote(uint256 usdcAmount) view returns (uint256 tokenAmount, uint256 usdcUsed)',
-  'function saleStatus() view returns (uint256,uint256,uint256,uint256,uint256,uint256,bool,bool,bool)',
-  'function getLot(uint256 index) view returns (uint256,uint256,uint256,bool,bool)',
-  'function whitelistOnly() view returns (bool)',
-  'function whitelist(address) view returns (bool)',
-  'function currentLot() view returns (uint256)',
-  'function currentPrice() view returns (uint256)',
-  'function saleFinished() view returns (bool)',
-];
-const USDC_ABI = [
-  'function approve(address spender, uint amount) returns (bool)',
-  'function allowance(address owner, address spender) view returns (uint256)',
-  'function balanceOf(address) view returns (uint256)'
-];
-
-
-/* ╔═══════════════════════════════════════════════════════════════════╗
-   ║  ROADMAP — EDIT MILESTONES HERE                                 ║
-   ║                                                                  ║
-   ║  HOW TO UPDATE:                                                  ║
-   ║  1. Find the milestone you want to change                       ║
-   ║  2. Change its "status" value:                                  ║
-   ║     • "todo" = Not started (gray circle)                        ║
-   ║     • "prog" = In progress (gold dot)                           ║
-   ║     • "done" = Completed (green check)                          ║
-   ║  3. Save the file. Progress % and badge auto-calculate.         ║
-   ║                                                                  ║
-   ║  Phase status auto-calculates from milestones:                  ║
-   ║     • All "done" → "completed" (green)                          ║
-   ║     • Any "prog" or mix → "live" (gold, in progress)            ║
-   ║     • All "todo" but previous phase done → "next" (blue)        ║
-   ║     • Otherwise → "future" (gray)                               ║
-   ╚═══════════════════════════════════════════════════════════════════╝ */
-
-const ROADMAP = [
-  {
-    phase: "01",
-    name: "Genesis — Foundation & Community",
-    subtitle: "Identity, legal architecture, and early community",
-    groups: [
-      { label: "Brand & Community", items: [
-        { text: "Lightpaper v1.0 & Utility Token Paper published",           status: "done" },
-        { text: "Visual identity and design system finalized",               status: "prog" },
-        { text: "Community channels active (Linkedin, Telegram, X)",          status: "prog" },
-        { text: "Landing page with early adopter whitelist live",            status: "done" },
-        { text: "Referral & early adopter program active",                   status: "prog" },
-      ]},
-      { label: "Strategy & Legal", items: [
-        { text: "Business model defined (NAV, Flywheel, Collateral)",        status: "done" },
-        { text: "EU jurisdiction study (LU, CH, LI, ES)",                    status: "prog" },
-        { text: "Teaser Pitch Deck for seed investors",                      status: "prog" },
-        { text: "Legal registrations opened (Spain / EU Foundation)",        status: "prog" },
-      ]},
-      { label: "Technology", items: [
-        { text: "Platform backlog structured (93 stories / 18 epics)",       status: "done" },
-        { text: "Landing Page, Smart Contracts and Safe Multisig Integration", status: "done" },
-        { text: "AI Oracle architecture and tech stack defined",             status: "prog" },
-        { text: "Portal prototyping — wireframes & design system",           status: "todo" },
-      ]},
-    ],
-  },
-  {
-    phase: "02",
-    name: "Blueprint — Protocol & First Assets",
-    subtitle: "Builder portal, automated due diligence, and LOIs with EU developers",
-    groups: [
-      { label: "Transparency & Trust", items: [
-        { text: "Public transparency portal (reports & metrics) live",       status: "todo" },
-        { text: "MVP Report: capital allocation & pilot assets documented",  status: "todo" },
-        { text: "Monthly AMAs with community + active support channel",      status: "todo" },
-      ]},
-      { label: "Pilot Asset Portfolio", items: [
-        { text: "Asset selection criteria (Entry Score, Sector Fit) published", status: "todo" },
-        { text: "LOIs signed with first European developers",                status: "todo" },
-        { text: "Digital NDAs and Term Sheets signed",                       status: "todo" },
-        { text: "Public announcement of 2+ EU developer partnerships",      status: "todo" },
-      ]},
-      { label: "Platform (MVP)", items: [
-        { text: "Builder portal with project submission form",               status: "todo" },
-        { text: "ADD v1 — viability score per project within 48h",           status: "todo" },
-        { text: "KYC/AML integrated — investor onboarding",                  status: "todo" },
-        { text: "SPV structure & segregated accounts defined",               status: "todo" },
-      ]},
-    ],
-  },
-  {
-    phase: "03",
-    name: "Vault — Security & Institutional",
-    subtitle: "Tier-1 audit, MiCA licenses, and institutional roadshow",
-    groups: [
-      { label: "Security & Compliance", items: [
-        { text: "Tier-1 smart contract audit (CertiK/Hacken) published",    status: "todo" },
-        { text: "ERC-3643 / L3RS-1: native compliance layer deployed",      status: "todo" },
-        { text: "ONCHAINID integrated — on-chain KYC/AML identity",         status: "todo" },
-        { text: "MiCA/CNMV licenses active & Foundation registered in EU",  status: "todo" },
-      ]},
-      { label: "Product & Investors", items: [
-        { text: "Investor dashboard beta (NAV, yield, live portfolio)",      status: "todo" },
-        { text: "First Investment Memorandum published",                     status: "todo" },
-        { text: "SEPA + card + crypto gateway integrated",                   status: "todo" },
-        { text: "AI Oracle MVP: real-time NAV data feed",                    status: "todo" },
-      ]},
-      { label: "Institutional Expansion", items: [
-        { text: "European institutional roadshow initiated",                 status: "todo" },
-        { text: "EU Asset Management boutique partnerships formalized",      status: "todo" },
-        { text: "Due diligence of 3+ builders completed",                    status: "todo" },
-      ]},
-    ],
-  },
-  {
-    phase: "04",
-    name: "Ignition — Mainnet & Flywheel",
-    subtitle: "First assets on-chain, primary $GRES, and ecosystem activation",
-    groups: [
-      { label: "Platform Launch", items: [
-        { text: "Mainnet launch — audited platform in production",           status: "todo" },
-        { text: "GRES.ALPHA to Platform Credits conversion activated",       status: "todo" },
-        { text: "First primary $GRES round open to the public",             status: "todo" },
-        { text: "$GRES/USDC liquidity on DEXs via third-party providers",   status: "todo" },
-      ]},
-      { label: "First On-Chain Portfolio", items: [
-        { text: "Property deeds registered on-chain (Proof of Deed)",       status: "todo" },
-        { text: "$GRES minted with NAV 100% backed by physical assets",     status: "todo" },
-        { text: "AI Oracle live — real-time portfolio NAV",                  status: "todo" },
-        { text: "Public Proof of Reserves — verifiable on-chain",           status: "todo" },
-      ]},
-      { label: "Flywheel & Scale", items: [
-        { text: "Yield split smart contract active",                         status: "todo" },
-        { text: "Regional Agent network operational in EU markets",          status: "todo" },
-        { text: "GTM campaign — $300K marketing (target: $10M AUM)",        status: "todo" },
-        { text: "On-chain governance — holders vote on priorities",          status: "todo" },
-      ]},
-    ],
-  },
-  {
-    phase: "∞",
-    name: "Perpetual — The Fund That Never Stops",
-    subtitle: "Global scale, full AI Oracle, and $1B AUM",
-    groups: [
-      { label: "Long-Term Vision", items: [
-        { text: "$1B in AUM — diversified EU portfolio",                     status: "todo" },
-        { text: "AI Oracle with CV and 24/7 scraping in 20+ markets",       status: "todo" },
-        { text: "$GRES with compound NAV from growing asset portfolio",     status: "todo" },
-        { text: "GRES Exchange: permissioned secondary market",             status: "todo" },
-        { text: "GRES Loyalty: holder access to portfolio properties",      status: "todo" },
-        { text: "Back-office largely automated by AI",                       status: "todo" },
-      ]},
-    ],
-  },
-];
-
-
-/* ══════════════════════════════════════════
-   APPLICATION LOGIC (don't edit below
-   unless you know what you're doing)
-   ══════════════════════════════════════════ */
-
-let connectedAddress = null;
-
-// ── Calculate phase progress dynamically ──
-function calcPhaseProgress(phase) {
-  let total = 0, doneCount = 0, progCount = 0;
-  phase.groups.forEach(g => g.items.forEach(item => {
-    total++;
-    if (item.status === "done") doneCount++;
-    else if (item.status === "prog") progCount++;
-  }));
-  // done = 1 point, prog = 0.5 points
-  const score = doneCount + (progCount * 0.5);
-  return Math.round((score / total) * 100);
-}
-
-// ── Auto-detect phase status from milestones ──
-function calcPhaseStatus(phases) {
-  let prevCompleted = true;
-  phases.forEach((phase, i) => {
-    const allItems = phase.groups.flatMap(g => g.items);
-    const allDone = allItems.every(it => it.status === "done");
-    const anyStarted = allItems.some(it => it.status === "done" || it.status === "prog");
-    
-    if (allDone) {
-      phase._status = "completed";
-    } else if (anyStarted) {
-      phase._status = "live";
-    } else if (prevCompleted || (i > 0 && phases[i-1]._status === "live")) {
-      phase._status = "next";
-    } else {
-      phase._status = "future";
-    }
-    prevCompleted = allDone;
-  });
-}
-
-// ── Airdrop Button Handler ──
-window.handleAirdropClick = function() {
-  openModal('incentives-modal');
-};
-
-// ── Whitelist Check (on-chain with local fallback) ──
-function isWhitelistedLocal(address) {
-  if (!address) return false;
-  return CONFIG.whitelist.some(w => w.toLowerCase() === address.toLowerCase());
-}
-
-// ── Refresh Sale State from Contract (every 30s) ──
-async function refreshSaleState() {
-  if (!CONFIG.saleContract || CONFIG.saleStatus === 'pre-launch') return;
-  try {
-    const provider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
-    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
-    const [_cL,_cP,_tIL,_tT,_tS,_tR,_wO,_sF,_p] = await sale.saleStatus();
-    const lotNum=_cL.toNumber(), price=_cP.toNumber()/1e6, raised=_tR.toNumber()/1e6;
-    const tokensLeft=parseFloat(ethers.utils.formatUnits(_tIL,18));
-    const lp=[0.002,0.004,0.007,0.010], lr=['$100K','$200K','$350K','$350K'];
-    for(let i=0;i<4;i++){try{const[,,,lA,lSO]=await sale.getLot(i);let st='future';if(lSO)st='completed';else if(lA)st='active';CONFIG.lots[i]={...CONFIG.lots[i],status:st};}catch(e){}}
-    const cp=document.getElementById('card-price'),cn=document.getElementById('card-next'),cl=document.getElementById('card-lot'),ug=document.getElementById('invest-urgency');
-    if(_sF){if(cp)cp.textContent='SOLD OUT';if(cn)cn.textContent='\u2014';if(cl)cl.textContent='Sold Out';if(ug){ug.style.color='var(--green)';ug.innerHTML='\u2705 All lots sold \u2014 Thank you!';}}
-    else{if(cp)cp.textContent='$'+price.toFixed(3);if(cn){const np=lotNum<4?lp[lotNum]:0;cn.textContent=np>0?'$'+np.toFixed(3):'Last Lot';}if(cl)cl.textContent='0'+lotNum+' / 04';if(ug){const lt=lotNum<=3?50e6:35e6,pct=Math.round((tokensLeft/lt)*100);if(pct<20){ug.style.color='var(--red)';ug.innerHTML='\ud83d\udd34 Lot 0'+lotNum+' \u2014 only '+pct+'% remaining!';}else{ug.style.color='var(--gold)';ug.innerHTML='\ud83d\udfe1 Lot 0'+lotNum+' is LIVE \u2014 '+Math.round(tokensLeft).toLocaleString()+' tokens left';}}}
-    if(raised>=20000){var re=document.getElementById('raise-progress');if(re)re.classList.remove('hidden');var rf=document.getElementById('raise-fill');if(rf)rf.style.width=Math.round((raised/CONFIG.hardCap)*100)+'%';var rd=document.getElementById('raised-display');if(rd)rd.textContent='$'+raised.toLocaleString();}
-    const he=document.getElementById('hero-eyebrow');if(he&&CONFIG.saleStatus==='live'){if(_sF)he.innerHTML='<span class="dot"></span> Seed Round \u2014 Sold Out';else he.innerHTML='<span class="dot"></span> Seed Round \u2014 Lot 0'+lotNum+' is Open';}
-    renderLots();
-  }catch(e){console.error('Contract read error:',e);}
-}
-// Pause polling when tab is hidden — saves bandwidth + battery on mobile
-let _refreshTimer = setInterval(refreshSaleState, 60000);
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    clearInterval(_refreshTimer);
-    _refreshTimer = null;
-  } else {
-    refreshSaleState();
-    if (!_refreshTimer) _refreshTimer = setInterval(refreshSaleState, 60000);
-  }
-});
-
-// ── Apply Sale State ──
-function applySaleState() {
-  const s = CONFIG.saleStatus;
-  const conn = !!connectedAddress;
-  const wl = conn && isWhitelistedLocal(connectedAddress);
-  const bc = document.getElementById('btn-connect');
-  const bi = document.getElementById('btn-incentives');
-  const bp = document.getElementById('btn-purchase');
-  const ha = document.getElementById('btn-hero-acquire');
-  const cdBlock = document.getElementById('countdown-block');
-  const heroEye = document.getElementById('hero-eyebrow');
-  const heroInc = document.getElementById('btn-hero-incentives');
-  const ei = document.getElementById('user-email');
-  const ai = document.getElementById('invest-amount');
-  const tc = document.getElementById('agree-terms');
-  const plb = document.querySelector('.pre-launch-badge');
-  const urg = document.getElementById('invest-urgency');
-  const gm = document.getElementById('waitlist-gate-msg');
-  const gt = document.getElementById('waitlist-gate-text');
-  const cl = document.getElementById('card-lot');
-  const ws = document.getElementById('wallet-status');
-
-  function enableForm(on) {
-    if (ei) { ei.disabled = !on; ei.style.opacity = on ? '1' : '0.4'; if (on) { ei.style.borderColor = 'var(--gold-dim)'; ei.style.background = 'var(--bg-elevated)'; } else { ei.style.borderColor = ''; ei.style.background = ''; } }
-    if (ai) { ai.disabled = !on; ai.style.opacity = on ? '1' : '0.4'; if (on) { ai.oninput = calculateTokens; ai.style.borderColor = 'var(--gold-dim)'; ai.style.background = 'var(--bg-elevated)'; } else { ai.style.borderColor = ''; ai.style.background = ''; } }
-    if (tc) tc.disabled = !on;
-  }
-  function setBtnPurchase(enabled, text) {
-    if (!bp) return;
-    bp.disabled = !enabled;
-    if (enabled) bp.classList.remove('btn-disabled'); else bp.classList.add('btn-disabled');
-    bp.textContent = text;
-  }
-
-  if (s === 'pre-launch') {
-    if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
-    if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early access May 13th (community) / Public May 15th'; }
-    if (ha) { ha.disabled = true; ha.classList.add('btn-coming-soon'); }
-    if (gm) gm.style.display = 'none';
-    if (cl) cl.textContent = 'Pre-Launch';
-    enableForm(false);
-    setBtnPurchase(false, 'Coming Soon');
-    if (ws) ws.innerHTML = 'Join <a onclick="openModal(\'incentives-modal\')" style="cursor:pointer;text-decoration:underline">Community Incentives</a> for early access + free GRES.ALPHA.';
-    if (cdBlock) cdBlock.style.display = 'block';
-    var wpPL = document.getElementById('wp-prelaunch'); // community gate
-    var wpAC = document.getElementById('wp-active');
-    if (wpPL) wpPL.style.display = 'block';
-    if (wpAC) wpAC.style.display = 'none';
-    if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Lot 01 Opening Soon';
-    if (heroInc) heroInc.style.display = 'inline-flex';
-
-  } else if (s === 'waitlist') {
-    if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
-        if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); } if (plb) { plb.style.display = 'inline-flex'; plb.innerHTML = '<span class="dot"></span> Early Access &mdash; Community Members'; }
-    if (cl) cl.textContent = 'Early Access';
-    if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '&#128274; Early access active &mdash; community members'; }
-    if (cdBlock) cdBlock.style.display = 'block';
-    var wpPL2 = document.getElementById('wp-prelaunch');
-    var wpAC2 = document.getElementById('wp-active');
-    if (wpPL2) wpPL2.style.display = 'none';
-    if (wpAC2) wpAC2.style.display = 'block';
-    if (heroEye) heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Community Early Access';
-    if (heroInc) heroInc.style.display = 'inline-flex';
-    var cdCta = document.getElementById('cd-waitlist-cta');
-    if (cdCta) cdCta.innerHTML = 'Early access is active for community members.';  if (!conn) {
-      enableForm(true);
-      setBtnPurchase(false, 'Connect Wallet to Continue');
-      if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Continue'; bp.onclick = function(){ modal.open(); }; }
-      if (gm) gm.style.display = 'none';
-        if (ws) ws.innerHTML = 'Fill in your details and connect your wallet to purchase.';
-    } else if (wl) {
-      enableForm(true);
-      setBtnPurchase(true, 'Purchase GRES.ALPHA');
-      if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'rgba(16,185,129,0.3)'; }
-      if (gt) gt.innerHTML = '<span style="color:var(--green)">&#10003;</span> <strong style="color:var(--green)">Early access granted.</strong> Welcome, community member. Purchase your allocation below.';
-      if (bp) bp.onclick = function(){ investNow(); };
-        if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
-    } else {
-      enableForm(false);
-      setBtnPurchase(false, 'Public Sale Opens May 15th');
-      if (gm) { gm.style.display = 'block'; gm.style.borderColor = 'var(--border)'; }
-      if (gt) gt.innerHTML = '&#9203; Join <a onclick="openModal(\'incentives-modal\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">Community Incentives</a> to get early access. Public sale opens <strong style="color:var(--gold)">May 15th</strong>.';
-        if (ws) ws.innerHTML = '<span style="color:var(--text-muted)">&bull; Connected</span>';
-    }
-
-  } else if (s === 'live') {
-    if (bc) { bc.disabled = false; bc.classList.remove('btn-coming-soon'); }
-    if (ha) { ha.disabled = false; ha.classList.remove('btn-coming-soon'); }
-    if (plb) plb.style.display = 'none';
-    if (gm) gm.style.display = 'none';
-    if (cl) cl.textContent = 'Live';
-    if (urg) { urg.style.color = 'var(--gold)'; urg.innerHTML = '\ud83d\udfe1 Sale is LIVE \u2014 refreshing from contract...'; }
-    if (cdBlock) cdBlock.style.display = 'none';
-    var wpPL3 = document.getElementById('wp-prelaunch');
-    var wpAC3 = document.getElementById('wp-active');
-    if (wpPL3) wpPL3.style.display = 'none';
-    if (wpAC3) wpAC3.style.display = 'block';
-    if (heroInc) heroInc.style.display = 'inline-flex';
-    if (heroEye) {
-      heroEye.innerHTML = '<span class="dot"></span> Seed Round \u2014 Live';
-    }
-
-    if (conn) {
-      enableForm(true);
-      setBtnPurchase(true, 'Purchase GRES.ALPHA');
-      if (bp) bp.onclick = function(){ investNow(); };
-        if (ws) ws.innerHTML = '<span style="color:var(--green)">&bull; Connected</span>';
-    } else {
-      enableForm(true);
-      // Button is ENABLED and opens wallet modal — form stays open so user can review
-      if (bp) { bp.disabled = false; bp.classList.remove('btn-disabled'); bp.textContent = 'Connect Wallet to Purchase'; bp.onclick = function(){ modal.open(); }; }
-      if (ws) ws.innerHTML = 'Fill in your details and connect your wallet to purchase.';
-      }
-  }
-}
-
-// ── Render Lot Grid ──
-function renderLots() {
-  const grid = document.getElementById('lot-grid');
-  if (!grid) return;
-  grid.innerHTML = CONFIG.lots.map(lot => {
-    const cls = lot.status === 'active' ? 'active' : '';
-    return `<div class="lot-card ${cls}"><div class="lot-num">${lot.name}</div><div class="lot-price">$${lot.price}</div></div>`;
-  }).join('');
-}
-
-// ── Render Roadmap ──
-function renderRoadmap() {
-  calcPhaseStatus(ROADMAP);
-  const container = document.getElementById('roadmap-timeline');
-  const svgCheck = `<svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><polyline points="4,7 6,9.5 10,4.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>`;
-  const svgProg = `<svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="currentColor"/></svg>`;
-  const svgTodo = `<svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/></svg>`;
-  const chevron = `<svg class="rm-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
-
-  container.innerHTML = ROADMAP.map(phase => {
-    const status = phase._status;
-    const progress = calcPhaseProgress(phase);
-    const isOpen = status === 'live' ? 'open' : '';
-    const badgeClass = status === 'completed' ? 'b-done' : status === 'live' ? 'b-live' : status === 'next' ? 'b-next' : 'b-future';
-    const badgeText = status === 'completed' ? 'Completed' : status === 'live' ? `${progress}% Done` : status === 'next' ? 'Up Next' : 'Future';
-    const fillColor = status === 'completed' ? 'var(--green)' : status === 'live' ? 'var(--gold)' : status === 'next' ? 'var(--blue)' : 'var(--text-muted)';
-    const labelColor = status === 'completed' ? 'color:var(--green)' : status === 'live' ? 'color:var(--gold)' : status === 'next' ? 'color:var(--blue)' : '';
-
-    const progressHTML = progress > 0 ? `<div class="rm-progress"><div class="rm-ptrack"><div class="rm-pfill" style="width:${progress}%;background:${fillColor}"></div></div><div class="rm-plabel" style="${labelColor}">${progress}%</div></div>` : '';
-
-    const groupsHTML = phase.groups.map(g => `<div class="rm-group"><div class="rm-group-label">${g.label}</div><div>${g.items.map(item => {
-      const icon = item.status === 'done' ? svgCheck : item.status === 'prog' ? svgProg : svgTodo;
-      return `<div class="rm-item ${item.status}">${icon}<span>${item.text}</span></div>`;
-    }).join('')}</div></div>`).join('');
-
-    return `<div class="rm-phase ${status} ${isOpen}" onclick="togglePhase(this)"><div class="rm-dot"><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg></div><div class="rm-card"><div class="rm-top"><div class="rm-num">${phase.phase}</div><div class="rm-info"><div class="rm-name">${phase.name}</div><div class="rm-sub">${phase.subtitle}</div>${progressHTML}</div><div class="rm-meta"><span class="rm-badge ${badgeClass}">${badgeText}</span>${chevron}</div></div><div class="rm-body"><div class="rm-milestones">${groupsHTML}</div></div></div></div>`;
-  }).join('');
-}
-
-// ── Toggle Roadmap ──
-window.togglePhase = function(el) {
-  const wasOpen = el.classList.contains('open');
-  document.querySelectorAll('.rm-phase.open').forEach(p => { if(p !== el) p.classList.remove('open'); });
-  el.classList.toggle('open', !wasOpen);
-};
-
-// ── Modals ──
-window.openModal = function(id) { document.getElementById(id).classList.add('active'); };
-window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if(e.target === m) m.classList.remove('active'); });
-});
-
-// ── Connect Wallet (for purchase) ──
-
-// ── Waitlist Submission ──
-// ── Community Incentives Functions ──
-// communityMember tracks: { email, access_token, referral_code, social_boost, communities_joined: [], confirmed_at }
-// User can be a member via EITHER: confirming community join (TG/X/LinkedIn) OR submitting email OR connecting wallet
-let communityMember = null;
-
-
-// ── Connect Wallet from Incentives Modal ──
-window.connectWalletForIncentives = function() {
-  modal.open();
-};
-
-function updateIncentivesWalletUI() {
-  const disc = document.getElementById('inc-wallet-disconnected');
-  const conn = document.getElementById('inc-wallet-connected');
-  const addr = document.getElementById('inc-wallet-addr');
-  if (!disc || !conn) return;
-  if (connectedAddress) {
-    disc.style.display = 'none';
-    conn.style.display = 'block';
-    if (addr) addr.textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
-  } else {
-    disc.style.display = 'block';
-    conn.style.display = 'none';
-  }
-}
-
-// Restore community member from session
-try {
-  const saved = sessionStorage.getItem('gres_member');
-  if (saved) communityMember = JSON.parse(saved);
-} catch(e) {}
-
-// Check URL for access token on page load
-function checkAccessToken() {
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get('access');
-  const ref = params.get('ref');
-  if (ref) { localStorage.setItem('gres_ref', ref); }
-  if (token) {
-    fetch(CONFIG.n8nWebhook + '/community/verify?token=' + token)
-      .then(r => r.json())
-      .then(data => {
-        if (data && data.email) {
-          communityMember = data;
-          applySaleState();
-        }
-      }).catch(e => console.error('Token verify error', e));
-  }
-}
-
-window.submitCommunity = async function() {
-  const btn = document.getElementById('btn-send-access');
-  // GUARD: prevent re-entry during in-flight request (rage-click or quick re-renders)
-  if (btn.disabled || btn.dataset.submitting === '1') return;
-  btn.dataset.submitting = '1';
-
-  const email = document.getElementById('inc-email').value.trim();
-  if (!email || !email.includes('@')) {
-    btn.dataset.submitting = '0';
-    alert('Please enter a valid email.');
-    return;
-  }
-  const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
-
-  // IDEMPOTENCY KEY: persist per email + browser session.
-  // Reused across retries so server-side dedup catches them.
-  // Generated once per email submission, not per click.
-  const idemStorageKey = 'gres_idem_' + email.toLowerCase();
-  let idempotencyKey = sessionStorage.getItem(idemStorageKey);
-  if (!idempotencyKey) {
-    idempotencyKey = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('idem_' + Date.now() + '_' + Math.random().toString(36).slice(2));
-    try { sessionStorage.setItem(idemStorageKey, idempotencyKey); } catch(e) {}
-  }
-
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-
-  // Preserve existing communities_joined if user already confirmed
-  const existingCommunities = (communityMember && communityMember.communities_joined) || [];
-
-  try {
-    const resp = await fetch(CONFIG.n8nWebhook + '/community/join', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, referred_by: ref, source: 'landing_page', communities_joined: existingCommunities, social_boost: (communityMember && communityMember.social_boost) || false, wallet: connectedAddress || '', idempotency_key: idempotencyKey, joined_at: new Date().toISOString() }),
-    });
-    if (resp.ok) {
-      try {
-        const data = await resp.json();
-        if (data && data.access_token) {
-          communityMember = { email, access_token: data.access_token, referral_code: data.referral_code, social_boost: false, communities_joined: existingCommunities };
-        }
-      } catch(parseErr) {
-        console.warn('Response not JSON, but request succeeded:', parseErr);
-        communityMember = { email, access_token: '', referral_code: '', social_boost: false, communities_joined: existingCommunities };
-      }
-    } else {
-      throw new Error('HTTP ' + resp.status);
-    }
-  } catch(err) {
-    console.error('Community join error:', err);
-    communityMember = { email, access_token: '', referral_code: '', social_boost: false, communities_joined: existingCommunities };
-    // No Apps Script fallback — would create duplicate row via parallel path. WF5 nightly handles backup.
-  }
-
-  // Persist community member for wallet webhook
-  try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
-
-  // Mark email submission completed
-  btn.textContent = '\u2713 Subscribed!';
-  btn.style.background = 'var(--green)';
-  btn.style.borderColor = 'var(--green)';
-  btn.style.cursor = 'default';
-  document.getElementById('inc-email').disabled = true;
-  document.getElementById('inc-email').style.opacity = '0.5';
-
-  // Show inline confirmation (XSS-safe: email injected via textContent, not innerHTML)
-  const confirmDiv = document.createElement('div');
-  confirmDiv.style.cssText = 'margin-top:10px;padding:10px 14px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:12px;color:var(--green);text-align:center;';
-  confirmDiv.innerHTML = '\u2713 Personal note will arrive at <strong></strong>. <br><span style="color:var(--text-muted);font-size:11px;">Check spam and mark us as safe.</span>';
-  confirmDiv.querySelector('strong').textContent = email;
-  btn.parentElement.appendChild(confirmDiv);
-};
-
-// ── Track community joins (TG / X / LinkedIn click-through) ──
-// User clicks the platform button -> we record the platform locally.
-// Becomes "confirmed" only after they tick the confirmation checkbox.
-window.markCommunityJoined = function(platform) {
-  if (!communityMember) {
-    communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
-  }
-  if (!Array.isArray(communityMember.communities_joined)) {
-    communityMember.communities_joined = [];
-  }
-  if (communityMember.communities_joined.indexOf(platform) === -1) {
-    communityMember.communities_joined.push(platform);
-  }
-  try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
-  console.log('Community joined:', platform, communityMember.communities_joined);
-};
-
-// ── Confirm community joined ── (replaces old confirmSocialBoost)
-// Fires the webhook so the backend records this as a community member,
-// even if the user never enters an email or connects a wallet.
-window.confirmCommunitiesJoined = function() {
-  const checkbox = document.getElementById('inc-communities-confirm');
-  const status = document.getElementById('inc-communities-status');
-  if (!checkbox.checked) {
-    if (status) status.style.display = 'none';
-    return;
-  }
-  // GUARD: boost requires at least email or wallet
-  const hasEmail = (communityMember && communityMember.email) || (document.getElementById('inc-email') && document.getElementById('inc-email').value.trim().includes('@'));
-  const hasWallet = !!connectedAddress;
-  if (!hasEmail && !hasWallet) {
-    alert('To activate your boost, please complete Step 1 first — leave your email or connect your wallet.');
-    checkbox.checked = false;
-    return;
-  }
-  if (!communityMember) {
-    communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
-  }
-  if (!Array.isArray(communityMember.communities_joined) || communityMember.communities_joined.length === 0) {
-    alert('Please click to follow at least one channel above before confirming.');
-    checkbox.checked = false;
-    return;
-  }
-  communityMember.confirmed_at = new Date().toISOString();
-  communityMember.social_boost = true;
-  try { sessionStorage.setItem('gres_member', JSON.stringify(communityMember)); } catch(e) {}
-  if (status) status.style.display = 'block';
-  const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
-  fetch(CONFIG.n8nWebhook + '/community/confirm', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      communities_joined: communityMember.communities_joined,
-      email: communityMember.email || '',
-      wallet: connectedAddress || '',
-      referred_by: ref,
-      confirmed_at: communityMember.confirmed_at
-    }),
-  }).catch(e => console.error('Confirm communities error:', e));
-};
-
-window.generateReferralLink = function() {
-  // Allow referral generation if the user has done ANY of: confirmed communities, submitted email, connected wallet
-  const hasCommunities = communityMember && Array.isArray(communityMember.communities_joined) && communityMember.communities_joined.length > 0 && communityMember.confirmed_at;
-  const hasEmail = communityMember && communityMember.email;
-  const hasWallet = !!connectedAddress;
-  if (!hasCommunities && !hasEmail && !hasWallet) {
-    alert('Join a community, leave your email, or connect your wallet first to generate your referral link.');
-    return;
-  }
-  // Ensure communityMember exists
-  if (!communityMember) {
-    communityMember = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
-  }
-  const area = document.getElementById('inc-referral-area');
-  const linkInput = document.getElementById('inc-ref-link');
-  let refCode = '';
-  if (communityMember.referral_code) {
-    refCode = communityMember.referral_code;
-  } else {
-    // Generate client-side fallback code from email, wallet, or random
-    const seed = communityMember.email || connectedAddress || (Math.random().toString(36).substring(2,10));
-    refCode = btoa(seed).substring(0,8).replace(/[^a-zA-Z0-9]/g,'') || Math.random().toString(36).substring(2,10);
-  }
-  const refUrl = window.location.origin + window.location.pathname + '?ref=' + refCode;
-  linkInput.value = refUrl;
-  area.style.display = 'block';
-
-  // Set share links
-  const shareText = encodeURIComponent("I just joined The GRES Protocol \u2014 the first perpetual, AI-driven global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl);
-  document.getElementById('share-x').href = 'https://x.com/intent/tweet?text=' + shareText;
-  document.getElementById('share-tg').href = 'https://t.me/share/url?url=' + encodeURIComponent(refUrl) + '&text=' + shareText;
-  document.getElementById('share-wa').href = 'https://wa.me/?text=' + shareText;
-};
-
-window.copyRefLink = function() {
-  const input = document.getElementById('inc-ref-link');
-  navigator.clipboard.writeText(input.value);
-  const btn = input.nextElementSibling;
-  btn.textContent = 'Copied!';
-  setTimeout(() => btn.textContent = 'Copy', 2000);
-};
-
-window.copySharePost = function() {
-  const refUrl = document.getElementById('inc-ref-link').value;
-  const text = "I just joined The GRES Protocol \u2014 the first perpetual, AI-driven global real estate fund.\n\nEarly community members earn free GRES.ALPHA tokens + referral rewards.\n\nJoin here: " + refUrl;
-  navigator.clipboard.writeText(text);
-  alert('Post copied to clipboard!');
-};
-
-window.resendAccessLink = function() {
-  const email = document.getElementById('inc-resend-email').value.trim();
-  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-  const btn = document.querySelector('.resend-link .btn-ghost');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  fetch(CONFIG.n8nWebhook + '/community/resend', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email }),
-  }).then(() => {
-    btn.textContent = '\u2713 Sent!';
-    btn.style.background = 'var(--green)';
-    btn.style.borderColor = 'rgba(16,185,129,0.3)';
-    btn.style.color = 'white';
-    document.getElementById('inc-resend-email').disabled = true;
-    document.getElementById('inc-resend-email').style.opacity = '0.5';
-    const msg = document.createElement('div');
-    msg.style.cssText = 'margin-top:8px;font-size:11px;color:var(--green);text-align:center;';
-    msg.textContent = 'If this email is in our records, your access links have been resent. Check your inbox.';
-    btn.parentElement.parentElement.appendChild(msg);
-  }).catch(e => { console.error(e); btn.textContent = 'Resend'; btn.disabled = false; alert('Error. Please try again.'); });
-};
-
-// Community gate moved to incentives modal
-
-// ── Calculate Tokens (debounced 400ms to avoid hammering RPC on every keystroke) ──
-let _calcTimeout = null;
-window.calculateTokens = function() {
-  clearTimeout(_calcTimeout);
-  _calcTimeout = setTimeout(_doCalculateTokens, 400);
-};
-async function _doCalculateTokens() {
-  const val = parseFloat(document.getElementById('invest-amount').value) || 0;
-  if (val <= 0) { document.getElementById('token-calc').textContent = '0'; return; }
-  try {
-    if (CONFIG.saleContract && CONFIG.saleStatus !== 'pre-launch') {
-      const provider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
-      const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, provider);
-      const [tokenAmount] = await sale.getQuote(ethers.utils.parseUnits(val.toString(), 6));
-      document.getElementById('token-calc').textContent = Math.floor(parseFloat(ethers.utils.formatUnits(tokenAmount, 18))).toLocaleString();
-    } else { document.getElementById('token-calc').textContent = Math.floor(val / 0.002).toLocaleString(); }
-  } catch(e) { document.getElementById('token-calc').textContent = Math.floor(val / 0.002).toLocaleString(); }
-}
-
-// ── Wallet Connection ──
-const modal = createAppKit({
-  adapters: [new Ethers5Adapter()],
-  networks: [base],
-  metadata: { name: 'GRES Protocol', url: window.location.origin, icons: [] },
-  projectId: CONFIG.walletConnectId,
-});
-
-// Track last notified wallet IN MEMORY ONLY (not sessionStorage).
-// Goal: prevent 8 fires of subscribeAccount within ONE connection.
-// New tab / refresh / new connection attempt should always fire — to recover from prior errors.
-let lastNotifiedWallet = null;
-
-modal.subscribeAccount(account => {
-  if (account.isConnected) {
-    connectedAddress = account.address;
-    const btnConnect = document.getElementById('btn-connect');
-    if (btnConnect) btnConnect.textContent = connectedAddress.substring(0,6) + '...' + connectedAddress.slice(-4);
-    if (typeof updateIncentivesWalletUI === 'function') {
-      try { updateIncentivesWalletUI(); } catch(e) {}
-    }
-    applySaleState();
-
-    // Persist updated member state (always, regardless of dedup)
-    let member = communityMember;
-    if (!member) { try { const s = sessionStorage.getItem('gres_member'); if (s) member = JSON.parse(s); } catch(e) {} }
-    if (!member) member = { email: '', access_token: '', referral_code: '', social_boost: false, communities_joined: [] };
-    member.wallet = connectedAddress;
-    communityMember = member;
-    try { sessionStorage.setItem('gres_member', JSON.stringify(member)); } catch(e) {}
-
-    // DEDUP: only notify backend if this wallet is new in this session
-    const walletLower = connectedAddress.toLowerCase();
-    if (lastNotifiedWallet === walletLower) {
-      // Already notified — skip
-      return;
-    }
-    lastNotifiedWallet = walletLower;
-
-    const ref = localStorage.getItem('gres_ref') || new URLSearchParams(window.location.search).get('ref') || '';
-    fetch(CONFIG.n8nWebhook + '/community/wallet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: (member && member.email) || '',
-        wallet: connectedAddress,
-        communities_joined: (member && member.communities_joined) || [],
-        referred_by: ref,
-        connected_at: new Date().toISOString()
-      }),
-    }).catch(e => console.error('Wallet webhook error:', e));
-  } else {
-    connectedAddress = null;
-    const btnConnect = document.getElementById('btn-connect');
-    if (btnConnect) btnConnect.textContent = 'Connect Wallet';
-    if (typeof updateIncentivesWalletUI === 'function') {
-      try { updateIncentivesWalletUI(); } catch(e) {}
-    }
-    applySaleState();
-    // Note: we keep lastNotifiedWallet — disconnecting and reconnecting same wallet won't re-notify.
-    // Only changing to a different wallet triggers a new notification.
-  }
-});
-
-window.connectWallet = () => modal.open();
-
-// ── Add Token to Wallet ──
-window.addTokenToWallet = async function() {
-  const btn = event && event.target;
-  if (btn) { btn.disabled = true; btn.textContent = 'Adding...'; }
-  try {
-    // Use the connected wallet provider (works for both injected MetaMask and WalletConnect)
-    let provider = null;
-    try { provider = modal.getWalletProvider(); } catch(e) {}
-    if (!provider) provider = window.ethereum;
-    if (!provider) throw new Error('No wallet provider available');
-    
-    const result = await provider.request({
-      method: 'wallet_watchAsset',
-      params: { type: 'ERC20', options: { address: CONFIG.tokenContract, symbol: 'GRESALPHA', decimals: 18 } }
-    });
-    
-    if (btn) { btn.textContent = result ? '✓ Added to Wallet' : 'Add GRES.ALPHA to MetaMask'; if (result) btn.style.background = 'var(--green)'; }
-  } catch (e) {
-    console.error('addTokenToWallet error:', e);
-    if (btn) { btn.disabled = false; btn.textContent = 'Add GRES.ALPHA to MetaMask'; }
-    // Mobile MetaMask via WalletConnect may not support wallet_watchAsset — show fallback instructions
-    alert('To add GRES.ALPHA manually:\n\n1. Open MetaMask\n2. Tap "Import tokens"\n3. Paste this address:\n\n' + CONFIG.tokenContract);
-  }
-};
-
-// ── Purchase Modal Helpers ──
-function pmReset() {
-  ['quote','approve','buy','confirm'].forEach(s => {
-    const el = document.getElementById('pm-step-' + s);
-    if (el) { el.classList.remove('pm-active','pm-done','pm-error'); el.style.opacity = '0.5'; }
-  });
-  document.getElementById('pm-success-actions').style.display = 'none';
-  document.getElementById('pm-error-actions').style.display = 'none';
-  document.getElementById('pm-close').style.display = 'none';
-  document.getElementById('pm-title').textContent = 'Processing Your Purchase';
-  document.getElementById('pm-subtitle').textContent = 'Please confirm each step in your wallet';
-  // Remove Basescan fallback block if present from previous error
-  const fb = document.getElementById('pm-basescan-fallback-block');
-  if (fb && fb.parentElement) fb.parentElement.removeChild(fb);
-}
-function pmStepActive(step, detail) {
-  ['quote','approve','buy','confirm'].forEach(s => {
-    const el = document.getElementById('pm-step-' + s);
-    if (el && el.classList.contains('pm-active')) { el.classList.remove('pm-active'); el.classList.add('pm-done'); }
-  });
-  const el = document.getElementById('pm-step-' + step);
-  if (el) { el.classList.add('pm-active'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
-}
-function pmStepDone(step, detail) {
-  const el = document.getElementById('pm-step-' + step);
-  if (el) { el.classList.remove('pm-active'); el.classList.add('pm-done'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
-}
-function pmStepError(step, detail) {
-  const el = document.getElementById('pm-step-' + step);
-  if (el) { el.classList.remove('pm-active'); el.classList.add('pm-error'); el.style.opacity = '1'; const d = el.querySelector('.pm-detail'); if (d && detail) d.textContent = detail; }
-}
-
-// Race a promise against a timeout with visible countdown in the step detail
-// step: 'quote'|'approve'|'buy'|'confirm' - which step shows the countdown
-// timeoutSec: max seconds before reject with STEP_TIMEOUT
-// label: prefix shown e.g. "Waiting for wallet confirmation"
-function pmRaceTimeout(promise, timeoutSec, step, label) {
-  let intervalId = null;
-  let remaining = timeoutSec;
-  const stepEl = document.getElementById('pm-step-' + step);
-  const detailEl = stepEl ? stepEl.querySelector('.pm-detail') : null;
-  
-  const updateLabel = () => {
-    if (detailEl) detailEl.textContent = `${label}... (${remaining}s left)`;
-  };
-  updateLabel();
-  intervalId = setInterval(() => {
-    remaining -= 1;
-    if (remaining <= 0) { remaining = 0; }
-    updateLabel();
-  }, 1000);
-  
-  const cleanup = () => { if (intervalId) { clearInterval(intervalId); intervalId = null; } };
-  
-  const timeoutPromise = new Promise((_, reject) => {
-    setTimeout(() => {
-      cleanup();
-      reject(new Error('STEP_TIMEOUT'));
-    }, timeoutSec * 1000);
-  });
-  
-  return Promise.race([
-    promise.then(v => { cleanup(); return v; }, e => { cleanup(); throw e; }),
-    timeoutPromise
-  ]);
-}
-function pmShowSuccess(tokens) {
-  document.getElementById('pm-title').textContent = 'Allocation Confirmed';
-  document.getElementById('pm-subtitle').textContent = '';
-  document.getElementById('pm-token-amount').textContent = Math.floor(tokens).toLocaleString();
-  document.getElementById('pm-success-actions').style.display = 'block';
-  document.getElementById('pm-close').style.display = 'block';
-}
-function pmShowError(msg) {
-  document.getElementById('pm-title').textContent = 'Transaction Failed';
-  document.getElementById('pm-subtitle').textContent = '';
-  document.getElementById('pm-error-msg').textContent = msg;
-  
-  // Inject Basescan fallback block (if not already there)
-  const errorActions = document.getElementById('pm-error-actions');
-  if (errorActions && !document.getElementById('pm-basescan-fallback-block')) {
-    const fb = document.createElement('div');
-    fb.id = 'pm-basescan-fallback-block';
-    fb.style.cssText = 'margin:16px 0;padding:14px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:8px;text-align:left;';
-    fb.innerHTML = '<div style="font-size:13px;color:var(--text);margin-bottom:8px;font-weight:600;">Sorry &mdash; possibly high demand or network issues.</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">You can complete your purchase directly on Basescan, bypassing the website. Same contract, same price.</div><button type="button" onclick="closePurchaseModal();openBasescanModal();" style="width:100%;padding:10px 14px;background:var(--gold);color:#0a0a0a;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;">Buy via Basescan &rarr;</button>';
-    // Insert before the existing Close button if any, else prepend
-    const existingBtn = errorActions.querySelector('button');
-    if (existingBtn) {
-      errorActions.insertBefore(fb, existingBtn);
-    } else {
-      errorActions.insertBefore(fb, errorActions.firstChild);
-    }
-  }
-  
-  document.getElementById('pm-error-actions').style.display = 'block';
-  document.getElementById('pm-close').style.display = 'block';
-}
-window.openBasescanModal = function() {
-  document.getElementById('basescan-modal').classList.add('active');
-  // Initialize calculator with default value
-  bscCalcAmount();
-};
-window.closeBasescanModal = function() {
-  document.getElementById('basescan-modal').classList.remove('active');
-};
-window.bscCalcAmount = function() {
-  const input = document.getElementById('bsc-usdc-input');
-  if (!input) return;
-  const usdc = parseFloat(input.value) || 0;
-  // USDC has 6 decimals on Base
-  const onchainValue = Math.floor(usdc * 1000000);
-  const valEl = document.getElementById('bsc-onchain-value');
-  if (valEl) valEl.textContent = onchainValue.toLocaleString('en-US').replace(/,/g, '');
-  // Estimate GRES.ALPHA tokens at Lot 01 price $0.002
-  const tokens = usdc / 0.002;
-  const estEl = document.getElementById('bsc-tokens-estimate');
-  if (estEl) estEl.textContent = Math.floor(tokens).toLocaleString('en-US');
-};
-window.bscCopyValue = function() {
-  const val = document.getElementById('bsc-onchain-value').textContent;
-  const btn = document.getElementById('bsc-copy-btn');
-  navigator.clipboard.writeText(val).then(() => {
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = 'Copied!';
-      btn.style.background = 'var(--green)';
-      setTimeout(() => { btn.textContent = orig; btn.style.background = 'var(--gold)'; }, 1500);
-    }
-  }).catch(() => {
-    // Fallback for older browsers
-    const tmp = document.createElement('input');
-    tmp.value = val;
-    document.body.appendChild(tmp);
-    tmp.select();
-    try { document.execCommand('copy'); } catch(e) {}
-    document.body.removeChild(tmp);
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = 'Copied!';
-      btn.style.background = 'var(--green)';
-      setTimeout(() => { btn.textContent = orig; btn.style.background = 'var(--gold)'; }, 1500);
-    }
-  });
-};
-window.closePurchaseModal = function() {
-  document.getElementById('purchase-modal').classList.remove('active');
-  // Reset form
-  document.getElementById('user-email').value = '';
-  document.getElementById('invest-amount').value = '';
-  document.getElementById('agree-terms').checked = false;
-  document.getElementById('token-calc').textContent = '0';
-};
-
-// ── Purchase Flow (approve + buy via Sale Contract) ──
-window.investNow = async function() {
-  if (CONFIG.saleStatus === 'pre-launch') { alert('The sale has not started yet.'); return; }
-  if (!document.getElementById('agree-terms').checked) { alert('You must confirm you are NOT a US Person and accept the Terms & Conditions.'); return; }
-  const email = document.getElementById('user-email').value;
-  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-  const amount = parseFloat(document.getElementById('invest-amount').value);
-  if (!amount || amount < 1) { alert('Minimum 1 USDC.'); return; }
-  if (!connectedAddress) { modal.open(); return; }
-
-  const btnPurchase = document.getElementById('btn-purchase');
-  const usdcAmount = ethers.utils.parseUnits(amount.toString(), 6);
-  
-  // Disable button
-  if (btnPurchase) { btnPurchase.disabled = true; btnPurchase.classList.add('btn-disabled'); btnPurchase.textContent = 'Processing...'; }
-  
-  // Open stepper modal
-  pmReset();
-  document.getElementById('purchase-modal').classList.add('active');
-  
-  try {
-    const walletProvider = modal.getWalletProvider();
-    const provider = new ethers.providers.Web3Provider(walletProvider);
-    
-    // Network check — force BASE (auto-switch, auto-add if missing)
-    const network = await provider.getNetwork();
-    console.log('Current network chainId:', network.chainId);
-    if (network.chainId !== 8453) {
-      console.log('Need to switch to Base. Attempting wallet_switchEthereumChain...');
-      try {
-        await walletProvider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x2105' }] });
-        console.log('Switch succeeded');
-      } catch (switchError) {
-        console.log('Switch error:', switchError.code, switchError.message);
-        // 4902 = network not added to wallet — try to add it
-        if (switchError.code === 4902 || (switchError.message && switchError.message.includes('Unrecognized'))) {
-          try {
-            await walletProvider.request({
-              method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: '0x2105',
-                chainName: 'Base',
-                nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-                rpcUrls: ['https://mainnet.base.org'],
-                blockExplorerUrls: ['https://basescan.org']
-              }]
-            });
-            console.log('Add Base succeeded');
-          } catch(e) {
-            console.error('Add Base failed:', e);
-            throw new Error('Could not add Base network. Please add it manually in your wallet (chainId 8453, RPC https://mainnet.base.org) and try again.');
-          }
-        } else if (switchError.code === 4001 || (switchError.message && switchError.message.includes('rejected'))) {
-          throw new Error('You must switch to Base network to purchase. Please try again and approve the network switch.');
-        } else {
-          throw new Error('Please switch your wallet to Base network manually and try again.');
-        }
-      }
-    }
-    
-    const signer = provider.getSigner();
-    const usdc = new ethers.Contract(CONFIG.usdcContract, USDC_ABI, signer);
-    const sale = new ethers.Contract(CONFIG.saleContract, SALE_ABI, signer);
-    
-    // Step 1: Quote
-    pmStepActive('quote', 'Calculating tokens for $' + amount + ' USDC...');
-    const finished = await sale.saleFinished();
-    if (finished) throw new Error('The sale is finished.');
-    const isWLOnly = await sale.whitelistOnly();
-    if (isWLOnly) {
-      const isWL = await sale.whitelist(connectedAddress);
-      if (!isWL) throw new Error('Whitelist active. Join Community Incentives for early access.');
-    }
-    const [tokenAmount, usdcUsed] = await sale.getQuote(usdcAmount);
-    const tokenFormatted = parseFloat(ethers.utils.formatUnits(tokenAmount, 18));
-    const usdcFormatted = parseFloat(ethers.utils.formatUnits(usdcUsed, 6)).toFixed(2);
-    pmStepDone('quote', Math.floor(tokenFormatted).toLocaleString() + ' GRES.ALPHA for $' + usdcFormatted);
-    
-    // Step 2: Approve USDC (skip if allowance already sufficient)
-    pmStepActive('approve', 'Checking USDC allowance...');
-    let currentAllowance;
-    try {
-      currentAllowance = await usdc.allowance(connectedAddress, CONFIG.saleContract);
-    } catch (allowErr) {
-      console.warn('Allowance check failed, proceeding with approve:', allowErr);
-      currentAllowance = ethers.BigNumber.from(0);
-    }
-    if (currentAllowance.gte(usdcUsed)) {
-      pmStepDone('approve', 'USDC already approved');
-    } else {
-      pmStepActive('approve', 'Confirm USDC approval in your wallet...');
-      // Use signer.sendTransaction directly to bypass ethers parser bug with mobile wallets
-      // (ethers Formatter.transactionResponse breaks on undefined fields from some wallet responses)
-      const usdcInterface = new ethers.utils.Interface(USDC_ABI);
-      const approveData = usdcInterface.encodeFunctionData('approve', [CONFIG.saleContract, usdcUsed]);
-      let approveTxHash;
-      try {
-        // Timeout on sendTransaction (wallet confirmation): 90s
-        const approveTx = await pmRaceTimeout(
-          signer.sendTransaction({
-            to: CONFIG.usdcContract,
-            data: approveData,
-            gasLimit: 100000
-          }),
-          90,
-          'approve',
-          'Waiting for wallet confirmation'
-        );
-        approveTxHash = approveTx.hash;
-        // Timeout on wait() (block confirmation): 60s
-        await pmRaceTimeout(
-          approveTx.wait(),
-          60,
-          'approve',
-          'Waiting for approval to confirm on-chain'
-        );
-      } catch (approveErr) {
-        // If error has txHash in data, the tx was actually sent — wait via provider with timeout
-        const possibleHash = approveErr?.transactionHash || approveErr?.transaction?.hash || approveErr?.hash;
-        if (possibleHash) {
-          console.log('Approve error but tx hash exists, waiting via provider:', possibleHash);
-          try {
-            await pmRaceTimeout(
-              provider.waitForTransaction(possibleHash),
-              60,
-              'approve',
-              'Waiting for approval (via fallback)'
-            );
-            approveTxHash = possibleHash;
-          } catch (fallbackErr) {
-            throw fallbackErr;
-          }
-        } else if (approveErr.code === 'INVALID_ARGUMENT' && approveErr.message && approveErr.message.includes('BigNumber')) {
-          // Parser bug — verify allowance directly
-          console.log('Parser error on approve, verifying allowance directly...');
-          await new Promise(r => setTimeout(r, 3000));
-          const newAllowance = await usdc.allowance(connectedAddress, CONFIG.saleContract);
-          if (newAllowance.gte(usdcUsed)) {
-            console.log('Allowance is set despite parser error');
-          } else {
-            throw new Error('Approval failed. Please try again.');
-          }
-        } else {
-          throw approveErr;
-        }
-      }
-      pmStepDone('approve', 'USDC approved');
-    }
-    
-    // Step 3: Buy
-    pmStepActive('buy', 'Confirm purchase in your wallet...');
-    try {
-      await provider.getBlockNumber();
-    } catch (livenessErr) {
-      throw new Error('Wallet connection lost. Please refresh the page and try again. Your USDC approval is still valid.');
-    }
-    
-    // Use signer.sendTransaction directly to bypass ethers parser bug with mobile wallets
-    const saleInterface = new ethers.utils.Interface(SALE_ABI);
-    const buyData = saleInterface.encodeFunctionData('buy', [usdcAmount]);
-    let buyTxHash;
-    try {
-      // Timeout on sendTransaction (wallet confirmation): 90s
-      const buyTx = await pmRaceTimeout(
-        signer.sendTransaction({
-          to: CONFIG.saleContract,
-          data: buyData,
-          gasLimit: 300000
-        }),
-        90,
-        'buy',
-        'Waiting for wallet confirmation'
-      );
-      buyTxHash = buyTx.hash;
-      pmStepActive('buy', 'Transaction sent: ' + buyTxHash.substring(0,10) + '...');
-      pmStepDone('buy', 'Transaction submitted');
-      // Timeout on wait() (block confirmation): 60s
-      await pmRaceTimeout(
-        buyTx.wait(),
-        60,
-        'confirm',
-        'Waiting for block confirmation'
-      );
-      pmStepDone('confirm', 'Confirmed on-chain');
-    } catch (buyErr) {
-      // Try to recover tx hash from error
-      const possibleHash = buyErr?.transactionHash || buyErr?.transaction?.hash || buyErr?.hash;
-      if (possibleHash) {
-        console.log('Buy error but tx hash exists, waiting via provider:', possibleHash);
-        buyTxHash = possibleHash;
-        pmStepDone('buy', 'Transaction submitted: ' + buyTxHash.substring(0,10) + '...');
-        try {
-          await pmRaceTimeout(
-            provider.waitForTransaction(buyTxHash),
-            60,
-            'confirm',
-            'Waiting for block confirmation (via fallback)'
-          );
-          pmStepDone('confirm', 'Confirmed on-chain');
-        } catch (waitErr) {
-          if (waitErr.message === 'STEP_TIMEOUT') {
-            pmStepDone('confirm', 'Taking longer than expected. Tx: ' + buyTxHash.substring(0,10) + '...');
-          } else {
-            throw waitErr;
-          }
-        }
-      } else if (buyErr.message === 'STEP_TIMEOUT') {
-        // Timeout from pmRaceTimeout — treat as failure to trigger Basescan fallback
-        throw new Error('Transaction timed out. The network may be congested or your wallet did not respond.');
-      } else {
-        throw buyErr;
-      }
-    }
-    
-    // Refresh state
-    await refreshSaleState();
-    const currentLotNum = await sale.currentLot();
-    const ref = new URLSearchParams(window.location.search).get('ref') || '';
-    
-    // Webhook (fire and forget)
-    fetch(CONFIG.n8nWebhook + '/purchase', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name: email.split('@')[0], wallet: connectedAddress, amount_usd: parseFloat(usdcFormatted), tokens: Math.floor(tokenFormatted), lot: 'Lot 0' + currentLotNum.toNumber(), tx_hash: buyTxHash, referral_code: ref }),
-    }).catch(err => {
-      fetch(CONFIG.sheetsAPI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ sheet: 'Investidores', email, wallet: connectedAddress, value: parseFloat(usdcFormatted), hash: buyTxHash, ref, lot: currentLotNum.toNumber() }) }).catch(e => console.error(e));
-    });
-    
-    // Success
-    pmShowSuccess(tokenFormatted);
-    
-  } catch (e) {
-    console.error('Purchase error full:', e);
-    console.error('Error code:', e.code);
-    console.error('Error reason:', e.reason);
-    console.error('Error data:', e.data);
-    let msg = 'Transaction failed.';
-    if (e.message === 'STEP_TIMEOUT') {
-      msg = 'Transaction timed out. Your wallet did not respond or the network is congested. Try again or use Basescan directly.';
-    }
-    else if (e.code === 'INVALID_ARGUMENT' && (e.argument === 'value' || (e.message && e.message.includes('BigNumber')))) {
-      msg = 'Wallet returned an incomplete response. Please refresh the page and try again. If you already approved USDC, that approval is still valid.';
-    }
-    else if (e.code === 'INSUFFICIENT_FUNDS' || (e.message && e.message.includes('insufficient'))) msg = 'Insufficient ETH for gas or USDC for purchase. Check your BASE balances.';
-    else if (e.message && e.message.includes('user rejected')) msg = 'Transaction cancelled by user.';
-    else if (e.code === 'CALL_EXCEPTION') msg = 'Contract rejected the transaction. This usually means insufficient USDC balance, sale paused, or below minimum. Check your wallet balance.';
-    else if (e.reason) msg = 'Error: ' + e.reason;
-    else if (e.message) msg = e.message;
-    
-    // Mark current active step as error
-    const activeStep = document.querySelector('.pm-step.pm-active');
-    if (activeStep) {
-      const stepId = activeStep.id.replace('pm-step-','');
-      pmStepError(stepId, msg);
-    }
-    pmShowError(msg);
-  } finally {
-    // Re-enable button
-    if (btnPurchase) { btnPurchase.disabled = false; btnPurchase.classList.remove('btn-disabled'); btnPurchase.textContent = 'Purchase GRES.ALPHA'; }
-  }
-};
-
-
-/* ── FAQ DATA ── */
+/* ── FAQ ── */
 const FAQ = [
-  { q: "Why are you doing a token pre-sale instead of raising VC capital?", a: "Two reasons. First, the capital structure has to match the thesis — democratized access to real estate requires democratized funding of the infrastructure. Second, we wanted accountability to a community of long-term holders, not to a fund cycle. GRES.ALPHA aligns holder horizon with builder horizon." },
-  { q: "Why a Swiss-style Foundation for custody?", a: "Swiss Foundation law provides three properties we needed: institutional perpetuity (Swiss foundations are designed to outlast founders), custody/governance separation (cannot be captured unilaterally), and jurisdictional neutrality (Swiss legal tradition is recognized globally). This is the same architecture used by institutions like the IOC and major sovereign heritage trusts. It is the most battle-tested legal structure for assets that need to outlive their stewards." },
-  { q: "What is GRES.ALPHA and what does it grant?", a: "GRES.ALPHA is a utility token (ERC-20 on BASE, no KYC) issued during the construction phase. It funds protocol development and grants governance pre-vote rights, airdrop eligibility, and discounted access to $GRES at Phase 04 mainnet launch. It is not asset-backed and does not represent fractional ownership." },
-  { q: "How does the buyback mechanism work?", a: "GRES.ALPHA Lot 01 is priced at $0.002 per token. The buyback mechanism targets a minimum burn price of $0.05 per token (25x the seed price), funded by 0.5% of all transactional volume within the Phase 04 ecosystem. The burn cap is $0.10 (50x). Outcomes depend on protocol adoption — not guaranteed." },
-  { q: "What is $GRES and when does it launch?", a: "$GRES is the asset-backed token launching at Phase 04 mainnet. It will be NAV-pegged, backed by Foundation-held real estate, and KYC-required under MiCA guidelines. Six functions: store of value, yield & appreciation, qualified collateral, global development access, transaction protocol, data & finance platform. Target launch: 12-18 months from build phase completion." },
-  { q: "What happens if Phase 04 takes longer than planned?", a: "Honest answer: smart contract infrastructure timelines slip. The buyback mechanism funded by transactional volume only activates with $GRES operational. Holders who buy GRES.ALPHA today should treat this as funding development with utility upside, not yield with a fixed delivery date. We commit to monthly transparent build updates." },
-  { q: "How is GRES different from RWA protocols that failed?", a: "Three structural differences: Swiss-style Foundation custody (vs SPV wrapping that broke under stress), perpetual structure (vs fund-life models that force exit), and MiCA-aligned issuance (vs ad-hoc legal structures). Whether these differences translate to better outcomes depends on execution — which is what we are focused on now." },
-  { q: "Are you a team or just one founder?", a: "One founder right now (Thiago Sequinel) by choice — serial entrepreneur with 2 exits. Swiss-style Foundation framework, legal advisors, smart contract auditing pipeline, and external operators contracted as needed. Solo founder with institutional documentation, not a team in disguise. Transparency is part of the design — and so is hiring as the protocol scales." },
-  { q: "Why BASE L2 instead of Ethereum mainnet or another chain?", a: "BASE provides three things: Coinbase-grade institutional gateway (custody, fiat onramps, regulatory alignment); EVM compatibility (no friction for crypto-native users); and low gas (matters for the small-ticket access we are enabling). Phase 04 may extend to additional chains as needed." },
-  { q: "Can US persons participate?", a: "Not yet. GRES.ALPHA pre-sale is not available to US persons, US residents, or persons present in the United States. This restriction is imposed by the US government and will be re-evaluated as US regulatory frameworks evolve or we land in US with the same regulatory obedience we are building in the EU, whichever occurs first." },
+  {
+    q: "What is GRES, in one sentence?",
+    a: "GRES is the protocol layer for on-chain real estate — a perpetual fund architecture where deeds are held by an independent Foundation, valuation is AI-Augmented and daily, and the asset class is finally accessible without the friction of jurisdiction, ticket size, or fund-life cycles."
+  },
+  {
+    q: "How is the underlying real estate held?",
+    a: "100% of property deeds are held by an independent Swiss-style Foundation modeled after Swiss law. The Foundation is bankruptcy-remote, structurally isolated from the operating company, and has no equity by design — it exists to outlast its creators. The operating company (GRES Operator) handles technology, distribution, and day-to-day operations. Custody and operations are separated on purpose."
+  },
+  {
+    q: "How is the portfolio valued?",
+    a: "Via AI-Augmented Valuation. The methodology computes daily NAV from a curated set of on-chain comparable analyses, with human governance reviewing exceptions. The intent is to close the 90-day reporting gap between traditional real estate appraisal cycles and the way modern capital actually moves. Methodology is open and auditable."
+  },
+  {
+    q: "What is the regulatory posture?",
+    a: "MiCA-aligned by design. The token structure is built for European compliance from day one, with the goal of passporting across 27 EU markets. Filings are in progress in Spain, Luxembourg, and Liechtenstein. Outside the EU, jurisdictional design follows the same principle: align with the most rigorous available framework, not the most permissive."
+  },
+  {
+    q: "How does GRES fit a modern investor's portfolio?",
+    a: "It occupies a corner most portfolios cannot currently reach: institutional-grade real estate exposure, accessible from any ticket size, perpetual structure, on-chain settlement. Investors with existing real estate allocations (REITs, property funds, direct holdings) use GRES as the diversification and accessibility layer their current vehicles don't provide."
+  },
+  {
+    q: "How is GRES different from RWA tokenization 1.0?",
+    a: "Three structural differences. First, governance: Foundation custody versus the SPV wrappers that broke under stress in earlier protocols. Second, structure: perpetual versus fund-life models that force liquidation at the wrong moments. Third, regulatory: MiCA-aligned from inception versus ad-hoc legal scaffolding bolted on later. The first wave produced what I describe as investment cemeteries — single-asset tokens with no diversification, no governance, no liquidity. GRES is not an iteration on that. It is a different architecture."
+  },
+  {
+    q: "Who runs GRES?",
+    a: "Solo-founder operated today — Thiago Sequinel. The Foundation will be governed by independent trustees with legal, real estate, and finance backgrounds, to be appointed in Phase 02. Strategic partners include the Tier-1 audit firm, EU legal counsel (Switzerland, Spain), real estate developers (LOIs in progress), and KYC/AML providers. Equity exists only in the GRES Operator; the Foundation has no equity by design."
+  },
+  {
+    q: "What stage is the protocol at?",
+    a: "Genesis is deployed — smart contracts live, treasury secured on BASE L2 with Gnosis Safe multisig, full documentation published. Blueprint is in progress (4–8 months): independent audit, Foundation formation, MiCA-aligned legal structuring, AI Oracle architecture, builder portal, LOIs with EU developers. Ignition (mainnet $GRES) is targeted at 12–18 months."
+  },
+  {
+    q: "Where can I read the work?",
+    a: "Three published documents define what GRES is: the Whitepaper (architecture, governance, technology), the Digital Assets Paper ($GRES specification, the six functions, NAV peg), and the Communication Charts (positioning against alternatives, audience analysis). All available at gres.network. Investors typically read these before any conversation."
+  },
+  {
+    q: "How do I participate?",
+    a: "Two paths, both available from the Investors page. Capital Partners invest directly in the company building the standard (pre-seed equity in GRES Operator — $400K round to complete Blueprint). Protocol Holders acquire GRES.ALPHA, the utility token funding development, eligible for buyback-and-burn or conversion into platform credits at Phase 04 mainnet. The right door depends on which exposure fits your thesis."
+  },
 ];
 
 function renderFAQ() {
@@ -2989,27 +1276,20 @@ window.toggleFaq = function(el) {
   el.classList.toggle('open', !wasOpen);
 };
 
-/* ── Countdown ── */
-function updateCountdown() {
-  const diff = CONFIG.publicSaleDate - new Date();
-  if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '0'; }); return; }
-  const el = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
-  el('cd-days', Math.floor(diff / 86400000));
-  el('cd-hours', String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0'));
-  el('cd-mins', String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0'));
-  el('cd-secs', String(Math.floor((diff % 60000) / 1000)).padStart(2,'0'));
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
+/* ── n8n integration stubs ── 
+   Webhook endpoints to be wired in n8n (replace with real URLs when ready).
+   - WF10_Deck_Request       — /investors Path A form submission (equity)
+   - WF_Alpha_Purchase       — /investors Path B checkout (Reown wallet -> tx)
+   - WF_News_Subscribe       — Newsletter signup (decision pending: page vs email vs both)
+*/
+window.GRES_N8N = {
+  deckRequestUrl: "https://gres.app.n8n.cloud/webhook/deck-request",
+  alphaPurchaseUrl: "https://gres.app.n8n.cloud/webhook/alpha-purchase",
+  newsSubscribeUrl: "https://gres.app.n8n.cloud/webhook/news-subscribe",
+};
 
-// ── Init ──
-try { checkAccessToken(); } catch(e) { console.error('checkAccessToken err:', e); }
-try { renderLots(); } catch(e) { console.error('renderLots err:', e); }
-try { renderRoadmap(); } catch(e) { console.log('Roadmap is static, skipping'); }
-try { renderFAQ(); } catch(e) { console.error('renderFAQ err:', e); }
-try { applySaleState(); } catch(e) { console.error('applySaleState err:', e); }
-try { refreshSaleState(); } catch(e) { console.error('refreshSaleState err:', e); }
-
+/* ── Init ── */
+renderFAQ();
 </script>
 </body>
 </html>
