@@ -47,6 +47,23 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
 .nav-links a{color:var(--muted);text-decoration:none;font-size:14px}
 .nav-links a:hover{color:var(--text)}
 .nav-links a.active{color:var(--gold)}
+.mobile-toggle{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:8px;font-size:24px;line-height:1}
+
+@media (max-width:900px){
+  .mobile-toggle{display:block}
+  .nav-links{display:none}
+  .nav-links.mobile-open{
+    display:flex;flex-direction:column;align-items:stretch;gap:0;
+    position:fixed;top:73px;left:0;right:0;
+    background:rgba(237,229,211,0.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);
+    padding:4px 0;z-index:99;box-shadow:0 12px 24px rgba(26,22,51,0.08)
+  }
+  .nav-links.mobile-open a{padding:16px 24px;font-size:15px;border-bottom:1px solid var(--border-soft)}
+  .nav-links.mobile-open a:last-child{border-bottom:none}
+  .brand span{display:none}
+  .brand-logo{height:32px}
+}
 
 .eyebrow{color:var(--gold);font-size:11px;letter-spacing:.18em;font-weight:600;text-transform:uppercase;margin-bottom:24px}
 .section-eyebrow{color:var(--gold);font-size:11px;letter-spacing:.15em;font-weight:600;text-transform:uppercase;margin-bottom:16px}
@@ -299,6 +316,7 @@ h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:14px}
       <a href="/news-feed">News Feed</a>
       <a href="/#faq">FAQ</a>
     </nav>
+    <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button>
   </div>
 </header>
 
