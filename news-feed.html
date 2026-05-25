@@ -139,11 +139,35 @@ a:hover { color: var(--gold-bright); }
 .nav-gold { color: var(--gold) !important; }
 .nav-gold:hover { color: var(--gold-bright) !important; }
 .nav-active { color: var(--text) !important; }
-.mobile-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; font-size: 22px; }
+.mobile-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; font-size: 22px; line-height: 1; padding: 8px; }
 @media (max-width: 968px) {
   .nav-links { display: none; }
   .mobile-toggle { display: block; }
   .brand span { display: none; }
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(237, 229, 211, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 4px 0;
+    z-index: 99;
+    box-shadow: 0 12px 24px rgba(26, 22, 51, 0.08);
+  }
+  .nav-links.mobile-open a {
+    padding: 16px 24px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav-links.mobile-open a:last-child { border-bottom: none; }
 }
 
 /* ── Hero ── */
@@ -484,6 +508,35 @@ h1 em { font-style: italic; color: var(--gold); }
   margin: 0 auto;
 }
 
+/* ── Locked-stub for older posts when feed is locked ── */
+.locked-stub {
+  background: var(--bg-card);
+  border: 1px dashed var(--gold-soft);
+  border-radius: 2px;
+  padding: 22px 28px;
+  text-align: center;
+}
+.locked-stub-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.locked-stub-icon {
+  font-size: 18px;
+  opacity: 0.7;
+}
+.locked-stub-count {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text);
+}
+.locked-stub-hint {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
 /* ── End of feed ── */
 .end-of-feed {
   text-align: center;
@@ -719,7 +772,16 @@ function isoToday() {
 }
 
 /* ── Render ── */
+function isValidHttpUrl(u) {
+  if (!u || typeof u !== 'string') return false;
+  return /^https?:\/\//i.test(u.trim());
+}
+
 function renderItem(item) {
+  const validUrl = isValidHttpUrl(item.url);
+  const linkHtml = validUrl
+    ? `<a href="${escapeAttr(item.url)}" class="item-source-link" target="_blank" rel="noopener">Read at ${escapeHtml(item.source || 'source')}</a>`
+    : '';
   return `
     <article class="feed-item">
       <div class="item-meta">
@@ -731,36 +793,48 @@ function renderItem(item) {
       </div>
       <h2 class="item-headline">${escapeHtml(item.title || '')}</h2>
       <p class="item-summary">${escapeHtml(item.summary || '')}</p>
-      <a href="${escapeAttr(item.url || '#')}" class="item-source-link" target="_blank" rel="noopener">Read at ${escapeHtml(item.source || 'source')}</a>
+      ${linkHtml}
     </article>
   `;
 }
 
-function renderPostBlock(post, isTodayBlock, unlocked) {
-  const dateLabel = isTodayBlock ? 'Today' : formatDate(post.date);
+function renderPostBlock(post, blockState, unlocked) {
+  // blockState: 'first' = most recent post, 'older' = previous days
+  // Visible rules:
+  //  unlocked → show everything for any block
+  //  locked + first → show first 3 items, then gate, hide rest
+  //  locked + older → header + intro + small "subscribe to unlock" stub, NO items
+  const isFirst = blockState === 'first';
+  const dateLabel = isFirst ? 'Today' : formatDate(post.date);
   const intro = post.intro_text || '';
-
-  // Visible items rule:
-  // - If unlocked OR not today's block: render all items
-  // - If locked AND today's block: render first 3, then gate, then HIDE rest
-  let itemsHtml = '';
   const items = post.items || [];
 
-  if (unlocked || !isTodayBlock) {
+  let itemsHtml = '';
+
+  if (unlocked) {
     itemsHtml = items.map(renderItem).join('');
-  } else {
-    // First 3 free
+  } else if (isFirst) {
+    // First 3 free for today's block
     itemsHtml = items.slice(0, 3).map(renderItem).join('');
-    // Then the gate
     const gateTpl = document.getElementById('gate-template');
     if (gateTpl) {
-      const gateHtml = gateTpl.innerHTML;
-      itemsHtml += gateHtml;
+      itemsHtml += gateTpl.innerHTML;
     }
-    // Remaining items hidden (will be revealed after submit)
     if (items.length > 3) {
       itemsHtml += `<div class="hidden-on-lock" style="display:none">${items.slice(3).map(renderItem).join('')}</div>`;
     }
+  } else {
+    // Older blocks fully locked — show stub only
+    itemsHtml = `
+      <div class="locked-stub">
+        <div class="locked-stub-row">
+          <span class="locked-stub-icon">🔒</span>
+          <span class="locked-stub-count">${items.length} stor${items.length === 1 ? 'y' : 'ies'} from this edition</span>
+        </div>
+        <div class="locked-stub-hint">Subscribe above to unlock the full archive.</div>
+      </div>
+      <div class="hidden-on-lock" style="display:none">${items.map(renderItem).join('')}</div>
+    `;
   }
 
   return `
@@ -809,11 +883,10 @@ async function loadFeed() {
     }
 
     const unlocked = isUnlocked();
-    const today = isoToday();
 
     const html = posts.map((post, i) => {
-      const isTodayBlock = (post.date === today) || (i === 0);
-      return renderPostBlock(post, isTodayBlock, unlocked);
+      const blockState = i === 0 ? 'first' : 'older';
+      return renderPostBlock(post, blockState, unlocked);
     }).join('<div class="post-divider"></div>');
 
     container.innerHTML = html;
