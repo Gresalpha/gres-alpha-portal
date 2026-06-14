@@ -163,7 +163,7 @@
     </a>
     <div class="nav-links">
       <a href="/#circle">The Circle</a>
-      <a href="/#manifesto">Manifesto</a>
+      <a href="/GRES_Manifesto.pdf" target="_blank" rel="noopener">Manifesto</a>
       <a href="/investors">Investors</a>
       <a href="/investors#roadmap">Roadmap</a>
       <a href="/investors#faq">FAQ</a>
@@ -283,7 +283,7 @@
         <h3>You're in the Circle.</h3>
         <p>Welcome. One small thing before you go. We are building GRES around the people who share the purpose, and your perspective genuinely shapes what we build. If you can spare <strong>2 minutes</strong>, this short survey helps us get it right.</p>
         <div class="success-actions">
-          <a class="btn btn-coral" id="circle-survey" href="https://tally.so/r/b5vLV1" target="_blank" rel="noopener">Take the 2-minute survey</a>
+          <a class="btn btn-coral" id="circle-survey" href="https://tally.so/r/b5vLV1?utm_source=site&ref=circle" target="_blank" rel="noopener">Take the 2-minute survey</a>
           <button class="link-underline" id="circle-skip">Maybe later</button>
         </div>
       </div>
@@ -323,7 +323,7 @@
         <div class="foot-col">
           <h4>Explore</h4>
           <a href="#circle">The Circle</a>
-          <a href="#manifesto">Manifesto</a>
+          <a href="/GRES_Manifesto.pdf" target="_blank" rel="noopener">Manifesto</a>
           <a href="/investors#roadmap">Roadmap</a>
           <a href="/investors#support">Support the build</a>
           <a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93" target="_blank" rel="noopener">Smart Contracts</a>
@@ -336,7 +336,7 @@
           <a href="/legal#terms">Terms &amp; Conditions</a>
           <a href="/legal#privacy">Privacy Policy</a>
           <a href="/legal#risk">Risk Disclosure</a>
-          <a href="https://tally.so/r/b5vLV1" target="_blank" rel="noopener">2 min Survey</a>
+          <a href="https://tally.so/r/b5vLV1?utm_source=site&ref=footer" target="_blank" rel="noopener">2 min Survey</a>
         </div>
         <div class="foot-col">
           <h4>Community</h4>
@@ -390,7 +390,7 @@ const bigLogo = `<svg viewBox="0 0 420 480" xmlns="http://www.w3.org/2000/svg"><
   btn.addEventListener('click',function(){
     var v=(em.value||'').trim();
     if(!valid(v)){em.focus();em.style.borderColor='var(--coral)';return;}
-    sv.href='https://tally.so/r/b5vLV1?email='+encodeURIComponent(v);
+    sv.href='https://tally.so/r/b5vLV1?email='+encodeURIComponent(v)+'&utm_source=site&ref=circle';
     fetch('https://gres.app.n8n.cloud/webhook/circle-join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:v,source:'circle'})}).catch(function(e){console.error('circle-join',e);});
     form.hidden=true;ok.hidden=false;ok.scrollIntoView({behavior:'smooth',block:'center'});
   });
