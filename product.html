@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GRES — Protocol &amp; Product.</title>
+<meta name="description" content="Not a deck. A system you can inspect. The GRES protocol, the products it produces, and the roadmap ahead.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Work+Sans:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbf9f3;--ink:#1c1c1a;--sun:#f4b827;--coral:#e8593c;
+    --sky:#2b9fd4;--grass:#4ea24a;--card:#f2eee2;--grey:#7a766c;
+    --maxw:1180px;
+    --fraunces:'Fraunces',Georgia,serif;--work:'Work Sans',system-ui,sans-serif;--inter:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--inter);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .narrow{max-width:780px;margin:0 auto;padding:0 28px;}
+  section{padding:80px 0;}
+  h1,h2,h3{font-family:var(--fraunces);font-weight:600;line-height:1.05;letter-spacing:-.01em;}
+  .eyebrow{font-family:var(--work);font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase;}
+  a{color:inherit;}
+  .btn{display:inline-block;font-family:var(--work);font-weight:600;font-size:16px;padding:15px 30px;border-radius:40px;text-decoration:none;transition:transform .15s,background .15s;cursor:pointer;border:none;}
+  .btn-coral{background:var(--coral);color:var(--paper);}
+  .btn-coral:hover{transform:translateY(-2px);}
+  .btn-ink{background:var(--ink);color:var(--paper);}
+  .btn-ink:hover{transform:translateY(-2px);}
+  .btn.outline{background:transparent;border:2px solid var(--ink);color:var(--ink);}
+  .link-underline{font-family:var(--work);font-weight:600;font-size:15px;text-decoration:none;border-bottom:2px solid var(--sun);padding-bottom:2px;}
+  .lead-eyebrow{color:var(--grey);margin-bottom:12px;}
+  h2.big{font-size:clamp(32px,5vw,52px);max-width:18ch;}
+  .body-lg{font-family:var(--work);font-weight:400;font-size:18px;line-height:1.58;max-width:64ch;margin-top:16px;color:#33312b;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(251,249,243,.9);backdrop-filter:blur(10px);border-bottom:1px solid #ece5d5;}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .brand{display:flex;align-items:center;gap:7px;font-family:var(--work);font-weight:700;font-size:22px;letter-spacing:.04em;text-decoration:none;}
+  .brand svg{width:72px;height:63px;}
+  .nav-links{display:flex;align-items:center;gap:28px;font-family:var(--work);font-weight:500;font-size:15px;}
+  .nav-links a{text-decoration:none;color:var(--grey);transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{background:var(--coral);color:var(--paper)!important;padding:9px 22px;border-radius:30px;}
+  @media(max-width:860px){.nav-links a:not(.nav-cta){display:none;}}
+
+  /* HERO */
+  .hero{padding-top:64px;padding-bottom:30px;}
+  .hero .eyebrow{color:var(--coral);}
+  .hero h1{font-size:clamp(42px,7vw,78px);margin:14px 0 18px;max-width:16ch;}
+  .hero .hook{font-family:var(--work);font-weight:500;font-size:clamp(18px,2.3vw,23px);line-height:1.4;max-width:680px;color:var(--ink);}
+  .hero .cta-row{display:flex;align-items:center;gap:24px;margin-top:30px;flex-wrap:wrap;}
+
+  /* PROOF STATS */
+  .band-ink{background:var(--ink);color:var(--paper);}
+  .band-ink .lead-eyebrow{color:var(--sun);}
+  .band-ink h2{color:var(--paper);}
+  .band-ink .body-lg{color:#d8d3c6;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:44px;}
+  .stat .v{font-family:var(--fraunces);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;color:var(--sun);}
+  .stat .l{font-family:var(--work);font-size:13.5px;color:#cfc9bd;margin-top:10px;line-height:1.4;}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr);gap:24px;}}
+
+  .proof-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px;}
+  .proof{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid #34322c;border-radius:10px;padding:18px 20px;}
+  .proof .tick{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--grass);color:var(--ink);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;}
+  .proof .pt{font-family:var(--work);font-weight:600;font-size:15px;color:var(--paper);}
+  .proof .pd{font-size:13px;color:#b8b3a6;margin-top:3px;line-height:1.45;}
+  @media(max-width:680px){.proof-list{grid-template-columns:1fr;}}
+
+  /* ROADMAP */
+  .phases{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;}
+  .phase{border:1px solid #e0d9c8;border-radius:14px;padding:26px;background:var(--paper);}
+  .phase .tag{font-family:var(--work);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:inline-block;padding:5px 12px;border-radius:20px;margin-bottom:14px;}
+  .phase.done .tag{background:var(--grass);color:var(--paper);}
+  .phase.now .tag{background:var(--sun);color:var(--ink);}
+  .phase.next .tag{background:var(--card);color:var(--grey);border:1px solid #d8d1c0;}
+  .phase h3{font-size:23px;margin-bottom:4px;}
+  .phase .when{font-family:var(--work);font-size:13px;color:var(--grey);margin-bottom:14px;}
+  .phase ul{list-style:none;}
+  .phase li{font-size:13.5px;line-height:1.5;padding-left:20px;position:relative;color:#3a382f;margin-bottom:7px;}
+  .phase li:before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--grey);}
+  .phase.done li:before{background:var(--grass);}
+  .phase.now li:before{background:var(--sun);}
+  @media(max-width:820px){.phases{grid-template-columns:1fr;}}
+
+  /* PLATFORM */
+  .band-card{background:var(--card);}
+  .plat{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;}
+  .pcard{background:var(--paper);border-radius:12px;padding:24px;border:1px solid #e6dfce;}
+  .pcard h3{font-size:20px;margin-bottom:8px;}
+  .pcard p{font-family:var(--work);font-size:14px;color:#3a382f;line-height:1.5;}
+  .pcard .ic{font-size:22px;margin-bottom:10px;}
+  @media(max-width:820px){.plat{grid-template-columns:1fr;}}
+
+  /* ROADMAP UNIFIED */
+  .rmap{margin-top:40px;}
+  .rphase{border:1px solid #e0d9c8;border-radius:14px;padding:26px 28px;margin-bottom:20px;background:var(--paper);}
+  .rphase .rhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+  .rphase h3{font-size:24px;}
+  .rstatus{font-family:var(--work);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border-radius:20px;}
+  .rstatus.done{background:var(--grass);color:var(--paper);}
+  .rstatus.prog{background:var(--sun);color:var(--ink);}
+  .rstatus.todo{background:var(--card);color:var(--grey);border:1px solid #d8d1c0;}
+  .rphase .rwhen{font-family:var(--work);font-size:13px;color:var(--grey);margin-bottom:16px;}
+  .rtasks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;}
+  .rtask{font-size:14px;line-height:1.5;padding-left:26px;position:relative;color:#3a382f;}
+  .rtask .mk{position:absolute;left:0;top:1px;font-weight:700;font-size:13px;}
+  .rtask.d .mk{color:var(--grass);} .rtask.p .mk{color:var(--sun);} .rtask.t .mk{color:#bfb8a6;}
+  .rtask a{color:var(--sky);text-decoration:none;border-bottom:1px solid #bcdcec;}
+  @media(max-width:760px){.rtasks{grid-template-columns:1fr;}}
+
+  /* PRODUCTS */
+  .prods{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:44px;}
+  .prod{border-radius:16px;padding:34px;border:1px solid #e0d9c8;}
+  .prod.fund{background:var(--ink);color:var(--paper);}
+  .prod.tailor{background:var(--paper);}
+  .prod .ptag{font-family:var(--work);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+  .prod.fund .ptag{color:var(--sun);}
+  .prod.tailor .ptag{color:var(--coral);}
+  .prod h3{font-size:27px;margin-bottom:10px;}
+  .prod.fund h3{color:var(--paper);}
+  .prod p{font-family:var(--work);font-size:14.5px;line-height:1.55;margin-bottom:16px;}
+  .prod.fund p{color:#cfc9bd;}
+  .prod.tailor p{color:#3a382f;}
+  .prod ul{list-style:none;}
+  .prod li{font-size:13.5px;line-height:1.5;padding-left:20px;position:relative;margin-bottom:8px;}
+  .prod li:before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;}
+  .prod.fund li{color:#d8d3c6;} .prod.fund li:before{background:var(--sun);}
+  .prod.tailor li{color:#3a382f;} .prod.tailor li:before{background:var(--coral);}
+  .prod .base{font-size:12px;font-family:var(--work);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:18px;padding-top:14px;border-top:1px solid;}
+  .prod.fund .base{border-color:#34322c;color:#9a958a;}
+  .prod.tailor .base{border-color:#e0d9c8;color:var(--grey);}
+  @media(max-width:820px){.prods{grid-template-columns:1fr;}}
+
+  /* SMART CONTRACTS */
+  .contracts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px;}
+  .cc{background:var(--paper);border:1px solid #e0d9c8;border-radius:10px;padding:18px;}
+  .cc .ck{font-family:var(--work);font-weight:600;font-size:14px;margin-bottom:6px;}
+  .cc .addr{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--sky);word-break:break-all;text-decoration:none;}
+  .cc .cn{font-size:12px;color:var(--grey);margin-top:6px;}
+  @media(max-width:760px){.contracts{grid-template-columns:1fr;}}
+
+  /* SUPPORT / TOKEN CHECKOUT */
+  .band-support{background:var(--ink);color:var(--paper);}
+  .band-support .lead-eyebrow{color:var(--sun);}
+  .band-support h2{color:var(--paper);}
+  .token-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px;align-items:start;}
+  .token-checks{list-style:none;margin-top:18px;}
+  .token-checks li{font-family:var(--work);font-size:14.5px;color:#d8d3c6;padding-left:24px;position:relative;margin-bottom:11px;}
+  .token-checks li:before{content:"✓";position:absolute;left:0;color:var(--sun);font-weight:700;}
+  .buybox{background:var(--paper);color:var(--ink);border-radius:16px;padding:30px;}
+  .buybox .fields{display:flex;flex-direction:column;gap:14px;}
+  .buybox label{font-family:var(--work);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:6px;}
+  .buybox input{width:100%;font-family:var(--work);font-size:15px;padding:13px 15px;border:2px solid #ddd6c5;border-radius:10px;background:var(--paper);color:var(--ink);}
+  .buybox input:focus{outline:none;border-color:var(--ink);}
+  .lot-display{padding:13px 15px;background:var(--card);border:1px solid #ddd6c5;color:var(--coral);font-family:var(--work);font-weight:600;font-size:14px;border-radius:10px;min-height:46px;display:flex;align-items:center;}
+  .terms{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#3a382f;line-height:1.45;font-family:var(--work);}
+  .terms input{width:auto;margin-top:3px;}
+  .terms a{color:var(--coral);}
+  .form-error{color:var(--coral);font-size:13px;font-family:var(--work);display:none;}
+  .form-error.show{display:block;}
+  .submit-row{margin-top:18px;}
+  .buybox .btn{width:100%;background:var(--coral);color:var(--paper);}
+  .wayout{margin-top:22px;font-size:13.5px;color:#b8b3a6;font-family:var(--work);}
+  .wayout a{color:var(--sun);}
+  @media(max-width:820px){.token-grid{grid-template-columns:1fr;gap:28px;}}
+
+  /* FAQ */
+  .faq{max-width:820px;margin:36px auto 0;}
+  .qa{border-bottom:1px solid #e0d9c8;}
+  .qa summary{font-family:var(--fraunces);font-weight:600;font-size:19px;padding:20px 40px 20px 0;cursor:pointer;list-style:none;position:relative;}
+  .qa summary::-webkit-details-marker{display:none;}
+  .qa summary:after{content:"+";position:absolute;right:6px;top:18px;font-size:24px;color:var(--coral);font-family:var(--work);}
+  .qa[open] summary:after{content:"–";}
+  .qa p{font-family:var(--work);font-size:14.5px;color:#3a382f;line-height:1.6;padding:0 40px 22px 0;}
+
+  /* FOOTER */
+  footer{background:var(--ink);color:#cfc9bd;padding:52px 0 30px;}
+  footer .brand{color:var(--paper);}
+  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-start;}
+  .foot-tag{font-family:var(--fraunces);font-style:italic;font-size:24px;color:var(--paper);max-width:14ch;}
+  .foot-nav{display:flex;gap:50px;flex-wrap:wrap;}
+  .foot-col h4{font-family:var(--work);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sun);margin-bottom:14px;}
+  .foot-col a{display:block;text-decoration:none;color:#cfc9bd;font-family:var(--work);font-size:14.5px;margin-bottom:9px;}
+  .foot-col a:hover{color:var(--paper);}
+  .disclaimer{font-size:11px;line-height:1.55;color:#807a6d;border-top:1px solid #34322c;margin-top:32px;padding-top:18px;max-width:90ch;}
+  .contract{font-family:var(--work);font-size:12px;color:#807a6d;margin-top:14px;}
+
+  /* purchase modal */
+  .pm-overlay{position:fixed;inset:0;background:rgba(20,18,15,.7);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .pm-overlay.show{display:flex;}
+  .pm-box{background:var(--paper);border-radius:16px;max-width:460px;width:100%;padding:30px;}
+  .pm-title{font-family:var(--fraunces);font-size:24px;margin-bottom:18px;}
+  .pm-step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eee6d6;opacity:.5;}
+  .pm-step.pm-active{opacity:1;} .pm-step.pm-done{opacity:1;} .pm-step.pm-error{opacity:1;}
+  .pm-dot{width:22px;height:22px;border-radius:50%;border:2px solid #ccc4b2;flex:0 0 auto;margin-top:2px;}
+  .pm-step.pm-active .pm-dot{border-color:var(--sun);background:var(--sun);}
+  .pm-step.pm-done .pm-dot{border-color:var(--grass);background:var(--grass);}
+  .pm-step.pm-error .pm-dot{border-color:var(--coral);background:var(--coral);}
+  .pm-label{font-family:var(--work);font-weight:600;font-size:14px;}
+  .pm-detail{font-size:12.5px;color:var(--grey);margin-top:2px;}
+  .pm-result,.pm-fallback{display:none;margin-top:16px;font-family:var(--work);font-size:13px;}
+  .pm-result.show,.pm-fallback.show{display:block;}
+  .pm-close{margin-top:18px;}
+  .pm-fallback{background:var(--card);border-radius:10px;padding:14px;color:#3a382f;}
+  .pm-fallback code{background:#e6dfce;padding:2px 5px;border-radius:4px;font-size:12px;}
+
+  /* ---- reach-out modal ---- */
+  .ro-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(28,28,26,.55);backdrop-filter:blur(4px);}
+  .ro-overlay.show{display:flex;}
+  .ro-card{position:relative;background:var(--paper);border-radius:16px;max-width:460px;width:100%;padding:36px 32px 30px;box-shadow:0 18px 50px rgba(28,28,26,.28);}
+  .ro-card h2{font-family:var(--fraunces);font-size:26px;line-height:1.15;margin:0 0 8px;color:var(--ink);}
+  .ro-sub{font-family:var(--inter);font-size:14.5px;color:var(--grey);line-height:1.5;margin:0 0 20px;}
+  .ro-card label{display:block;font-family:var(--work);font-weight:600;font-size:13px;color:var(--ink);margin-bottom:14px;}
+  .ro-card input,.ro-card select{display:block;width:100%;margin-top:6px;font-family:var(--inter);font-size:15px;padding:12px 14px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink);}
+  .ro-x{position:absolute;top:12px;right:16px;background:none;border:none;font-size:26px;line-height:1;color:var(--grey);cursor:pointer;}
+  .ro-error{display:none;color:var(--coral);font-family:var(--work);font-size:13px;margin:0 0 12px;}
+  #ro-submit,#ro-done{width:100%;}
+  #ro-success h3{font-family:var(--fraunces);font-size:24px;margin:0 0 10px;}
+  #ro-success p{font-family:var(--inter);font-size:15px;color:var(--grey);line-height:1.55;margin:0 0 20px;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap nav-in">
+    <a href="/" class="brand">
+      <svg viewBox="0 15 420 370" xmlns="http://www.w3.org/2000/svg" aria-label="GRES"><g fill="none" stroke="#1c1c1a" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"><path d="M210.0,126.9 L150.2,161.4 L210.0,195.9 L269.8,161.4 L239.9,144.2 L207.0,163.1"/><path d="M198.1,216.5 L138.3,182.0 L138.3,251.0 L198.1,285.5 L198.1,251.0 L165.2,232.0"/><path d="M281.7,182.0 L221.9,216.5 L221.9,285.5 L281.7,251.0 L281.7,216.5 L248.8,235.5"/></g></svg>
+      GRES
+    </a>
+    <div class="nav-links">
+      <a href="/#manifesto">Manifesto</a>
+      <a href="#protocol">Protocol</a>
+      <a href="#products">Product</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+      <a href="/#circle" class="nav-cta">Join the Circle</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="protocol">
+  <div class="wrap">
+    <div class="eyebrow">Protocol</div>
+    <h1>GRES Protocol.</h1>
+    <p class="hook">An on-chain platform for real-world assets, built on an L2. Focused on real estate with purpose. This page documents what the protocol is, the products it produces, and the current state of the build.</p>
+    <div class="cta-row">
+      <a href="#what" class="link-underline">How it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<!-- PLATFORM (the common base) -->
+<!-- WHAT IS GRES + HOW IT WORKS + 3Gs -->
+<section class="band-ink" id="what">
+  <div class="wrap">
+    <div class="eyebrow lead-eyebrow">What it is</div>
+    <h2 class="big">What GRES Protocol is, and how it works.</h2>
+    <p class="body-lg">GRES Protocol is an on-chain platform for real-world assets (RWA), running on a BASE L2. It is focused on real estate with purpose. A developer or operator submits a project; the protocol scores it, structures it, and funds it on-chain; holders gain exposure to the underlying assets. Two layers do the work: a technology layer that prices and verifies assets, and a compliance layer that makes them legal to hold across borders.</p>
+    <div class="plat">
+      <div class="pcard" style="background:rgba(255,255,255,.04);border-color:#34322c;"><div class="ic">⚙︎</div><h3 style="color:var(--paper);">Technology layer</h3><p style="color:#cfc9bd;">Automated Due Diligence (ADD) and an AI Oracle score projects across valuation, permits, entitlements, and developer track record. On-chain settlement; funds held in escrow against milestones.</p></div>
+      <div class="pcard" style="background:rgba(255,255,255,.04);border-color:#34322c;"><div class="ic">⚖︎</div><h3 style="color:var(--paper);">Compliance layer</h3><p style="color:#cfc9bd;">MiCA-aligned issuance for EU cross-border raises. KYC and AML at the protocol layer. A Swiss-style Foundation custodies deeds for the fund product. Jurisdiction under evaluation.</p></div>
+      <div class="pcard" style="background:rgba(255,255,255,.04);border-color:#34322c;"><div class="ic">⛓︎</div><h3 style="color:var(--paper);">On-chain, governed</h3><p style="color:#cfc9bd;">Deployed on BASE L2. Contracts public and verifiable. Treasury intended on multisig. Transparency and accountability are structural, not optional.</p></div>
+    </div>
+    <p class="body-lg" style="margin-top:36px;"><strong style="color:var(--paper);">The name encodes the filter.</strong> The 3Gs that form the mark define what the protocol accepts:</p>
+    <div class="plat" style="margin-top:18px;">
+      <div class="pcard" style="background:transparent;border-color:#34322c;"><h3 style="color:var(--sun);">3Gs · Generational</h3><p style="color:#cfc9bd;">Impact beyond the financial: the planet, and the generations who'll inherit it.</p></div>
+      <div class="pcard" style="background:transparent;border-color:#34322c;"><h3 style="color:var(--coral);">3Gs · Global</h3><p style="color:#cfc9bd;">Access where others can't reach. Any holder, anywhere, to the same asset class.</p></div>
+      <div class="pcard" style="background:transparent;border-color:#34322c;"><h3 style="color:var(--sky);">3Gs · Governed</h3><p style="color:#cfc9bd;">Blockchain as transparency and accountability, not only operational efficiency.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS (what is born from it) -->
+<section id="products">
+  <div class="wrap">
+    <div class="eyebrow lead-eyebrow">Products</div>
+    <h2 class="big">Two products derive from the platform.</h2>
+    <p class="body-lg">The same technology and compliance layers produce two products: GRES$, the fund, and Tailor-Made, a bespoke vehicle.</p>
+    <div class="prods">
+      <div class="prod fund">
+        <div class="ptag">Product 01 · Open to all</div>
+        <h3>The GRES$ fund</h3>
+        <p>The real-estate world, made holdable. The intended design: an asset-backed, NAV-pegged token, perpetual, with no forced exits. Deals held by a Swiss-style Foundation that custodies the underlying deeds. The Whitepaper describes GRES$ as one instrument with six functions.</p>
+        <ul>
+          <li>Store of value, asset-backed</li>
+          <li>Yield</li>
+          <li>Qualified collateral</li>
+          <li>Access to the asset class</li>
+          <li>Settlement</li>
+          <li>Data layer</li>
+        </ul>
+        <div class="base">Technology + compliance + Swiss-style Foundation</div>
+      </div>
+      <div class="prod tailor">
+        <div class="ptag">Product 02 · Built to order</div>
+        <h3>Tailor-made RWA</h3>
+        <p>For groups or single holders who want their own vehicle, powered by our 3Gs. They use the GRES technology and compliance layer to structure a bespoke real-world-asset investment, on their terms. The engine and the rails are ours; the vehicle is theirs. It must pass the filter we back: a sound, impactful development for the future of the planet and the generations who'll inherit it.</p>
+        <ul>
+          <li>Bespoke vehicle, your mandate and structure</li>
+          <li>Powered by the ADD engine and AI Oracle</li>
+          <li>Same MiCA-aligned compliance rails</li>
+          <li>For groups, family offices, and single holders</li>
+          <li>Aligned with our purpose, by requirement</li>
+        </ul>
+        <div class="base">Technology + compliance, aligned with our purpose</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SMART CONTRACTS -->
+<!-- ROADMAP = STATUS = ON-CHAIN (facts only) -->
+<section class="band-card" id="roadmap">
+  <div class="wrap">
+    <div class="eyebrow lead-eyebrow">Roadmap and status</div>
+    <h2 class="big">Roadmap.</h2>
+    <p class="body-lg">Every task is marked done, in progress, or not started. Where something is done and verifiable on-chain or on paper, the link is on the task.</p>
+
+        <div class="rmap">
+      <div class="rphase">
+        <div class="rhead"><h3>Phase 1 · Genesis</h3><span class="rstatus done">POC</span></div>
+        <ul class="rtasks">
+          <li class="rtask d"><span class="mk">✓</span> <a href="https://basescan.org/address/0x6841713Abd1e6c44e93A22D25ee6DAd8c1932C93" target="_blank">Smart contracts</a> deployed &amp; verified on Basescan (proof of concept)</li>
+          <li class="rtask d"><span class="mk">✓</span> BASE L2 + Gnosis Safe multisig treasury</li>
+          <li class="rtask d"><span class="mk">✓</span> <a href="/whitepaper.pdf" target="_blank">Whitepaper</a> published</li>
+          <li class="rtask d"><span class="mk">✓</span> Business model defined (NAV, Flywheel, Collateral)</li>
+          <li class="rtask d"><span class="mk">✓</span> Visual identity &amp; design system</li>
+          <li class="rtask d"><span class="mk">✓</span> Landing page &amp; community channels (TG, X, LinkedIn)</li>
+          <li class="rtask d"><span class="mk">✓</span> Platform backlog (93 stories / 18 epics)</li>
+        </ul>
+      </div>
+
+      <div class="rphase">
+        <div class="rhead"><h3>Phase 2 · GFS, Global Funding Standard</h3><span class="rstatus prog">In progress</span></div>
+        <div class="rwhen">12-month window</div>
+        <ul class="rtasks">
+          <li class="rtask t"><span class="mk">○</span> Independent platform, built and launched on its own</li>
+          <li class="rtask t"><span class="mk">○</span> Free for NGOs operating on $1M/year or less (92% of the sector)</li>
+          <li class="rtask t"><span class="mk">○</span> Lower administrative and bureaucratic cost for NGOs</li>
+          <li class="rtask t"><span class="mk">○</span> Milestone-based fund release for full transparency</li>
+          <li class="rtask t"><span class="mk">○</span> Donor-facing transparency on where funds go</li>
+          <li class="rtask t"><span class="mk">○</span> Opens a $1T sector to direct, low-friction giving</li>
+        </ul>
+      </div>
+
+      <div class="rphase">
+        <div class="rhead"><h3>Phase 3 · GRES, Mainnet &amp; Flywheel</h3><span class="rstatus todo">Following GFS</span></div>
+        <div class="rwhen">Resumes after the GFS window</div>
+        <ul class="rtasks">
+          <li class="rtask t"><span class="mk">○</span> GRES$ asset-backed token mainnet</li>
+          <li class="rtask t"><span class="mk">○</span> AI-Augmented Oracle live (real-time NAV)</li>
+          <li class="rtask t"><span class="mk">○</span> First property tokenized (Proof of Deed)</li>
+          <li class="rtask t"><span class="mk">○</span> ERC-3643 native compliance layer</li>
+          <li class="rtask t"><span class="mk">○</span> GRES$/USDC liquidity on DEXs</li>
+          <li class="rtask t"><span class="mk">○</span> Public Proof of Reserves (verifiable on-chain)</li>
+          <li class="rtask t"><span class="mk">○</span> On-chain governance (holders vote priorities)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT THE BUILD (GFS CTA) -->
+<section class="band-support" id="support">
+  <div class="wrap">
+    <div class="eyebrow lead-eyebrow">Support the build</div>
+    <h2 class="big">Be early to the next chapter.</h2>
+    <p class="body-lg" style="color:#e8e3d6;">The way to take part right now is GFS, the Global Funding Standard: an independent platform, free for NGOs operating on $1M/year or less, launching within the next 12 months.</p>
+    <a href="/gfs" class="btn" style="margin-top:24px;">Support the build</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="narrow">
+    <div class="eyebrow lead-eyebrow" style="text-align:center;">Questions</div>
+    <h2 class="big" style="text-align:center;margin:0 auto;max-width:none;">Straight answers.</h2>
+    <div class="faq">
+      <details class="qa"><summary>What is GRES, in one sentence?</summary><p>GRES is being built as the protocol layer for on-chain real estate: a perpetual fund architecture where deeds are held by an independent Foundation, valuation is AI-Augmented, and the asset class becomes accessible without the friction of jurisdiction, ticket size, or fund-life cycles.</p></details>
+      <details class="qa"><summary>What exactly exists today?</summary><p>Two things: the documentation (Whitepaper), and a proof-of-concept smart contract, deployed and verified on Basescan. Everything else, the Foundation, the fund, the AI Oracle, the treasury multisig, is ahead of us. Right now, our focus is Phase 2: GFS. We won't claim otherwise.</p></details>
+      <details class="qa"><summary>What is GFS and how does it relate to GRES?</summary><p>GFS, the Global Funding Standard, is an independent platform, built and launched on its own, free for NGOs operating on $1M/year or less (92% of the sector, a $1T annual market). It lowers administrative cost for NGOs and gives donors real transparency on where funds go. It runs for a 12-month window, after which the GRES roadmap resumes with Phase 3.</p></details>
+      <details class="qa"><summary>How will the underlying real estate be held?</summary><p>The intended design: property deeds held by an independent Swiss-style Foundation, bankruptcy-remote and structurally isolated from the operating company. The operating company (GRES Operator) handles technology and operations. Custody and operations separated on purpose. The Foundation is part of the Blueprint work, not yet formed.</p></details>
+      <details class="qa"><summary>How will the portfolio be valued?</summary><p>Via AI-Augmented Valuation: a methodology intended to compute daily NAV from curated comparable analyses, with human governance over exceptions. The goal is to close the reporting gap of traditional appraisal cycles. The methodology is described in the documentation and is intended to be open and auditable.</p></details>
+      <details class="qa"><summary>What is the regulatory posture?</summary><p>MiCA-aligned by design. The token structure is intended for European compliance, with jurisdiction under evaluation in Spain, Luxembourg, and Liechtenstein. The principle outside the EU is the same: align with the most rigorous available framework, not the most permissive.</p></details>
+      <details class="qa"><summary>What are the two products?</summary><p>The GRES$ fund, intended to be open to everyone: asset-backed, NAV-pegged, with deeds held by the Swiss-style Foundation. And tailor-made RWA, built to order: groups or single holders use our technology and compliance layer to structure their own vehicle. The Foundation belongs to the fund; tailor-made uses the technology and compliance, and must pass the same purpose filter we apply to everything.</p></details>
+      <details class="qa"><summary>Who runs GRES?</summary><p>Solo-founder operated today, Thiago Sequinel. The Foundation is intended to be governed by independent trustees with legal, real estate, and finance backgrounds, appointed as the structure forms. Equity exists only in the GRES Operator; the Foundation is designed to hold no equity.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="brand" style="margin-bottom:16px;">
+          <svg viewBox="0 15 420 370" width="72" height="63"><g fill="none" stroke="#fbf9f3" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"><path d="M210.0,126.9 L150.2,161.4 L210.0,195.9 L269.8,161.4 L239.9,144.2 L207.0,163.1"/><path d="M198.1,216.5 L138.3,182.0 L138.3,251.0 L198.1,285.5 L198.1,251.0 L165.2,232.0"/><path d="M281.7,182.0 L221.9,216.5 L221.9,285.5 L281.7,251.0 L281.7,216.5 L248.8,235.5"/></g></svg>
+          GRES
+        </div>
+        <div class="foot-tag">Capital with a destination.</div>
+      </div>
+      <div class="foot-nav">
+        <div class="foot-col"><h4>Explore</h4>
+          <a href="/#manifesto">Manifesto</a>
+          <a href="#protocol">Protocol</a>
+          <a href="#products">Product</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#faq">FAQ</a>
+          <a href="/gfs">GFS</a>
+        </div>
+        <div class="foot-col"><h4>Docs</h4>
+          <a href="/whitepaper.pdf">Whitepaper</a>
+          <a href="/legal#terms">Terms &amp; Conditions</a>
+          <a href="/legal#privacy">Privacy Policy</a>
+          <a href="/legal#risk">Risk Disclosure</a>
+          <a href="https://tally.so/r/b5vLV1" target="_blank" rel="noopener">2 min Survey</a>
+        </div>
+        <div class="foot-col"><h4>Community</h4>
+          <a href="https://x.com/gresprotocol" target="_blank" rel="noopener">X</a><a href="https://t.me/gres_protocol" target="_blank" rel="noopener">Telegram</a><a href="https://www.linkedin.com/company/gres-protocol" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.instagram.com/gresprotocol" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      Not investment advice. MiCA-aligned design. GRES$ is a future, asset-backed token, not yet available. Not available to US persons or persons located in the United States. Full terms, privacy and risk disclosure at gres.network/legal.
+      <div class="contract">© 2026 GRES Protocol</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
