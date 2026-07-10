@@ -96,7 +96,7 @@
   .modal label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--grey);margin-bottom:5px;}
   .modal input{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:8px;font-size:14px;margin-bottom:14px;font-family:'Inter',sans-serif;}
   .modal .btn{width:100%;text-align:center;}
-  .modal .step2, .modal .step3{display:none;}
+  .modal .step2{display:none;}
   .close-x{position:absolute;top:16px;right:18px;cursor:pointer;font-size:20px;color:#999;background:none;border:none;}
 </style>
 </head>
@@ -300,41 +300,60 @@
     <button class="close-x" onclick="closeGate()">×</button>
     <div id="gate-step1">
       <h3>Get access</h3>
-      <p>Enter your name and email. We'll send a confirmation link, click it once and you're in.</p>
+      <p>Enter your name and email. We'll send the demo link straight to your inbox.</p>
       <label>Name</label>
       <input id="g-name" type="text" placeholder="Your name">
       <label>Email</label>
       <input id="g-email" type="email" placeholder="you@email.com">
-      <button class="btn" onclick="sendGate()">Send confirmation link</button>
+      <button class="btn" id="g-send-btn" onclick="sendGate()">Send me the link</button>
+      <p id="g-error" style="color:#c0392b;font-size:12.5px;margin-top:10px;display:none;"></p>
     </div>
     <div id="gate-step2" class="step2">
       <h3>Check your email</h3>
-      <p>We sent a confirmation link to <b id="g-email-echo"></b>. Click it to unlock access.</p>
-    </div>
-    <div id="gate-step3" class="step3">
-      <h3>You're in</h3>
-      <p id="g-unlock-msg"></p>
+      <p>We sent the demo link to <b id="g-email-echo"></b>. Open it from any device, no install or login needed.</p>
     </div>
   </div>
 </div>
 
 <script>
 let gateTarget = null;
+const GATE_WEBHOOK = 'https://gres.app.n8n.cloud/webhook/gfs-demo-request';
 function openGate(target){
   gateTarget = target;
   document.getElementById('gate-overlay').classList.add('show');
   document.getElementById('gate-step1').style.display='block';
   document.getElementById('gate-step2').style.display='none';
-  document.getElementById('gate-step3').style.display='none';
+  document.getElementById('g-error').style.display='none';
 }
 function closeGate(){ document.getElementById('gate-overlay').classList.remove('show'); }
 function sendGate(){
   const email = document.getElementById('g-email').value.trim();
   const name = document.getElementById('g-name').value.trim();
-  if(!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('Enter your name and a valid email.'); return; }
-  document.getElementById('g-email-echo').textContent = email;
-  document.getElementById('gate-step1').style.display='none';
-  document.getElementById('gate-step2').style.display='block';
+  const errEl = document.getElementById('g-error');
+  errEl.style.display='none';
+  if(!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    errEl.textContent = 'Enter your name and a valid email.';
+    errEl.style.display='block';
+    return;
+  }
+  const btn = document.getElementById('g-send-btn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  fetch(GATE_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, source: gateTarget || 'demo' })
+  })
+  .then(r => { if(!r.ok) throw new Error('bad response'); return r.json(); })
+  .then(() => {
+    document.getElementById('g-email-echo').textContent = email;
+    document.getElementById('gate-step1').style.display='none';
+    document.getElementById('gate-step2').style.display='block';
+  })
+  .catch(() => {
+    errEl.textContent = "Couldn't send it right now. Try again in a moment, or email admin@gres.network directly.";
+    errEl.style.display='block';
+  })
+  .finally(() => { btn.disabled = false; btn.textContent = 'Send me the link'; });
 }
 </script>
 </body>
