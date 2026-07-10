@@ -143,15 +143,12 @@
       <div class="stat"><b>4.3B</b><span>people gave money, time or help in 2023 (CAF World Giving Index)</span></div>
       <div class="stat"><b>91%</b><span>of donors give more when they trust an organization's transparency (Charity Navigator)</span></div>
     </div>
-    <div style="margin-top:24px;border:2px dashed var(--border);border-radius:14px;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--grey);font-size:13px;padding:20px;">
-      [Image goes here, see brief: 2]
-    </div>
   </div>
 </section>
 
 <section id="market">
   <div class="wrap">
-    <div class="eyebrow">The market</div>
+    <div class="eyebrow">NGOs Ecosystem</div>
     <h2 class="big">Not every NGO is the same size, and that matters.</h2>
     <p class="body-lg">There are roughly 10 million NGOs worldwide. 92% operate on $1M a year or less. That 92% is not one flat group: it breaks into three tiers, each with its own ticket size and its own savings potential.</p>
     <div class="market-cards">
@@ -168,58 +165,46 @@
     <div class="eyebrow">The hypothesis</div>
     <h2 class="big">The more NGOs adopt, and the better they use it, the bigger the giveback.</h2>
     <p class="body-lg">Four scenarios, from 1% to 10% reduction in administrative waste, scaled by the number of NGOs on the platform.</p>
-    <div class="legend">
-      <span><span class="dot" style="background:#B5D4F4;"></span>1% reduction</span>
-      <span><span class="dot" style="background:#85B7EB;"></span>2%</span>
-      <span><span class="dot" style="background:#378ADD;"></span>5%</span>
-      <span><span class="dot" style="background:#185FA5;"></span>10%</span>
+    <div class="market-cards">
+      <div class="market-card"><div class="tier">1K to 10K NGOs use GFS</div><b style="font-size:22px;">$1.1M to $112M</b><p class="muted" style="font-size:13px;margin-top:4px;">can be repurposed to the NGO cause</p></div>
+      <div class="market-card"><div class="tier">10K to 100K NGOs use GFS</div><b style="font-size:22px;">$11.2M to $1.12B</b><p class="muted" style="font-size:13px;margin-top:4px;">can be repurposed to the NGO cause</p></div>
+      <div class="market-card"><div class="tier">100K to 9.2M NGOs use GFS</div><b style="font-size:22px;">$112M to $103B</b><p class="muted" style="font-size:13px;margin-top:4px;">can be repurposed to the NGO cause</p></div>
     </div>
-
-    <div class="chart-card">
-      <h4>1,000 to 10,000 NGOs</h4>
-      <div class="sub">Early adoption range</div>
-      <div style="position:relative;height:220px;"><canvas id="chart-band1"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <h4>10,000 to 100,000 NGOs</h4>
-      <div class="sub">Growth range</div>
-      <div style="position:relative;height:220px;"><canvas id="chart-band2"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <h4>100,000 to 9.2M NGOs (log scale)</h4>
-      <div class="sub">Full addressable market</div>
-      <div style="position:relative;height:220px;"><canvas id="chart-band3"></canvas></div>
-    </div>
+    <p class="muted" style="font-size:13px;margin-top:14px;">Range reflects 1% to 10% reduction in administrative waste across each adoption band.</p>
   </div>
 </section>
 
 <section id="impact">
-  <div class="wrap">
+  <div class="wrap" style="text-align:center;">
     <div class="eyebrow">What that money actually buys</div>
     <h2 class="big">Turning technology into meals, vaccines, clean water, and a healthier planet.</h2>
-    <p class="body-lg">Cost benchmarks used below:</p>
-    <div class="stat-row" style="margin-top:12px;max-width:820px;">
+    <p class="body-lg" style="margin:0 auto;">Cost benchmarks used below:</p>
+    <div class="stat-row" style="margin:12px auto 0;max-width:820px;">
       <div class="stat"><b>$0.50</b><span>per meal (World Food Programme, 2026)</span></div>
       <div class="stat"><b>$73</b><span>per fully vaccinated child (UNICEF, 2024 standard cost with delivery)</span></div>
       <div class="stat"><b>$40</b><span>per person for clean water access (charity: water)</span></div>
       <div class="stat"><b>$0.15</b><span>per tree planted (Eden Reforestation Projects, 2024)</span></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:16px auto 0;max-width:1080px;">
       <div style="border-radius:12px;overflow:hidden;min-height:140px;"><img src="impact-meal.jpg" alt="A meal being served to a child" style="width:100%;height:140px;object-fit:cover;display:block;"></div>
       <div style="border-radius:12px;overflow:hidden;min-height:140px;"><img src="impact-vaccine.jpg" alt="A health worker administering a vaccine to a young person" style="width:100%;height:140px;object-fit:cover;display:block;"></div>
       <div style="border-radius:12px;overflow:hidden;min-height:140px;"><img src="impact-water.jpg" alt="Hands washing under clean water from a hand pump" style="width:100%;height:140px;object-fit:cover;display:block;"></div>
       <div style="border-radius:12px;overflow:hidden;min-height:140px;"><img src="impact-trees.jpg" alt="A group of hands holding young tree seedlings ready for planting" style="width:100%;height:140px;object-fit:cover;display:block;"></div>
     </div>
-    <table class="impact-table">
+    <table class="impact-table" style="margin:14px auto 0;max-width:1080px;">
       <tr><th>Scenario</th><th>$/year</th><th>Meals</th><th>Children vaccinated</th><th>Clean water access</th><th>Trees planted</th></tr>
       <tr><td>X: 1,000 NGOs, 10%</td><td>$11.2M</td><td>22.4M</td><td>~153K</td><td>280K people</td><td>~74.7M</td></tr>
       <tr><td>Y: 100,000 NGOs, 10%</td><td>$1.12B</td><td>2.24B</td><td>~15.3M</td><td>28M people</td><td>~7.5B</td></tr>
       <tr><td>Z: 9.2M NGOs, 10% (full market)</td><td>$103B</td><td>206B</td><td>~1.4B</td><td>2.58B people</td><td>~687B</td></tr>
     </table>
-    <p class="muted" style="font-size:13px;margin-top:10px;">At full scale (Z), the clean water figure alone exceeds the ~2 billion people currently without clean water access worldwide, and the tree figure is close to 70% of the global Trillion Trees Campaign target.</p>
-    <div class="govbox">
-      <p style="font-size:32px;font-weight:800;line-height:1.2;color:var(--ink);margin-bottom:14px;">Governance and transparency aren't a badge. They're a power donors actually get.</p>
+    <p class="muted" style="font-size:13px;margin:10px auto 0;max-width:820px;">At full scale (Z), the clean water figure alone exceeds the ~2 billion people currently without clean water access worldwide, and the tree figure is close to 70% of the global Trillion Trees Campaign target.</p>
+    <div class="govbox" style="text-align:left;max-width:1080px;margin:20px auto 0;">
+      <p style="font-size:32px;font-weight:800;line-height:1.2;color:var(--ink);margin-bottom:14px;">Governance and transparency are the badge that attracts and commits more donors.</p>
       <p style="font-size:15px;color:var(--grey);">Every milestone, every fund release, every proof of delivery is traceable on the platform. Not "trust us." Verify it yourself.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;">
+        <div style="border-radius:12px;overflow:hidden;"><img src="product-canvas.jpg" alt="Screenshot of the GFS milestone design canvas" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div style="border-radius:12px;overflow:hidden;"><img src="product-ai.jpg" alt="Screenshot of the GFS Project AI assistant panel" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -228,7 +213,7 @@
   <div class="wrap">
     <div class="eyebrow">How it works</div>
     <h2 class="big">Vault → milestones → proof → release.</h2>
-    <p class="body-lg">No wallets to manage, no crypto to learn. The ledger runs underneath, not in your face.</p>
+    <p class="body-lg">GFS is the vault and milestone engine behind funding.</p>
     <div class="steps">
       <div class="step"><div class="n">1</div><h3>Deposit</h3><p>Funders deposit into a vault for a specific project.</p></div>
       <div class="step"><div class="n">2</div><h3>Map</h3><p>The project is mapped as a tree of milestones, each with terms, evidence, and validators.</p></div>
@@ -241,13 +226,12 @@
 <section id="ngos">
   <div class="wrap">
     <div class="eyebrow">Why free for NGOs</div>
-    <h2 class="big">The first market: NGOs at $1M a year or less.</h2>
+    <h2 class="big">The first wave: NGOs at $1M a year or less.</h2>
     <div class="stat-row">
       <div class="stat"><b>~10M</b><span>NGOs worldwide (estimate)</span></div>
       <div class="stat"><b>92%</b><span>operate at ≤$1M/year (~9.2M orgs)</span></div>
       <div class="stat"><b>~$103B</b><span>potential giveback pool per year, at full adoption</span></div>
     </div>
-    <p class="body-lg" style="margin-top:16px;">Free for this segment is acquisition and mission, not the whole business model. Time managed well through the platform, milestones tracked automatically instead of chased by email, is what pushes an NGO from the 1% line toward the 10% line. Time saved is money freed for the actual work.</p>
     <div style="margin-top:24px;border-radius:14px;overflow:hidden;">
       <img src="product-canvas.jpg" alt="Screenshot of the GFS milestone design canvas" style="width:100%;max-height:340px;object-fit:cover;display:block;border:1px solid var(--border);">
     </div>
@@ -348,31 +332,7 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const ticket = 112000;
-const rates = [0.01,0.02,0.05,0.10];
-const colors = ['#B5D4F4','#85B7EB','#378ADD','#185FA5'];
-const fmt = (v) => { if (v >= 1e9) return '$'+(v/1e9).toFixed(1)+'B'; if (v >= 1e6) return '$'+(v/1e6).toFixed(0)+'M'; return '$'+v.toFixed(0); };
-function makeDatasets(xs){
-  return rates.map((r,i) => ({ label:(r*100)+'%', data: xs.map(x => x*ticket*r), borderColor: colors[i], backgroundColor: colors[i], pointRadius:3, borderWidth:2, tension:0.25 }));
-}
-function baseOptions(xType, xTicks){
-  return { responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:(ctx)=> ctx.dataset.label+' reduction: '+fmt(ctx.parsed.y)+'/yr' } } },
-    scales: {
-      x:{ type:xType, ticks: xTicks ? { callback:(v)=> xTicks[v] || v.toLocaleString(), color:'#5c655f' } : { callback:(v)=> v.toLocaleString(), color:'#5c655f' }, grid:{color:'#dbe3de'} },
-      y:{ ticks:{ callback: fmt, color:'#5c655f' }, grid:{color:'#dbe3de'} }
-    }
-  };
-}
-const xs1 = [1000,2500,5000,7500,10000];
-new Chart(document.getElementById('chart-band1'), { type:'line', data:{ labels:xs1, datasets: makeDatasets(xs1) }, options: baseOptions('linear') });
-const xs2 = [10000,25000,50000,75000,100000];
-new Chart(document.getElementById('chart-band2'), { type:'line', data:{ labels:xs2, datasets: makeDatasets(xs2) }, options: baseOptions('linear') });
-const xs3 = [100000,500000,1000000,3000000,9200000];
-new Chart(document.getElementById('chart-band3'), { type:'line', data:{ labels:xs3, datasets: makeDatasets(xs3) }, options: baseOptions('logarithmic', {100000:'100K',500000:'500K',1000000:'1M',3000000:'3M',9200000:'9.2M'}) });
-
 let gateTarget = null;
 function openGate(target){
   gateTarget = target;
