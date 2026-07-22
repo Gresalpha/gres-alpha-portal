@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GFS: Make purpose fundable, transparent, and accountable.</title>
-<meta name="description" content="GFS is the vault and milestone engine behind funding that has to prove itself. No crypto to learn, just capital that only moves when delivery is proven.">
+<meta name="description" content="GFS holds money given to purpose projects, releases it only when the work is proven, and shows everyone what happened. It costs nothing to the organizations doing the work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -98,6 +98,21 @@
   .modal .btn{width:100%;text-align:center;}
   .modal .step2{display:none;}
   .close-x{position:absolute;top:16px;right:18px;cursor:pointer;font-size:20px;color:#999;background:none;border:none;}
+  .modal .opts{border-top:1px solid var(--border);margin-top:4px;padding-top:14px;}
+  .opt{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px;cursor:pointer;}
+  .opt input{width:17px;height:17px;margin:2px 0 0 0;flex:0 0 auto;accent-color:var(--teal);cursor:pointer;}
+  .opt span{font-size:13.5px;line-height:1.45;color:#33403b;}
+  .opt.consent{border-top:1px solid var(--border);padding-top:13px;margin-top:14px;}
+  .opt.consent span{font-size:12.5px;color:var(--grey);}
+
+  #consent-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(19,32,28,.6);backdrop-filter:blur(4px);}
+  #consent-overlay.show{display:flex;}
+  .consent-card{background:var(--paper);border-radius:16px;max-width:470px;width:100%;padding:32px 30px 26px;box-shadow:0 18px 50px rgba(19,32,28,.3);}
+  .consent-card h2{font-size:25px;font-weight:800;line-height:1.15;margin:0 0 14px;}
+  .consent-card p{font-size:14.5px;line-height:1.55;color:var(--grey);margin:0 0 12px;}
+  .consent-card a{color:var(--teal);text-decoration:underline;}
+  .consent-actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;}
+  .consent-actions .btn{flex:1;min-width:140px;text-align:center;}
 </style>
 </head>
 <body>
@@ -107,8 +122,8 @@
     <div class="logo">GFS<span>.</span></div>
     <div class="nav-links">
       <a href="#how">How it works</a>
-      <a href="#ngos">Free for NGOs</a>
-      <a href="#whitelabel">Whitelabel</a>
+      <a href="#ngos">Who it's for</a>
+      <a href="#founder">Why me</a>
       <a href="#support" class="nav-cta">Support this Initiative</a>
     </div>
   </div>
@@ -120,9 +135,11 @@
       <div>
         <div class="eyebrow">GFS</div>
         <h1>Make purpose fundable,<br>transparent, and accountable.</h1>
-        <p class="body-lg" style="margin-top:18px;">GFS is the vault and milestone engine behind funding.</p>
+        <p class="body-lg" style="margin-top:18px;">Money is given with good intentions, then disappears into paperwork. GFS holds it, releases it only when the work is proven, and shows everyone what happened. It costs nothing to the organizations doing the work.</p>
+        <p class="body-lg" style="margin-top:12px;font-size:15px;">We are building it with the people who will use it. Organizations and donors first, code second.</p>
         <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;">
-          <a href="#support" class="btn">See how it works</a>
+          <a href="#support" class="btn">Build it with us</a>
+          <a href="#how" class="btn outline">See how it works</a>
         </div>
       </div>
       <div>
@@ -147,27 +164,27 @@
 
 <section id="market">
   <div class="wrap">
-    <div class="eyebrow">NGOs Ecosystem</div>
-    <h2 class="big">Not every NGO is the same size, and that matters.</h2>
-    <p class="body-lg">There are roughly 10 million NGOs worldwide. 92% operate on $1M a year or less. That 92% is not one flat group: it breaks into three tiers, each with its own ticket size and its own savings potential.</p>
+    <div class="eyebrow">Who they are</div>
+    <h2 class="big">Not every organization is the same size, and that matters.</h2>
+    <p class="body-lg">There are roughly 10 million of these organizations worldwide. 92% operate on $1M a year or less. That 92% is not one flat group: it breaks into three tiers, each with its own scale and its own room to save.</p>
     <div class="market-cards">
-      <div class="market-card"><div class="tier">59% of all NGOs</div><b style="font-size:20px;">&lt; $50K/yr</b><p class="muted" style="font-size:13px;margin-top:4px;">avg $25K ticket</p></div>
-      <div class="market-card"><div class="tier">29% of all NGOs</div><b style="font-size:20px;">$50K to 500K/yr</b><p class="muted" style="font-size:13px;margin-top:4px;">avg $200K ticket</p></div>
-      <div class="market-card"><div class="tier">4% of all NGOs</div><b style="font-size:20px;">$500K to 1M/yr</b><p class="muted" style="font-size:13px;margin-top:4px;">avg $750K ticket</p></div>
+      <div class="market-card"><div class="tier">59% of them</div><b style="font-size:20px;">&lt; $50K/yr</b><p class="muted" style="font-size:13px;margin-top:4px;">avg $25K a year</p></div>
+      <div class="market-card"><div class="tier">29% of them</div><b style="font-size:20px;">$50K to 500K/yr</b><p class="muted" style="font-size:13px;margin-top:4px;">avg $200K a year</p></div>
+      <div class="market-card"><div class="tier">4% of them</div><b style="font-size:20px;">$500K to 1M/yr</b><p class="muted" style="font-size:13px;margin-top:4px;">avg $750K a year</p></div>
     </div>
-    <p class="muted" style="font-size:13px;margin-top:14px;">The $500K to 1M tier is 4% of all NGOs and represents close to 30% of the total savings pool below. Source proxy: National Council of Nonprofits / Urban Institute size distribution, applied globally.</p>
+    <p class="muted" style="font-size:13px;margin-top:14px;">The $500K to 1M tier is 4% of them and represents close to 30% of the total savings pool below. Source proxy: National Council of Nonprofits / Urban Institute size distribution, applied globally.</p>
   </div>
 </section>
 
 <section class="band-mist" id="hypothesis">
   <div class="wrap">
     <div class="eyebrow">The hypothesis</div>
-    <h2 class="big">The more NGOs adopt, and the better they use it, the bigger the giveback.</h2>
-    <p class="body-lg">Four scenarios, from 1% to 10% reduction in administrative waste, scaled by the number of NGOs on the platform.</p>
+    <h2 class="big">The more organizations use it, and the better they use it, the bigger the give-back.</h2>
+    <p class="body-lg">Four scenarios, from 1% to 10% reduction in administrative waste, scaled by how many organizations are on the platform.</p>
     <div class="market-cards">
-      <div class="market-card"><div class="tier">1K to 10K NGOs use GFS</div><b style="font-size:22px;">$1.1M to $112M</b><p class="muted" style="font-size:13px;margin-top:4px;">can be repurposed to the NGO cause</p></div>
-      <div class="market-card"><div class="tier">10K to 100K NGOs use GFS</div><b style="font-size:22px;">$11.2M to $1.12B</b><p class="muted" style="font-size:13px;margin-top:4px;">can be repurposed to the NGO cause</p></div>
-      <div class="market-card"><div class="tier">100K to 9.2M NGOs use GFS</div><b style="font-size:22px;">$112M to $103B</b><p class="muted" style="font-size:13px;margin-top:4px;">can be repurposed to the NGO cause</p></div>
+      <div class="market-card"><div class="tier">1K to 10K organizations</div><b style="font-size:22px;">$1.1M to $112M</b><p class="muted" style="font-size:13px;margin-top:4px;">goes back to the cause</p></div>
+      <div class="market-card"><div class="tier">10K to 100K organizations</div><b style="font-size:22px;">$11.2M to $1.12B</b><p class="muted" style="font-size:13px;margin-top:4px;">goes back to the cause</p></div>
+      <div class="market-card"><div class="tier">100K to 9.2M organizations</div><b style="font-size:22px;">$112M to $103B</b><p class="muted" style="font-size:13px;margin-top:4px;">goes back to the cause</p></div>
     </div>
     <p class="muted" style="font-size:13px;margin-top:14px;">Range reflects 1% to 10% reduction in administrative waste across each adoption band.</p>
   </div>
@@ -191,9 +208,9 @@
     </div>
     <table class="impact-table" style="margin:14px auto 0;max-width:1080px;">
       <tr><th>Scenario</th><th>$/year</th><th>Meals</th><th>Children vaccinated</th><th>Clean water access</th><th>Trees planted</th></tr>
-      <tr><td>X: 1,000 NGOs, 10%</td><td>$11.2M</td><td>22.4M</td><td>~153K</td><td>280K people</td><td>~74.7M</td></tr>
-      <tr><td>Y: 100,000 NGOs, 10%</td><td>$1.12B</td><td>2.24B</td><td>~15.3M</td><td>28M people</td><td>~7.5B</td></tr>
-      <tr><td>Z: 9.2M NGOs, 10%</td><td>$103B</td><td>206B</td><td>~1.4B</td><td>2.58B people</td><td>~687B</td></tr>
+      <tr><td>X: 1,000 organizations, 10%</td><td>$11.2M</td><td>22.4M</td><td>~153K</td><td>280K people</td><td>~74.7M</td></tr>
+      <tr><td>Y: 100,000 organizations, 10%</td><td>$1.12B</td><td>2.24B</td><td>~15.3M</td><td>28M people</td><td>~7.5B</td></tr>
+      <tr><td>Z: 9.2M organizations, 10%</td><td>$103B</td><td>206B</td><td>~1.4B</td><td>2.58B people</td><td>~687B</td></tr>
     </table>
     <div class="govbox" style="text-align:left;max-width:1080px;margin:20px auto 0;">
       <p style="font-size:32px;font-weight:800;line-height:1.2;color:var(--ink);margin-bottom:14px;">Governance and transparency are the badge that attracts and commits more donors.</p>
@@ -210,7 +227,7 @@
   <div class="wrap">
     <div class="eyebrow">How it works</div>
     <h2 class="big">Vault → milestones → proof → release.</h2>
-    <p class="body-lg">GFS is the vault and milestone engine behind funding.</p>
+    <p class="body-lg">Money goes in, and it only comes out when the work is done and someone has proven it.</p>
     <div class="steps">
       <div class="step"><div class="n">1</div><h3>Deposit</h3><p>Funders deposit into a vault for a specific project.</p></div>
       <div class="step"><div class="n">2</div><h3>Map</h3><p>The project is mapped as a tree of milestones, each with terms, evidence, and validators.</p></div>
@@ -222,12 +239,12 @@
 
 <section id="ngos" style="padding-bottom:0;">
   <div class="wrap">
-    <div class="eyebrow">Free for NGOs</div>
-    <h2 class="big">The first wave: NGOs at $1M a year or less.</h2>
+    <div class="eyebrow">The give-back</div>
+    <h2 class="big">Nine million organizations will never pay for infrastructure like this. They shouldn't have to.</h2>
     <div class="stat-row">
-      <div class="stat"><b>~10M</b><span>NGOs worldwide (estimate)</span></div>
-      <div class="stat"><b>92%</b><span>operate at ≤$1M/year (~9.2M orgs)</span></div>
-      <div class="stat"><b>~$103B</b><span>potential giveback pool per year, at full adoption</span></div>
+      <div class="stat"><b>~10M</b><span>organizations worldwide doing this work (estimate)</span></div>
+      <div class="stat"><b>92%</b><span>operate at $1M a year or less (~9.2M of them)</span></div>
+      <div class="stat"><b>~$103B</b><span>potential give-back per year, at full adoption</span></div>
     </div>
   </div>
 </section>
@@ -237,35 +254,61 @@
     <div class="cta-band" style="text-align:left;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;">
       <div style="padding:48px 40px;">
         <h2 class="big">Support this Initiative.</h2>
-        <p style="max-width:420px;margin-bottom:22px;opacity:.95;">GFS is raising to build and launch, through a public crowdfunding campaign open to anyone who wants capital and governance to actually meet.</p>
+        <p style="max-width:420px;margin-bottom:22px;opacity:.95;">GFS will raise publicly to build and launch. Join this initiative to rebuild trust on purpose projects.</p>
         <div style="display:flex;gap:14px;flex-wrap:wrap;">
-          <a href="#" class="btn">Back the campaign</a>
-          <button class="btn outline" style="background:transparent;color:#fff;border:2px solid #fff;" onclick="openGate('demo')">See the demo</button>
+          <button class="btn" onclick="openGate('demo')">See the demo</button>
         </div>
         <p style="margin-top:16px;font-size:13px;opacity:.85;"><a href="mailto:admin@gres.network?subject=GFS%20-%20Support%20this%20Initiative" style="text-decoration:underline;color:#fff;">Or reach out directly</a></p>
       </div>
-      <div style="background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;min-height:220px;padding:20px;">
-        <div style="border:2px dashed rgba(255,255,255,.4);border-radius:12px;width:100%;height:100%;min-height:180px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;opacity:.8;padding:16px;">
-          [Campaign image goes here, add before launch]
+      <div style="background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;min-height:220px;padding:28px 20px;">
+        <div style="border:2px solid rgba(255,255,255,.35);border-radius:14px;width:100%;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 20px;">
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:10px;">Fundraising</div>
+          <div style="font-size:30px;font-weight:800;line-height:1.1;margin-bottom:10px;">Coming soon</div>
+          <p style="font-size:13.5px;opacity:.9;max-width:280px;margin-bottom:18px;">Leave your name and email and we will tell you the day it opens.</p>
+          <button class="btn" style="background:#fff;color:var(--teal-deep);" onclick="openGate('fundraising')">Notify me</button>
         </div>
       </div>
     </div>
     <div class="stat-row" style="margin-top:32px;">
-      <div class="stat"><b>MVP</b><span>in active build, pre-revenue</span></div>
-      <div class="stat"><b>93 / 18</b><span>stories / epics scoped in the backlog</span></div>
-      <div class="stat"><b>12mo</b><span>window to build and launch</span></div>
+      <div class="stat"><b>In build</b><span>the platform, end to end, nothing charged to anyone yet</span></div>
+      <div class="stat"><b>6 months</b><span>to build it and get it into real hands</span></div>
+      <div class="stat"><b>&euro;0</b><span>what it costs the organizations doing the work</span></div>
     </div>
   </div>
 </section>
 
-<section class="band-ink" id="whitelabel">
+<section class="band-ink" id="founder">
   <div class="wrap">
-    <div class="eyebrow">Designed protocols &amp; whitelabel</div>
-    <h2 class="big">Built for any funding market that needs efficiency, governance, transparency, and compliance.</h2>
-    <p class="body-lg" style="color:#c9d3ce;">A designed protocol is the tailored rulebook GFS builds with each partner: milestones, required evidence, validators, release logic, splits, shaped to that partner's reality. NGOs are the first market. ESG funds, accelerators, impact investors, and corporate giving programs run on the same engine. The blockchain underneath is infrastructure for trust and compliance, not a product anyone has to see or understand.</p>
-    <div style="margin-top:24px;border-radius:14px;overflow:hidden;">
-      <img src="product-fund.jpg" alt="Screenshot of the GFS vault funding and investor view" style="width:100%;max-height:340px;object-fit:cover;display:block;border:1px solid rgba(255,255,255,.2);">
+    <div class="grid2" style="align-items:center;gap:48px;">
+      <div>
+        <div class="eyebrow">Why me</div>
+        <h2 class="big">I could give my time to one organization, or build something for all of them.</h2>
+        <p class="body-lg" style="color:#c9d3ce;">I'm Thiago Sequinel, 46, engineer. I've built and sold two companies and spent the last years scaling operations for many companies. What I'm good at is making an operation work: people, process, governance, numbers that hold up.</p>
+        <p class="body-lg" style="color:#c9d3ce;margin-top:14px;">For a while I thought about joining a board somewhere, a few hours a month. That was the slowdown version. This is the scale-up one, and I have never been so driven.</p>
+        <p class="body-lg" style="color:#c9d3ce;margin-top:14px;">Most organizations doing this work cannot afford the level of data-driven operation that builds trust among donors. GFS is my attempt to change that, doing what I do best.</p>
+        <p style="margin-top:22px;font-size:14px;">
+          <a href="https://linkedin.com/in/thiagosequinel" target="_blank" rel="noopener" style="color:#8fd9c1;text-decoration:underline;">linkedin.com/in/thiagosequinel</a>
+        </p>
+      </div>
+      <div>
+        <img src="founder.jpg" alt="Thiago Sequinel, founder of GFS" style="width:100%;max-width:380px;border-radius:16px;display:block;border:1px solid rgba(255,255,255,.2);">
+        <p style="font-size:13px;color:#8fa39a;margin-top:12px;">Thiago Sequinel. Building GFS in the open, with the organizations, donors and builders who want to shape it before it ships.</p>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="band-mist" id="community">
+  <div class="wrap">
+    <div class="eyebrow">Before the code</div>
+    <h2 class="big">We are bringing organizations and donors to the table first.</h2>
+    <p class="body-lg">A platform nobody asked for is worth nothing. Before we ship, we want the organizations that will use it and the people who will fund it in the room, telling us what breaks in the real world.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>If you run an organization</h3><p>Come and break it. It costs you nothing, and your reality shapes what gets built.</p></div>
+      <div class="step"><div class="n">2</div><h3>If you give</h3><p>Tell us what you would need to see to trust a release. That becomes the standard.</p></div>
+      <div class="step"><div class="n">3</div><h3>If you build</h3><p>Engineering, legal, partnerships. We're looking for people who want this to exist.</p></div>
+    </div>
+    <div style="margin-top:24px;"><button class="btn" onclick="openGate('community')">Join us</button></div>
   </div>
 </section>
 
@@ -274,8 +317,9 @@
     <div class="foot-cols">
       <div><h4>Product</h4>
         <a href="#how">How it works</a>
-        <a href="#ngos">Free for NGOs</a>
-        <a href="#whitelabel">Whitelabel</a>
+        <a href="#ngos">Who it's for</a>
+        <a href="#founder">Why me</a>
+        <a href="#community">Before the code</a>
       </div>
       <div><h4>Proof</h4>
         <a href="/gfs-onepager.pdf" target="_blank" rel="noopener">One-pager</a>
@@ -287,7 +331,7 @@
       </div>
     </div>
     <div class="disclaimer">
-      An initiative of GRES Protocol. GFS is an independent platform; figures on this page are hypotheses and illustrative estimates, not guarantees. Sources: CAF World Giving Index 2024, Charity Navigator, National Council of Nonprofits / Urban Institute, World Food Programme, UNICEF, charity: water, Eden Reforestation Projects.
+      GFS is how GRES gives back. GRES is a for-profit protocol; GFS costs nothing to the organizations that could never afford infrastructure like this. Neither depends on the other, and neither funds itself from the other. Figures on this page are hypotheses and illustrative estimates, not guarantees. Sources: CAF World Giving Index 2024, Charity Navigator, National Council of Nonprofits / Urban Institute, World Food Programme, UNICEF, charity: water, Eden Reforestation Projects.
       <div style="margin-top:10px;">© 2026 GFS</div>
     </div>
   </div>
@@ -295,63 +339,108 @@
 
 <div class="overlay" id="gate-overlay">
   <div class="modal">
-    <button class="close-x" onclick="closeGate()">×</button>
+    <button class="close-x" onclick="closeGate()">&times;</button>
     <div id="gate-step1">
-      <h3>Get access</h3>
-      <p>Enter your name and email. We'll send the demo link straight to your inbox.</p>
+      <h3 id="gate-title">Come with us</h3>
+      <p id="gate-sub">Leave your name and email, and tell us what you want. One form, nothing hidden.</p>
       <label>Name</label>
       <input id="g-name" type="text" placeholder="Your name">
       <label>Email</label>
       <input id="g-email" type="email" placeholder="you@email.com">
-      <button class="btn" id="g-send-btn" onclick="sendGate()">Send me the link</button>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" id="opt-demo"><span>Send me the link to navigate the GFS demo.</span></label>
+        <label class="opt"><input type="checkbox" id="opt-fundraising"><span>Notify me when the fundraising starts.</span></label>
+        <label class="opt consent"><input type="checkbox" id="opt-consent"><span>I agree to receive emails with the project updates. No spam, no data trade, no commercial offers.</span></label>
+      </div>
+      <button class="btn" id="g-send-btn" onclick="sendGate()">Send</button>
       <p id="g-error" style="color:#c0392b;font-size:12.5px;margin-top:10px;display:none;"></p>
     </div>
     <div id="gate-step2" class="step2">
-      <h3>Check your email</h3>
-      <p>We sent the demo link to <b id="g-email-echo"></b>. Open it from any device, no install or login needed.</p>
+      <h3 id="gate-title2">Check your email</h3>
+      <p id="gate-sub2">We wrote to <b id="g-email-echo"></b>.</p>
+    </div>
+  </div>
+</div>
+
+<div id="consent-overlay" role="dialog" aria-modal="true" aria-labelledby="consent-title">
+  <div class="consent-card">
+    <h2 id="consent-title">Your data, your choice.</h2>
+    <p>We keep this simple. GFS collects very little: the email you give us if you ask for something, and basic, anonymous analytics to understand how the site is used. Nothing more.</p>
+    <p>We use it only to send you what you asked for and to improve the experience. We never sell your data, and you can ask us to delete it any time at <a href="mailto:admin@gres.network">admin@gres.network</a>.</p>
+    <p>By accepting, you consent to this use under the GDPR. Read the full <a href="/legal" target="_blank" rel="noopener">privacy notice</a>.</p>
+    <div class="consent-actions">
+      <button class="btn outline" id="consent-decline">Decline</button>
+      <button class="btn" id="consent-accept">Accept</button>
     </div>
   </div>
 </div>
 
 <script>
-let gateTarget = null;
+// ---- GDPR consent gate ----
+(function(){
+  var KEY='gfs_consent', ov=document.getElementById('consent-overlay');
+  function get(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
+  function set(v){try{localStorage.setItem(KEY,v);}catch(e){}}
+  function close(){ov.classList.remove('show');document.body.style.overflow='';}
+  if(!get()){ov.classList.add('show');document.body.style.overflow='hidden';}
+  document.getElementById('consent-accept').addEventListener('click',function(){set('granted');close();});
+  document.getElementById('consent-decline').addEventListener('click',function(){set('denied');close();});
+})();
+
+// ---- single form, three intents ----
+let gateSource = null;
 const GATE_WEBHOOK = 'https://gres.app.n8n.cloud/webhook/gfs-demo-request';
-function openGate(target){
-  gateTarget = target;
+const GATE_COPY = {
+  demo:        { t:"See the demo",  s:"Leave your name and email and we will send you the link. Tick anything else you want while you are here." },
+  fundraising: { t:"Notify me",     s:"Leave your name and email and we will tell you the day it opens. Tick anything else you want while you are here." },
+  community:   { t:"Join us",       s:"Organization, donor or builder, leave your name and email and we will bring you in." }
+};
+function openGate(source){
+  gateSource = source || 'demo';
+  const c = GATE_COPY[gateSource] || GATE_COPY.demo;
+  document.getElementById('gate-title').textContent = c.t;
+  document.getElementById('gate-sub').textContent = c.s;
+  document.getElementById('opt-demo').checked = (gateSource === 'demo');
+  document.getElementById('opt-fundraising').checked = (gateSource === 'fundraising');
+  document.getElementById('opt-consent').checked = false;
+  document.getElementById('g-error').style.display = 'none';
+  document.getElementById('gate-step1').style.display = 'block';
+  document.getElementById('gate-step2').style.display = 'none';
   document.getElementById('gate-overlay').classList.add('show');
-  document.getElementById('gate-step1').style.display='block';
-  document.getElementById('gate-step2').style.display='none';
-  document.getElementById('g-error').style.display='none';
 }
 function closeGate(){ document.getElementById('gate-overlay').classList.remove('show'); }
 function sendGate(){
-  const email = document.getElementById('g-email').value.trim();
   const name = document.getElementById('g-name').value.trim();
+  const email = document.getElementById('g-email').value.trim();
+  const demo = document.getElementById('opt-demo').checked;
+  const fundraising = document.getElementById('opt-fundraising').checked;
+  const consent = document.getElementById('opt-consent').checked;
   const errEl = document.getElementById('g-error');
-  errEl.style.display='none';
-  if(!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    errEl.textContent = 'Enter your name and a valid email.';
-    errEl.style.display='block';
-    return;
-  }
+  errEl.style.display = 'none';
+  function fail(msg){ errEl.textContent = msg; errEl.style.display='block'; }
+  if(!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('Enter your name and a valid email.');
+  if(!consent) return fail('We need your agreement to write to you.');
+
   const btn = document.getElementById('g-send-btn');
   btn.disabled = true; btn.textContent = 'Sending...';
   fetch(GATE_WEBHOOK, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, source: gateTarget || 'demo' })
+    body: JSON.stringify({ name, email, demo, fundraising, consent, source: gateSource || 'demo' })
   })
   .then(r => { if(!r.ok) throw new Error('bad response'); return r.json(); })
   .then(() => {
     document.getElementById('g-email-echo').textContent = email;
-    document.getElementById('gate-step1').style.display='none';
-    document.getElementById('gate-step2').style.display='block';
+    document.getElementById('gate-sub2').innerHTML =
+      (demo ? 'The demo link is on its way to <b>'+email+'</b>. ' : 'We wrote to <b>'+email+'</b>. ')
+      + (fundraising ? 'We will write again the day the fundraising opens. ' : '')
+      + (gateSource === 'community' ? 'And we will reach out about building this together.' : '');
+    document.getElementById('gate-title2').textContent = demo ? 'Check your email' : "You're in";
+    document.getElementById('gate-step1').style.display = 'none';
+    document.getElementById('gate-step2').style.display = 'block';
   })
-  .catch(() => {
-    errEl.textContent = "Couldn't send it right now. Try again in a moment, or email admin@gres.network directly.";
-    errEl.style.display='block';
-  })
-  .finally(() => { btn.disabled = false; btn.textContent = 'Send me the link'; });
+  .catch(() => fail("Couldn't send it right now. Try again in a moment, or email admin@gres.network directly."))
+  .finally(() => { btn.disabled = false; btn.textContent = 'Send'; });
 }
 </script>
 </body>
